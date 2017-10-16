@@ -172,9 +172,9 @@ class HaloSession(object):
         """This constructs the auth header, required for all API interaction.
 
         """
-
         authstring = "Bearer " + self.auth_token
         header = {"Authorization": authstring,
                   "Content-Type": "application/json",
-                  "User-Agent": self.user_agent}
+                  "User-Agent": self.user_agent,
+                  "Accept-Encoding": "gzip"}
         return header
