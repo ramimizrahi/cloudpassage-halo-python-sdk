@@ -1,5 +1,12 @@
 Changelog
 =========
+v1.0.7.1 (2017-10-16)
+-----
+
+Changes
+~~~~~~~
+Add Accept-Encoding 'gzip'
+
 v1.0.7 (2017-08-02)
 -----
 
