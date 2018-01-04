@@ -50,3 +50,20 @@ def validate_config_path(config_path):
     """Validate config file path exists"""
     if os.path.exists(config_path):
         return True
+
+
+def validate_cve_exception_cbody(body):
+    """Validate CVE Exception create request body"""
+    if not set(("scope",
+                "package_version",
+                "package_name")) <= set(body):
+        error_message = "scope, package_version and \
+                         package_name are required fields."
+        raise CloudPassageValidation(error_message)
+    elif "server" in body.values() and "server_id" not in body.keys():
+        error_message = "Required to provide server id for server scope."
+        raise CloudPassageValidation(error_message)
+    elif "group" in body.values() and "group_id" not in body.keys():
+        error_message = "Required to provide group id for group scope."
+        raise CloudPassageValidation(error_message)
+    return True
