@@ -178,3 +178,10 @@ class TestIntegrationServer:
         target_srv_id = servers[0]["id"]
         connections = server.list_connections(target_srv_id)
         assert isinstance(connections, list)
+
+    def test_list_processes(self):
+        server = self.build_server_object()
+        servers = server.list_all()
+        target_srv_id = servers[0]["id"]
+        processes = server.list_processes(target_srv_id)
+        assert isinstance(processes, list)
