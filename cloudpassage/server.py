@@ -274,6 +274,24 @@ class Server(object):
         connections = response["connections"]
         return connections
 
+    def list_processes(self, server_id):
+        """This method retrieves information about each running process on a specified Linux or Windows server.
+
+        Args:
+            server_id (str): Server ID
+
+        Returns:
+            list: List of all running processes on the server specified by server ID.
+
+        Note: Historical scan data is not saved; only the most recent scan results are available
+        """
+
+        endpoint = "/v1/servers/%s/processes" % (server_id)
+        request = HttpHelper(self.session)
+        response = request.get(endpoint)
+        processes = response["processes"]
+        return processes
+
     def validate_server_state(self, states):
         """Ensure that server state in query is valid"""
         if isinstance(states, list):
