@@ -1,4 +1,5 @@
 """CloudPassage init"""
+from cloudpassage.agent_upgrade import AgentUpgrade  # noqa: F401
 from cloudpassage.alert_profile import AlertProfile  # noqa: F401
 from cloudpassage.api_key_manager import ApiKeyManager  # noqa: F401
 from cloudpassage.configuration_policy import ConfigurationPolicy  # noqa: F401
