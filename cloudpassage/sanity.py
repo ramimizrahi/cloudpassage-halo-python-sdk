@@ -52,18 +52,10 @@ def validate_config_path(config_path):
         return True
 
 
-def validate_cve_exception_cbody(body):
+def validate_cve_exception_scope_id(scope_id):
     """Validate CVE Exception create request body"""
-    if not set(("scope",
-                "package_version",
-                "package_name")) <= set(body):
-        error_message = "scope, package_version and \
-                         package_name are required fields."
-        raise CloudPassageValidation(error_message)
-    elif "server" in body.values() and "server_id" not in body.keys():
-        error_message = "Required to provide server id for server scope."
-        raise CloudPassageValidation(error_message)
-    elif "group" in body.values() and "group_id" not in body.keys():
-        error_message = "Required to provide group id for group scope."
+    if re.findall('[^A-Za-z0-9]', scope_id):
+        error_message = "Please make sure to provide a \
+        valid scope id."
         raise CloudPassageValidation(error_message)
     return True

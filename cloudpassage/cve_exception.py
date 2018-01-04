@@ -57,30 +57,41 @@ class CveExceptions(object):
         cve_exception = response["cve_exception"]
         return cve_exception
 
-    def create(self, **kwargs):
+    def create(self, package_name, package_version, scope="all", scope_id=''):
         """This method allows user to create CVE exceptions.
 
-        Required Keyword Args:
+        Args:
             package_name (str): The name of the vulnerable
                                 package to be excepted.
             package_version (str): The version number of the
                                    vulnerable package.
             scope (str): Possible values are server, group and all.
-            If you pass the value server in this field,
-            the request JSON must also include a server ID
-            in the server_id field. If you pass the value
-            group in this field, the request JSON must
-            also include a group ID in the group_id field.
-            If you pass all, the exception applies to
-            all servers across your entire Halo account.
+            scope_id (str): If you pass the value server as scope,
+            this field will include server ID. If you pass the value
+            group as scope, this field will include group ID.
 
         Returns:
             str: ID of the newly-created cve exception
         """
+        body_ref = {
+            "server": "server_id",
+            "group": "group_id"
+        }
+
+        params = {
+            "package_name": package_name,
+            "package_version": package_version,
+            "scope": scope
+        }
 
         endpoint = "/v1/cve_exceptions"
-        sanity.validate_cve_exception_cbody(kwargs)
-        body = {"cve_exception": kwargs}
+
+        if scope != "all":
+            sanity.validate_cve_exception_scope_id(scope_id)
+            scope_key = body_ref[scope]
+            params[scope_key] = scope_id
+
+        body = {"cve_exception": params}
         request = HttpHelper(self.session)
         response = request.post(endpoint, body)
         return response["cve_exception"]["id"]

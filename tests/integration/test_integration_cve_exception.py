@@ -57,33 +57,16 @@ class TestIntegrationCveExceptions:
         package_name = "apport"
         package_version = "2.14.1-0ubuntu3.11"
         scope = "server"
-        body = {"scope": scope,
-                "server_id": target_srv_id,
-                "package_name": package_name,
-                "package_version": package_version}
-        ce_id = ce_obj.create(**body)
+        ce_id = ce_obj.create(package_name, package_version,
+                              scope, target_srv_id)
         ce_obj.update(ce_id, scope="all")
         delete_return = ce_obj.delete(ce_id)
         assert delete_return is None
 
-    def test_request_body_required_validation(self):
+    def test_scope_id_is_strings(self):
         request = self.build_ce_object()
         package_name = "apport"
         package_version = "2.14.1-0ubuntu3.11"
-        body = {"package_name": package_name,
-                "package_version": package_version}
         with pytest.raises(cloudpassage.CloudPassageValidation) as e:
-            request.create(**body)
-        assert "scope" in str(e)
-
-    def test_request_body_optional_validation(self):
-        request = self.build_ce_object()
-        package_name = "apport"
-        package_version = "2.14.1-0ubuntu3.11"
-        scope = "server"
-        body = {"scope": scope,
-                "package_name": package_name,
-                "package_version": package_version}
-        with pytest.raises(cloudpassage.CloudPassageValidation) as e:
-            request.create(**body)
-        assert "server id" in str(e)
+            request.create(package_name, package_version, "server", "#$123dfe")
+        assert "valid scope id" in str(e)
