@@ -1,7 +1,10 @@
 """CloudPassage init"""
+from cloudpassage.agent_upgrade import AgentUpgrade  # noqa: F401
 from cloudpassage.alert_profile import AlertProfile  # noqa: F401
 from cloudpassage.api_key_manager import ApiKeyManager  # noqa: F401
 from cloudpassage.configuration_policy import ConfigurationPolicy  # noqa: F401
+from cloudpassage.cve_exception import CveExceptions  # noqa: F401
+from cloudpassage.cve_details import CveDetails  # noqa: F401
 from cloudpassage.fim_policy import FimPolicy  # noqa: F401
 from cloudpassage.fim_policy import FimBaseline  # noqa: F401
 from cloudpassage.event import Event  # noqa: F401
@@ -40,5 +43,5 @@ if init_util.verify_python_version(installed, minimum) is False:
     print err_msg
 
 __author__ = "CloudPassage"
-__version__ = "1.0.7.1"
+__version__ = "1.1"
 __license__ = "BSD"

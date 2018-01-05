@@ -50,3 +50,12 @@ def validate_config_path(config_path):
     """Validate config file path exists"""
     if os.path.exists(config_path):
         return True
+
+
+def validate_cve_exception_scope_id(scope_id):
+    """Validate CVE Exception create request body"""
+    if re.findall('[^A-Za-z0-9]', scope_id):
+        error_message = "Please make sure to provide a \
+        valid scope id."
+        raise CloudPassageValidation(error_message)
+    return True
