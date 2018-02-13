@@ -32,7 +32,7 @@ class TestIntegrationTimeSeries(object):
 
     def test_time_series_iter_events_many_pages(self):
         session = self.get_halo_session()
-        start_time = cloudpassage.Utility.datetime_to_8601((datetime.now() -
+        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
         start_url = "/v1/events"
         item_key = "events"
