@@ -13,14 +13,19 @@ cloudpassage = imp.load_module(module_name, fp, pathname, description)
 
 class TestIntegrationTimeSeries(object):
     def get_halo_session(self):
-        halo_key = os.getenv("HALO_API_KEY")
-        halo_secret = os.getenv("HALO_API_SECRET")
-        if None not in [halo_key, halo_secret]:
-            session = cloudpassage.HaloSession(halo_key, halo_secret)
-        else:
-            print("No API authentication env vars set!")
-            print("You must set HALO_API_KEY, HALO_API_SECRET to test this!")
-            raise ValueError
+        config_file_name = "portal.yaml.local"
+        tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__),
+                                                 "../"))
+        config_file = os.path.join(tests_dir, "configs/", config_file_name)
+        session_info = cloudpassage.ApiKeyManager(config_file=config_file)
+        key_id = session_info.key_id
+        secret_key = session_info.secret_key
+        api_hostname = session_info.api_hostname
+        api_port = session_info.api_port
+        session = cloudpassage.HaloSession(key_id, secret_key,
+                                           api_host=api_hostname,
+                                           api_port=api_port,
+                                           integration_string="SDK-Smoke")
         return session
 
     def test_time_series_iter_events_many_pages(self):
