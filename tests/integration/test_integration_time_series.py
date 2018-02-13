@@ -2,6 +2,8 @@ import imp
 import os
 import sys
 
+from datetime import datetime, timedelta
+
 
 module_name = 'cloudpassage'
 here_dir = os.path.dirname(os.path.abspath(__file__))
@@ -30,7 +32,8 @@ class TestIntegrationTimeSeries(object):
 
     def test_time_series_iter_events_many_pages(self):
         session = self.get_halo_session()
-        start_time = "2017-10-01"
+        start_time = cloudpassage.Utility.datetime_to_8601((datetime.now() -
+                                                            timedelta(7)))
         start_url = "/v1/events"
         item_key = "events"
         event_streamer = cloudpassage.TimeSeries(session, start_time,
