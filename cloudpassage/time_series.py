@@ -19,10 +19,10 @@ class TimeSeries(object):
         self.url = start_url
         self.params = params
         self.start_url = start_url
-        self.batch_size = 10
+        self.batch_size = 1
         self.page_size = 50
         self.session = session
-        self.max_threads = self.session.threads
+        self.max_threads = 10
         self.item_key = item_key
         self.sort_key = "created_at"
         self.last_item_id = None
