@@ -8,7 +8,7 @@ from cloudpassage.exceptions import CloudPassageValidation
 
 class TimeSeries(object):
 
-    allowed_urls = ["/v1/events", "/v1/scans", "/v1/issues"]
+    allowed_urls = ["/v1/events", "/v1/scans"]
 
     """Wrap time-series object retrieval in a generator.
 

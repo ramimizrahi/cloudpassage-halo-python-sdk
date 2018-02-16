@@ -37,7 +37,6 @@ class TestIntegrationTimeSeries(object):
         start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
         test_scenarios = [{"start_url": "/v1/events", "item_key": "events"},
-                          {"start_url": "/v1/issues", "item_key": "issues"},
                           {"start_url": "/v1/scans", "item_key": "scans"}]
         for scenario in test_scenarios:
             start_url = scenario["start_url"]
@@ -55,7 +54,7 @@ class TestIntegrationTimeSeries(object):
                     break
 
     def test_time_series_iter_items_many_pages_fail(self):
-        """Test against events, issues, and scans endpoints."""
+        """Test failures for bad endpoints."""
         session = self.get_halo_session()
         start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
@@ -68,4 +67,4 @@ class TestIntegrationTimeSeries(object):
             with pytest.raises(cloudpassage.ValidationError):
                 streamer = cloudpassage.TimeSeries(session, start_time,
                                                    start_url, item_key)
-                assert False
+                assert False  # Break if exception is not caught.
