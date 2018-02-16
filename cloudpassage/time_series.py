@@ -3,9 +3,13 @@ import time
 import urllib
 from http_helper import HttpHelper
 from multiprocessing.dummy import Pool as ThreadPool
+from cloudpassage.exceptions import CloudPassageValidation
 
 
 class TimeSeries(object):
+
+    allowed_urls = ["/v1/events", "/v1/scans", "/v1/issues"]
+
     """Wrap time-series object retrieval in a generator.
 
     Args:
@@ -28,6 +32,7 @@ class TimeSeries(object):
         self.last_item_id = None
         self.params["since"] = start_time
         self.params["per_page"] = self.page_size
+        self.verify_start_url(start_url)
         return
 
     def __iter__(self):
@@ -219,3 +224,9 @@ class TimeSeries(object):
             items.extend(page[item_key])
         result = sorted(items, key=operator.itemgetter(sort_key))
         return result
+
+    @classmethod
+    def verify_start_url(cls, start_url):
+        if start_url not in cls.allowed_urls:
+            raise CloudPassageValidation
+        return

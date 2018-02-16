@@ -1,5 +1,6 @@
 import imp
 import os
+import pytest
 import sys
 
 from datetime import datetime, timedelta
@@ -52,3 +53,19 @@ class TestIntegrationTimeSeries(object):
                 item_counter += 1
                 if item_counter > 60:
                     break
+
+    def test_time_series_iter_items_many_pages_fail(self):
+        """Test against events, issues, and scans endpoints."""
+        session = self.get_halo_session()
+        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
+                                                            timedelta(7)))
+        test_scenarios = [{"start_url": "/v1/eventss", "item_key": "events"},
+                          {"start_url": "/v1/issuess", "item_key": "issues"},
+                          {"start_url": "/v1/scanss", "item_key": "scans"}]
+        for scenario in test_scenarios:
+            start_url = scenario["start_url"]
+            item_key = scenario["item_key"]
+            with pytest.raises(cloudpassage.ValidationError):
+                streamer = cloudpassage.TimeSeries(session, start_time,
+                                                   start_url, item_key)
+                assert False
