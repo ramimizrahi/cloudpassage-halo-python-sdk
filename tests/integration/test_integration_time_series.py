@@ -30,20 +30,25 @@ class TestIntegrationTimeSeries(object):
                                            integration_string="SDK-Smoke")
         return session
 
-    def test_time_series_iter_events_many_pages(self):
+    def test_time_series_iter_items_many_pages(self):
+        """Test against events, issues, and scans endpoints."""
         session = self.get_halo_session()
         start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
-        start_url = "/v1/events"
-        item_key = "events"
-        event_streamer = cloudpassage.TimeSeries(session, start_time,
-                                                 start_url, item_key)
-        event_counter = 0
-        event_ids = set([])
-        for event in event_streamer:
-            assert "id" in event
-            assert event["id"] not in event_ids
-            event_ids.add(event["id"])
-            event_counter += 1
-            if event_counter > 60:
-                break
+        test_scenarios = [{"start_url": "/v1/events", "item_key": "events"},
+                          {"start_url": "/v1/issues", "item_key": "issues"},
+                          {"start_url": "/v1/scans", "item_key": "scans"}]
+        for scenario in test_scenarios:
+            start_url = scenario["start_url"]
+            item_key = scenario["item_key"]
+            streamer = cloudpassage.TimeSeries(session, start_time,
+                                               start_url, item_key)
+            item_counter = 0
+            item_ids = set([])
+            for item in streamer:
+                assert "id" in item
+                assert item["id"] not in item_ids
+                item_ids.add(item["id"])
+                item_counter += 1
+                if item_counter > 60:
+                    break
