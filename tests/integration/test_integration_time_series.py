@@ -38,7 +38,7 @@ class TestIntegrationTimeSeries(object):
                                                             timedelta(30)))
         start_url = "/v1/eventss"
         item_key = "events"
-        with pytest.raises(cloudpassage.ValidationError):
+        with pytest.raises(cloudpassage.CloudPassageValidation):
             streamer = cloudpassage.TimeSeries(session, start_time,
                                                start_url, item_key)
         assert True
