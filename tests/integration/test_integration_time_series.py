@@ -31,40 +31,71 @@ class TestIntegrationTimeSeries(object):
                                            integration_string="SDK-Smoke")
         return session
 
-    def test_time_series_iter_items_many_pages(self):
-        """Test against events, issues, and scans endpoints."""
+    def test_time_series_iter_events_many_pages_fail(self):
+        """Test against events endpoint."""
         session = self.get_halo_session()
         start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
-        test_scenarios = [{"start_url": "/v1/events", "item_key": "events"},
-                          {"start_url": "/v1/scans", "item_key": "scans"}]
-        for scenario in test_scenarios:
-            start_url = scenario["start_url"]
-            item_key = scenario["item_key"]
+        start_url = "/v1/eventss"
+        item_key = "events"
+        with pytest.raises(cloudpassage.ValidationError):
             streamer = cloudpassage.TimeSeries(session, start_time,
                                                start_url, item_key)
-            item_counter = 0
-            item_ids = set([])
-            for item in streamer:
-                assert "id" in item
-                assert item["id"] not in item_ids
-                item_ids.add(item["id"])
-                item_counter += 1
-                if item_counter > 60:
-                    break
+            assert False  # Break if exception is not caught.
 
-    def test_time_series_iter_items_many_pages_fail(self):
-        """Test failures for bad endpoints."""
+    def test_time_series_iter_events_many_pages(self):
+        """Test against events endpoint."""
         session = self.get_halo_session()
         start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
                                                             timedelta(7)))
-        test_scenarios = [{"start_url": "/v1/eventss", "item_key": "events"},
-                          {"start_url": "/v1/issuess", "item_key": "issues"},
-                          {"start_url": "/v1/scanss", "item_key": "scans"}]
-        for scenario in test_scenarios:
-            start_url = scenario["start_url"]
-            item_key = scenario["item_key"]
-            with pytest.raises(cloudpassage.ValidationError):
-                streamer = cloudpassage.TimeSeries(session, start_time,
-                                                   start_url, item_key)
-                assert False  # Break if exception is not caught.
+        start_url = "/v1/events"
+        item_key = "events"
+        streamer = cloudpassage.TimeSeries(session, start_time,
+                                           start_url, item_key)
+        item_counter = 0
+        item_ids = set([])
+        for item in streamer:
+            assert "id" in item
+            assert item["id"] not in item_ids
+            item_ids.add(item["id"])
+            item_counter += 1
+            if item_counter > 60:
+                break
+
+    def test_time_series_iter_scans_many_pages(self):
+        """Test against scans endpoint."""
+        session = self.get_halo_session()
+        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
+                                                            timedelta(7)))
+        start_url = "/v1/scans"
+        item_key = "scans"
+        streamer = cloudpassage.TimeSeries(session, start_time,
+                                           start_url, item_key)
+        item_counter = 0
+        item_ids = set([])
+        for item in streamer:
+            assert "id" in item
+            assert item["id"] not in item_ids
+            item_ids.add(item["id"])
+            item_counter += 1
+            if item_counter > 60:
+                break
+
+    def test_time_series_iter_issues_many_pages(self):
+        """Test against issues endpoint."""
+        session = self.get_halo_session()
+        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
+                                                            timedelta(7)))
+        start_url = "/v1/issues"
+        item_key = "issues"
+        streamer = cloudpassage.TimeSeries(session, start_time,
+                                           start_url, item_key)
+        item_counter = 0
+        item_ids = set([])
+        for item in streamer:
+            assert "id" in item
+            assert item["id"] not in item_ids
+            item_ids.add(item["id"])
+            item_counter += 1
+            if item_counter > 60:
+                break
