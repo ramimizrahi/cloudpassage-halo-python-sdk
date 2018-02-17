@@ -39,8 +39,8 @@ class TestIntegrationTimeSeries(object):
         start_url = "/v1/eventss"
         item_key = "events"
         with pytest.raises(cloudpassage.CloudPassageValidation):
-            streamer = cloudpassage.TimeSeries(session, start_time,
-                                               start_url, item_key)
+            stream = cloudpassage.TimeSeries(session, start_time,  # noqa F841
+                                             start_url, item_key)
         assert True
 
     def test_time_series_iter_events_many_pages(self):
