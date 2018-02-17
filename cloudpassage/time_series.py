@@ -228,5 +228,6 @@ class TimeSeries(object):
     @classmethod
     def verify_start_url(cls, start_url):
         if start_url not in cls.allowed_urls:
-            raise CloudPassageValidation
+            exc_msg = "This URL is unsupported for TimeSeries: %s" % start_url
+            raise CloudPassageValidation(exc_msg)
         return
