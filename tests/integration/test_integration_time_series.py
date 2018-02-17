@@ -62,25 +62,6 @@ class TestIntegrationTimeSeries(object):
             if item_counter > 60:
                 break
 
-    def test_time_series_iter_scans_many_pages(self):
-        """Test against scans endpoint."""
-        session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
-        start_url = "/v1/scans"
-        item_key = "scans"
-        streamer = cloudpassage.TimeSeries(session, start_time,
-                                           start_url, item_key)
-        item_counter = 0
-        item_ids = set([])
-        for item in streamer:
-            assert "id" in item
-            assert item["id"] not in item_ids
-            item_ids.add(item["id"])
-            item_counter += 1
-            if item_counter > 60:
-                break
-
     def test_time_series_iter_issues_many_pages(self):
         """Test against issues endpoint."""
         session = self.get_halo_session()
@@ -97,5 +78,24 @@ class TestIntegrationTimeSeries(object):
             assert item["id"] not in item_ids
             item_ids.add(item["id"])
             item_counter += 1
-            if item_counter > 60:
+            if item_counter > 5:
+                break
+
+    def test_time_series_iter_scans_many_pages(self):
+        """Test against scans endpoint."""
+        session = self.get_halo_session()
+        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
+                                                            timedelta(30)))
+        start_url = "/v1/scans"
+        item_key = "scans"
+        streamer = cloudpassage.TimeSeries(session, start_time,
+                                           start_url, item_key)
+        item_counter = 0
+        item_ids = set([])
+        for item in streamer:
+            assert "id" in item
+            assert item["id"] not in item_ids
+            item_ids.add(item["id"])
+            item_counter += 1
+            if item_counter > 5:
                 break
