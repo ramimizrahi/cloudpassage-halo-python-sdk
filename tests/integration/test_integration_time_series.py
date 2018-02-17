@@ -39,8 +39,8 @@ class TestIntegrationTimeSeries(object):
         start_url = "/v1/eventss"
         item_key = "events"
         with pytest.raises(cloudpassage.CloudPassageValidation):
-            stream = cloudpassage.TimeSeries(session, start_time,  # noqa F841
-                                             start_url, item_key)
+            cloudpassage.TimeSeries(session, start_time,
+                                    start_url, item_key)
             assert False  # Should bail and never hit this assertion.
         assert True
 
