@@ -30,6 +30,7 @@ Contents:
    fim_baseline
    lids_policy
    scan
+   issue
    event
    system_announcement
    special_events_policy
