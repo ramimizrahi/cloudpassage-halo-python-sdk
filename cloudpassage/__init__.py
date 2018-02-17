@@ -26,13 +26,14 @@ from cloudpassage.issue import Issue  # noqa: F401
 from cloudpassage.lids_policy import LidsPolicy  # noqa: F401
 from cloudpassage.local_user_account import LocalUserAccount  # noqa: F401
 from cloudpassage.local_user_group import LocalUserGroup  # noqa: F401
+from cloudpassage.retry import Retry  # noqa: F401
 from cloudpassage.scan import CveException  # noqa: F401
 from cloudpassage.scan import Scan  # noqa: F401
 from cloudpassage.server import Server  # noqa: F401
 from cloudpassage.server_group import ServerGroup  # noqa: F401
-from cloudpassage.special_events_policy import SpecialEventsPolicy  # noqa: F401
+from cloudpassage.special_events_policy import SpecialEventsPolicy  # NOQA
 from cloudpassage.system_announcement import SystemAnnouncement  # noqa: F401
-from cloudpassage.retry import Retry  # noqa: F401
+from cloudpassage.time_series import TimeSeries  # noqa: F401
 import utility as init_util
 
 
@@ -43,5 +44,5 @@ if init_util.verify_python_version(installed, minimum) is False:
     print err_msg
 
 __author__ = "CloudPassage"
-__version__ = "1.1"
+__version__ = "1.1.1"
 __license__ = "BSD"

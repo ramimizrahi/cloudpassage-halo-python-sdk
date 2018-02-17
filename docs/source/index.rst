@@ -21,6 +21,7 @@ Contents:
    api_key_manager
    halo_session
    http_helper
+   time_series
    server
    server_group
    configuration_policy
@@ -29,6 +30,7 @@ Contents:
    fim_baseline
    lids_policy
    scan
+   issue
    event
    system_announcement
    special_events_policy
