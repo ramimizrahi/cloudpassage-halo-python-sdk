@@ -170,6 +170,44 @@ class ServerGroup(object):
             request.delete(endpoint)
         return None
 
+    def migrate_servers(self, grp_id, server_ids, srv_state=None):
+        """This method all servers in listOfServers into the
+        group identified by group_id.
+
+        Args:
+            grp_id (str): ID of group to merge
+            server_ids (list): A list of server_id
+            srv_state (str): A comma-separated string containing.
+            Defult state includes active,missing,deactivated,retired
+
+        Returns:
+            server ids (list): A list of all server_id in the identified
+            server group.
+
+        """
+        if not srv_state:
+            srv_state = "active,missing,deactivated,retired"
+
+        srv_ids = []
+        body = {
+            "server": {
+                "group_id": grp_id
+            }
+        }
+        sanity.validate_object_id(grp_id)
+        for server_id in server_ids:
+            sanity.validate_object_id(server_id)
+            endpoint = "/v1/servers/%s" % server_id
+            request = HttpHelper(self.session)
+            request.put(endpoint, body)
+
+        sgrp_endpoint = "/v1/groups/%s/servers?state=%s" % (grp_id, srv_state)
+        response = request.get(sgrp_endpoint)
+        srv_list = response["servers"]
+        for srv in srv_list:
+            srv_ids.append(srv["id"])
+        return srv_ids
+
     def list_connections(self, group_id, **kwargs):
         """This method retrieves all recently detected connections in the server\
            group specified by Group ID
