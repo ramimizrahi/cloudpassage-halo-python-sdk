@@ -1,16 +1,73 @@
 Changelog
 =========
 
-v1.1.1 (2018-02-17)
--------------------
-- Add Timeseries class. [Ash Wilson]
 
-v1.1 (2017-01-04)
+v1.1.2 (2018-02-26)
+------
+- Adding tests for TimeSeries() for events, scans, and issues endpoints.
+  [Ash Wilson]
+- Adding docs for TimeSeries class. [Ash Wilson]
+- CS-458 Python SDK: Move multiple servers into a target group. [Hana
+  Lee]
+
+
+v1.1 (2018-01-05)
 -----------------
+- V1.1. [Hana Lee]
 - CS-426 add Agent Upgrades class. [Hana Lee]
 - CS-428 Add CveDetails class. [Hana Lee]
+- CS-428 Add CveDetails class. [Hana Lee]
 - CS-429 add cve exceptions class. [Hana Lee]
+- Conflict. [Hana Lee]
 - CS-427 add processes endpoint to servers class. [Hana Lee]
+- CS-427 add processes endpoint to servers class. [Hana Lee]
+- Add Accept-Encoding 'gzip' [Jye Lee]
+- Add Accept-Encoding 'gzip' [Jye Lee]
+- CS-359 Added traffic discovery endpoint to Server and ServerGroup
+  classes. [Hana Lee]
+- Rev to v1.0.6.8. [Jye Lee]
+- Rev to v1.0.6.7. [Jye Lee]
+- CS-322 Fix naming from Server to Issue. [Jye Lee]
+- V1.0.6.6. [Jye Lee]
+
+  flake8: expected 2 blank lines, found 1
+- This is it @2. [Hana Lee]
+- This is it. [Hana Lee]
+- Test: see travis. [Hana Lee]
+- Test:add +x. [Hana Lee]
+- Test: use travis.sh. [Hana Lee]
+- Test: edit yml. [Hana Lee]
+- Test: travis.sh. [Hana Lee]
+- Test: script onlt. [Hana Lee]
+- Test: added if statement. [Hana Lee]
+- Test: took up typo. [Hana Lee]
+- Added echo branch. [Hana Lee]
+- Test: added travis after_success. [Hana Lee]
+- Test: print env. [Hana Lee]
+- Test: run py.test. [Hana Lee]
+- Test: run test_wrapper.sh. [Hana Lee]
+- Test: added ls. [Hana Lee]
+- Test: remove --it. [Hana Lee]
+- Test: show docker images. [Hana Lee]
+- Test: added image id. [Hana Lee]
+- Test: put docker run in before_install. [Hana Lee]
+- Test: using docker exec to run test_wrapper.sh. [Hana Lee]
+- Added test_wrapper.sh. [Hana Lee]
+- Edited the changelog. [Hana Lee]
+- Added converge version lock. [Hana Lee]
+- Added email notification. [Hana Lee]
+- Fix logic in api_key_manager class. [Hana Lee]
+- Modified pagination for servers endpoint. [Hana Lee]
+- Fixed logic in api key manager. [Hana Lee]
+
+  rev init to 1.0.6.3
+- Fixed logic in api key manager. [Hana Lee]
+- Bug/CS-283 fix kwargs params if 500. [Jye Lee]
+
+  remove unexpected spaces around =
+- Rev to 1.0.6.2. [Jye Lee]
+- Bug CS-269 edit doc server_id to issue_id. [Jye Lee]
+
 
 v1.0.6 (2017-05-01)
 -------------------
