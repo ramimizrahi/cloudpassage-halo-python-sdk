@@ -103,7 +103,8 @@ class ApiKeyManager(object):
         config = None
         env_variables = {"key_id": os.getenv("HALO_API_KEY"),
                          "secret_key": os.getenv("HALO_API_SECRET_KEY"),
-                         "api_hostname": os.getenv("HALO_API_HOSTNAME"),
+                         "api_hostname": os.getenv("HALO_API_HOSTNAME",
+                                                   "api.cloudpassage.com"),
                          "api_port": os.getenv("HALO_API_PORT")}
         if self.env_vars_are_set(env_variables):
             config = env_variables
