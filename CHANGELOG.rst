@@ -1,6 +1,11 @@
 Changelog
 =========
 
+v1.1.4 (2018-03-12)
+-------------------
+- Bug Fix: set default hostname if empty. [Ash Wilson]
+
+
 v1.1.3 (2018-03-07)
 -------------------
 - CS-479 Add CloudPassageRateLimit Exception Class. [Jye Lee]
