@@ -1,6 +1,7 @@
 import cloudpassage
 import json
 import os
+import uuid
 
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -57,9 +58,11 @@ class TestIntegrationAlertProfiles:
         profile = self.create_alert_profile_obj()
         http = self.create_http_helper_obj()
         user_id = http.get('/v2/users')['users'][0]['id']
+        random_num = str(uuid.uuid1())
+        name = "CPAPI TEST Alert Profile -- %s" % random_num
         raw_policy_body = {
             "alert_profile": {
-                "name": "CPAPI TEST Alert Profile",
+                "name": name,
                 "frequency": "instant",
                 "alert_profile_users": [{
                     "user_id": user_id,
@@ -84,11 +87,13 @@ class TestIntegrationAlertProfiles:
         deleted = False
         profile = self.create_alert_profile_obj()
         http = self.create_http_helper_obj()
+        random_num = str(uuid.uuid1())
+        name = "CPAPI TEST Alert Profile -- %s" % random_num
         newname = "Functional Test Name Change"
         user_id = http.get('/v2/users')['users'][0]['id']
         raw_policy_body = {
             "alert_profile": {
-                "name": "CPAPI TEST Alert Profile Update",
+                "name": name,
                 "frequency": "instant",
                 "alert_profile_users": [{
                     "user_id": user_id,
