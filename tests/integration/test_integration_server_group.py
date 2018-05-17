@@ -1,5 +1,6 @@
 import cloudpassage
 import os
+import uuid
 
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -62,19 +63,22 @@ class TestIntegrationServerGroup:
         assert confirmed
 
     def test_create_update_delete_server_group(self):
-        update_name = "WHATS_YOUR_TWENTY"
-        self.remove_group_by_name(update_name)
-        self.remove_group_by_name("TEN_FOUR_GOOD_BUDDY")
+        random_num = str(uuid.uuid1())
+        name = "TEN_FOUR_GOOD_BUDDY -- %s" % random_num
+        update_name = "WHATS_YOUR_TWENTY -- %s" % random_num
         s_grp = self.create_server_group_object()
-        new_grp_id = s_grp.create("TEN_FOUR_GOOD_BUDDY")
+        new_grp_id = s_grp.create(name)
         s_grp.update(new_grp_id, name=update_name)
         delete_return = s_grp.delete(new_grp_id)
         assert delete_return is None
 
     def test_create_update_child_server_group(self):
         s_grp = self.create_server_group_object()
-        parent_id = s_grp.create("TEN_FOUR_GOOD_BUDDY")
-        child_id = s_grp.create("TEN_FOUR_GOOD_CHILD", parent_id=parent_id)
+        random_num = str(uuid.uuid1())
+        name = "TEN_FOUR_GOOD_BUDDY -- %s" % random_num
+        child_name = "WHATS_YOUR_TWENTY -- %s" % random_num
+        parent_id = s_grp.create(name)
+        child_id = s_grp.create(child_name, parent_id=parent_id)
         assert parent_id == s_grp.describe(child_id)["parent_id"]
 
         groups = s_grp.list_all()
