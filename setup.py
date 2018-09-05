@@ -31,7 +31,7 @@ setup(
     keywords="cloudpassage halo api sdk",
     url="http://github.com/cloudpassage/cloudpassage-halo-python-sdk",
     packages=["cloudpassage"],
-    install_requires=["requests", "pyaml"],
+    install_requires=["requests>=2.18", "pyaml"],
     long_description=get_long_description(["README.rst", "CHANGELOG.rst"]),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
