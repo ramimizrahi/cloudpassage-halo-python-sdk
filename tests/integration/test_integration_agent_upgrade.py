@@ -30,7 +30,7 @@ class TestIntegrationAgentUpgrade:
     def test_list_all(self):
         au_obj = self.build_au_object()
         repsonse = au_obj.list_all()
-        assert "id" in repsonse[0]
+        assert isinstance(repsonse, list)
 
     def test_agent_upgrade_cd(self):
         au_obj = self.build_au_object()

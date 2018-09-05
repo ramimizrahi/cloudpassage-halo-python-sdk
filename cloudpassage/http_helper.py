@@ -2,12 +2,9 @@
 GET / POST / PUT / DELETE requests against API.
 """
 
-import json
 import urlparse
 from cloudpassage.exceptions import CloudPassageValidation
 import cloudpassage.utility as utility
-from cloudpassage.retry import Retry
-import requests
 
 
 class HttpHelper(object):
@@ -53,50 +50,9 @@ class HttpHelper(object):
             variable will be considered, and your results may be confusing.  \
             So don't do it.  Dictionaries should be {str:str}.
         """
-
-        if self.connection.auth_token is None:
-            self.connection.authenticate_client()
-        prefix = self.connection.build_endpoint_prefix()
-        url = prefix + endpoint
-        headers = self.connection.build_header()
-        if "params" in kwargs:
-            response = requests.get(url, headers=headers,
-                                    params=kwargs["params"])
-        else:
-            response = requests.get(url, headers=headers)
-        success, exception = utility.parse_status(url, response.status_code,
-                                                  response.text)
-        if success is True:
-            return response.json()
-
-        # If we get a 401, it could be an expired key.  We retry once.
-        if response.status_code == 401:
-            self.connection.authenticate_client()
-            headers = self.connection.build_header()
-            if "params" in kwargs:
-                response = requests.get(url, headers=headers,
-                                        params=kwargs["params"])
-            else:
-                response = requests.get(url, headers=headers)
-            success, exception = utility.parse_status(url,
-                                                      response.status_code,
-                                                      response.text)
-            if success is True:
-                return response.json()
-
-        if response.status_code >= 500:
-            if "params" in kwargs:
-                success, response, exception = Retry().get(url,
-                                                           headers,
-                                                           kwargs["params"])
-                if success is True:
-                    return response.json()
-            else:
-                success, response, exception = Retry().get(url, headers)
-                if success is True:
-                    return response.json()
-
-        raise exception
+        params = kwargs["params"] if "params" in kwargs else None
+        response = self.connection.interact('get', endpoint, params)
+        return response.json()
 
     def get_paginated(self, endpoint, key, max_pages, **kwargs):
         """This method returns a concatenated list of objects
@@ -188,37 +144,7 @@ class HttpHelper(object):
             as payload for request.
 
         """
-
-        if self.connection.auth_token is None:
-            self.connection.authenticate_client()
-        prefix = self.connection.build_endpoint_prefix()
-        url = prefix + endpoint
-        headers = self.connection.build_header()
-        response = requests.post(url, headers=headers,
-                                 data=json.dumps(reqbody))
-        success, exception = utility.parse_status(url, response.status_code,
-                                                  response.text)
-        if success is True:
-            return response.json()
-
-        # If we get a 401, it could be an expired key.  We retry once.
-        if response.status_code == 401:
-            self.connection.authenticate_client()
-            headers = self.connection.build_header()
-            response = requests.post(url, headers=headers,
-                                     data=json.dumps(reqbody))
-            success, exception = utility.parse_status(url,
-                                                      response.status_code,
-                                                      response.text)
-            if success is True:
-                return response.json()
-
-        if response.status_code >= 500:
-            success, response, exception = Retry().post(url, headers, reqbody)
-            if success is True:
-                return response.json()
-
-        raise exception
+        return self.connection.interact("post", endpoint, None, reqbody).json()
 
     def put(self, endpoint, reqbody):
         """This method performs a PUT against Halo's API.
@@ -233,46 +159,15 @@ class HttpHelper(object):
 
         Args:
             endpoint (str): Path component of URL
+            reqbody (dict): Dictionary to be converted to JSON for insertion \
+            as payload for request.
 
         """
-
-        if self.connection.auth_token is None:
-            self.connection.authenticate_client()
-        prefix = self.connection.build_endpoint_prefix()
-        url = prefix + endpoint
-        headers = self.connection.build_header()
-        response = requests.put(url, headers=headers,
-                                data=json.dumps(reqbody))
-        success, exception = utility.parse_status(url, response.status_code,
-                                                  response.text)
-        if success is False:
-            # If we get a 401, it could be an expired key.  We retry once.
-            if response.status_code == 401:
-                self.connection.authenticate_client()
-                headers = self.connection.build_header()
-                response = requests.put(url, headers=headers,
-                                        data=json.dumps(reqbody))
-                success, exception = utility.parse_status(url,
-                                                          response.status_code,
-                                                          response.text)
-                if success is True:
-                    return response.json()
-
-            if response.status_code >= 500:
-                success, response, exception = Retry().put(url,
-                                                           headers,
-                                                           reqbody)
-                if success is True:
-                    return response.json()
-
-            raise exception
-        else:
-            # Sometimes we don't get json back...
-            try:
-                return_value = response.json()
-            except ValueError:
-                return_value = response.text
-            return return_value
+        response = self.connection.interact("put", endpoint, None, reqbody)
+        try:
+            return response.json()
+        except ValueError:  # Sometimes we don't get json back...
+            return response.text
 
     def delete(self, endpoint, **kwargs):
         """This method performs a Delete against Halo's API.
@@ -293,41 +188,9 @@ class HttpHelper(object):
             endpoint (str): Path component of URL
 
         """
-
-        if self.connection.auth_token is None:
-            self.connection.authenticate_client()
-        prefix = self.connection.build_endpoint_prefix()
-        url = prefix + endpoint
-        headers = self.connection.build_header()
-        if "params" in kwargs:
-            response = requests.delete(url, headers=headers,
-                                       params=kwargs["params"])
-        else:
-            response = requests.delete(url, headers=headers)
-        success, exception = utility.parse_status(url, response.status_code,
-                                                  response.text)
-        if success is False:
-            # If we get a 401, it could be an expired key.  We retry once.
-            if response.status_code == 401:
-                self.connection.authenticate_client()
-                headers = self.connection.build_header()
-                response = requests.delete(url, headers=headers)
-                success, exception = utility.parse_status(url,
-                                                          response.status_code,
-                                                          response.text)
-                if success is True:
-                    return response.json()
-
-            elif response.status_code >= 500:
-                success, response, exception = Retry().delete(url, headers)
-                if success is True:
-                    return response.json()
-
-            raise exception
-        else:
-            # Sometimes we don't get json back...
-            try:
-                return_value = response.json()
-            except ValueError:
-                return_value = response.text
-            return return_value
+        params = kwargs["params"] if "params" in kwargs else None
+        response = self.connection.interact('delete', endpoint, params)
+        try:
+            return response.json()
+        except ValueError:  # Sometimes we don't get json back...
+            return response.text

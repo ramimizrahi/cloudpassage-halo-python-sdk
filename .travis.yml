@@ -1,14 +1,34 @@
 sudo: required
 language: python
 services:
-  - docker
-before_install:
-  - docker build -t cloudpassage_halo_python_sdk .
+- docker
+env:
+  global:
+  - AMI_ID=ami-28e07e50
+  - CLI_CMD=IyEvYmluL3NoCgp5dW0gaW5zdGFsbCBodHRwZAo=
+  - TESTING_IMAGE_NAME=docker.io/halotools/halo-test-environment:v0.1
+  - AWS_SSH_KEY_NAME=ci_cloudpassage_cloudpassage-halo-python-sdk
+  - AWS_REGION=us-west-2
+  - SERVER_COUNT=1
+  - HALO_API_HOSTNAME=api.cloudpassage.com
+  - HALO_API_PORT=443
+  - ENVIRONMENT_NAME=SDK
+  - secure: hLDLZ3PuvyEgrRacmy0qmXjc1xUDVJXN2vtEYTx+J2toICa0urseM5j+DbnVHJCI6wEM6MUZ7BzTLyF4rfRBP5aXfsDne3a2yVN/Bj9kIFPH4FQZoJ8tZl7lgE9YkvWQ1RBloxzi9f4iewOQpXO/S0s8P2Khs9xwDjJxRpdtPnEVFx9rCRkM1TIsLJvfd8x7pfGBGptrosaZmNPoT5roUcajceEeNfYRo8JrqzojAalha145X8968KdozaOVv1LwCIMFgY+vedHB19MpHrXlwJxRnN2GaVshMXFvlifD8ha6+7N9Wtdk7hb1p+YR9B4mATjt8Q/+Sj2a1HnA1fHNppWega4a/y3R3CL8Gkzbf4SZGGwLYxqN3jjcOBvxIqwAt9hiUMxTx38xVCdHDZRpxXh6G0IQgiJY4YqVn9m8MblB5W2ktgxtu63wGl+da+NasTRfYJy47Du6Jp/S61nKHmomylTx7HnucuOhMO2hDdItC/mCGQ49lQxAZHA9zR4KZIBHJ6jYwwuMB1H436VghIVd6LizMDXGyLn+Zs62OapdlBGXjccb1BCmewsGnRcHoi7nCsK/NeoNE+lmN6ao1gAW4L9lc3Bxh294EVXi9yGqXNgg2ZFdlt87HV7THA5RHu7Fqfnr6HkOGWmd3Ejf6pkNFyOl0stxZIBHFssDpQk=
+  - secure: R8BOEWMLtOYe6ouQqctaZFwt9W/oWcpCf5fsg2Kmyb4CXw2Adfg2PADGs0KdMUBAo851o9CfLm+H5wQhYOCdsYNt89aaC8j7p51DSeJQ6bWVubSCmMFOzpkwnG58YKsCqpRdx+RvdIdb8CPEzAvNpLHKm9XL9R0igbROUVpGPnnUm77MCc6AsI+x26Ae4A8QjQD89bNwevCVbZPmTUvs0UEy2T5yxKC0JTQxhowB+l3vrsQllAqU38jA16vrFxaL9Sgi3534lWM+7EGTwjHPRWLxryMl9vl4R5Y/bAExMTA5XvlQyD/ZCNF21uZOmyObsf4R6KsSh3zN98zrhPkOUjiYcyxV1lObOu0a5M1EN6YxrM5rf5H/rGPLpPbz+ZTQ+rXLHAMTXa4febchevRieQYKjEyCyuVmGbdgAbKKZqNtnuARvInzoVV8/olKA9DMAxkzjZRZLEWNpqY/m/ZFdQSO0vJTAWFd8DdPUxUTGggLuy/b+6rCsHNHjiBOlQtlqjRmNAAGLbOSjF5pxQK5sSa4XzsDl9eDlUHc5iKy9NCfo0/6e8zuXgjfr7W9ttmfOjqcmejvYKsEtXqZqiiYPTiV1z/kvrtuA6Z6bhdat3hZsbKVhamAMNrwwSyhvcRuoDVQ8Up0KkG7ZMBemLAgjZ48M3BxiJuA+bWTdK9wqAY=
+  - secure: B62eu8T2iSq5tzw1faqSSRC+mRUXMYrJiILkfPCwmnrTMtj/Y9O4PZNwaI4l0y855u1e8J08yXEDgrY3j0isjNBPdweSuIBxr+ynCRy7svZbhvhgBgX+B7NbH25rOZYwiRkwZ/VUTmJ3/Yjk1Grs6MokS3bUwD/sA6RDWItzQc3ipC0XcFxfkQmPpywBEn9sqo2jlrNg+Cuhi7Lx2qQyQ0275kpMzh/DV/AfLpbP1n8cMKNVGQcuuMU6dKFdubdZqU5B7zBnlv6FTlSpw669a+pR/74j34MelKW5N657zYnyVBeuDbXlR8jFskIgvJ3wK5HlCASpXywiCGAJsrLDdifQAzLaDl77DlsgSRmPsrn7ZIqtkOJqbMbI9rp+qj4ZvluwxzGRO+eCBVHkJ5jstO80jr/9b0dXYIpVILRp1aRhYc1DcKzcjY4uX7aAj3Nd2Yw409KerZTyYcttstAGIZkafeVUDcgFIFHPMR4nxRpUCp51ILmlUViuHt5c9CmhHXm9nDTflPWstFZkeiFz7UBBwPRhBltPbEbt22SNanBSazf1ZDXe44o1aWhNsow16KGiTJxuH/6LBy1cxZ9ImjSzxYQYPb+8O3FUXvMgQcH6F6fkS0SR7g1SKRPQv0lvr5WvbPYwisJSY+cGscmoFUGVqmZUPLw6rdupltKokTQ=
+  - secure: d12dMA9SnJQrvstm8CjWwqR4LRjuzcdLMpFeuosste2gEjLRSKE2QV0mZnYHOiumRxoc96E9jaBfvXfaSumUzuKdlXSav0YLacMWAIIAfOf8PfXeDbS0l6p+ySUMRa1nbvIGb1af2qoeWm0Occb6ET4/2XFHTuvoGHZQt1XlRHtaTpErpBj+bS1xrEngRPdzdsC88v5cmFo0G4axz5rr/AS7Wbg1nWq1LSdFCZ38QfeleUpKtoWP4BJ16Ba+BCG0Ye+sLxxpxFnCp8Eec3c8I/h/0/s2U6gu1pWxTxpZ9ZTwikM68cO+vsEI0Ibz7g87LHnN2+17gn8vMIRC70gd1iU0zgzomYfA2gns1Di5OAQYtfrARfI7ue6zwctJ4j8NuNxO8iBQy2BS0UQX2CSaA5RvAgsQGgH5M0YKfzgRhuqLnG3xxv0pQMyjqRtEP9fioRdgBmRrT0jn0nNTGOpuRjXkHxkr1OY0LGu6UjWN/V1OM6OHfdhtNOJT8qAdKWNdX8ztOReSpJl0C9/iBMNdDxL24EGbKG3NJmVJGySjBxYWYNWLumiAfL2cu7DKZ8l+tHbDczc0DDsAV63lAw5DuyKGuUU6RfAhjeExCkpBTTG1FjqH9gI26inltZZ5mdoDmRRNRTqdqPdXDkUci6We2+BDd52xhJGSgwydCCS2eXI=
+  - secure: ifBn9N8o+xMSnTCK1be/Q03s3SpMvxHYXzw5lsqyqD0SQOmy2YX0woGVdtAQX+YCgjYzDsoh/NPvYG9muXyMlrBpZlBEe8kL8O1d+aYCha3BS5VnT779RAECizxI3K9ZHYnTHfKH8DjKBtKu6bdOq1st7lAoRkApUpUwhU+txu+39/vAysPaz+XH8P27r/uBNItW1vSwBh/Hav2RxIoPgB6SCN1cOaWOVf7CD85b6WwkEaH7vxuGt5OltlfSJ9HvpDWFrMOfI3ZsBGjRH5h0AhkwacaOhyhJO0CCFcQqLwH9rQk+z6+EzERFHeN2Gyc9z4G7ZFlkbMhWg5RZOapc5YMeuDjALFdUnRomJe0HGFVfG7PX+2jBrBqoN0muhxvoosROZKYSKW8YwvHlzh/xyIQMFaNgUnfXmaj2QdqcyQnxc8MxOIKUPBT+aokcLqp/Jl0wQhQ6qH+irxTsUNYRIcGOhCTPXxhaS18B2zQMIe9xkCrw1hNyeQhNehd0zQLME+tOwbAIuO605DDvo2mDg+q0Sb7PKH1Z0ZbhXGMhRCrKclgr7Ph02Fywx1m3SHQHS5mjW9fqtp4AupBVFE3XDWBB64hFSVhKKFz8D5UTOh4fiXo+0CBae8UzF88rWksuE2qtxsx7w8v0WDlemZSKiQ2q1FfDOD8MBzILXYXa93A=
 script:
-  - ./travis.sh
-notifications:
-  email:
-    recipients:
-      - toolbox@cloudpassage.com
-    on_success: never
-    on_failure: always
+- docker run -it --rm -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+  -e "ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" -e "AMI_ID=${AMI_ID}" -e "AWS_SSH_KEY_NAME=${AWS_SSH_KEY_NAME}"
+  -e "AWS_REGION=${AWS_REGION}" -e "HALO_AGENT_KEY=${HALO_AGENT_KEY}" -e "SERVER_COUNT=${SERVER_COUNT}"
+  -e "CLI_CMD=${CLI_CMD}" ${TESTING_IMAGE_NAME} provision
+- docker build -t cloudpassage_halo_python_sdk .
+- "./travis.sh"
+- docker run -it --rm -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+  -e "AWS_REGION=${AWS_REGION}" -e "ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" ${TESTING_IMAGE_NAME}
+  deprovision
+after_failure:
+- docker run -it --rm -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+  -e "AWS_REGION=${AWS_REGION}" -e "ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" ${TESTING_IMAGE_NAME}
+  deprovision
