@@ -16,7 +16,23 @@ def massage_error_code(error_code):
     return error_code
 
 
-class CloudPassageAuthentication(Exception):
+class CloudPassageBaseException(Exception):
+    """Base exception class for CloudPassage API errors."""
+
+    def __init__(self, error_msg, **kwargs):
+        if "code" in kwargs:
+            self.code = massage_error_code(kwargs["code"])
+            self.msg = "%d %s" % (self.code, error_msg)
+            if "url" in kwargs:
+                self.msg += kwargs["url"]
+        else:
+            self.msg = error_msg
+
+    def __str__(self):
+        return str(self.msg)
+
+
+class CloudPassageAuthentication(CloudPassageBaseException):
     """Exception related to authentication.
 
     This is thrown in response to an issue authenticating against \
@@ -33,19 +49,8 @@ class CloudPassageAuthentication(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageAuthentication, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageAuthorization(Exception):
+class CloudPassageAuthorization(CloudPassageBaseException):
     """Exception related to authorization.
 
     Oftentimes related to the scope of the API credentials
@@ -61,19 +66,8 @@ class CloudPassageAuthorization(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageAuthorization, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageValidation(Exception):
+class CloudPassageValidation(CloudPassageBaseException):
     """Exception related to request validation.
 
     This can be thrown as a result of invalid information being passed \
@@ -91,19 +85,8 @@ class CloudPassageValidation(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageValidation, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageCollision(Exception):
+class CloudPassageCollision(CloudPassageBaseException):
     """Exception indicates a resource collision.
 
     This is thrown when attempting to create a resource
@@ -120,15 +103,8 @@ class CloudPassageCollision(Exception):
 
     """
 
-    def __init__(self, error_msg):
-        super(CloudPassageCollision, self).__init__()
-        self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageInternalError(Exception):
+class CloudPassageInternalError(CloudPassageBaseException):
     """This exception indicates an error in the Analytics Engine.
 
     This is thrown when a HTTP response code of 500 is detected.
@@ -144,19 +120,8 @@ class CloudPassageInternalError(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageInternalError, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageResourceExistence(Exception):
+class CloudPassageResourceExistence(CloudPassageBaseException):
     """This exception indicates that you're trying to access a \
     resource that doesn't exist.
 
@@ -173,21 +138,8 @@ class CloudPassageResourceExistence(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageResourceExistence, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s " % (self.code, error_msg)
-            if "url" in kwargs:
-                self.msg += kwargs["url"]
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageRateLimit(Exception):
+class CloudPassageRateLimit(CloudPassageBaseException):
     """This exception indicates that you have exceeded the allotted \
     number of api calls per minute.
 
@@ -204,19 +156,8 @@ class CloudPassageRateLimit(Exception):
 
     """
 
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageRateLimit, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
 
-    def __str__(self):
-        return str(self.msg)
-
-
-class CloudPassageGeneral(Exception):
+class CloudPassageGeneral(CloudPassageBaseException):
     """This is thrown when a more specific exception type is unavailable.
 
     The msg attribute should have plenty of information on what went wrong.
@@ -231,14 +172,3 @@ class CloudPassageGeneral(Exception):
         msg (str)
 
     """
-
-    def __init__(self, error_msg, **kwargs):
-        super(CloudPassageGeneral, self).__init__()
-        if "code" in kwargs:
-            self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
-        else:
-            self.msg = error_msg
-
-    def __str__(self):
-        return str(self.msg)
