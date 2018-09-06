@@ -10,5 +10,3 @@ RUN /opt/python/bin/python -mpip install -r requirements-testing.txt && \
     /opt/python/bin/python -mpip install -e .
 
 RUN /opt/python/bin/python -mpip install codeclimate-test-reporter
-
-CMD /source/test_wrapper.sh

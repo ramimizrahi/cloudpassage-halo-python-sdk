@@ -30,6 +30,13 @@ script:
 - docker build -t cloudpassage_halo_python_sdk --build-arg PY_VER=${PY_VER} .
 - "./travis.sh"
 after_success:
+- docker run -it --rm -e HALO_API_KEY=${HALO_API_KEY}
+  -e HALO_API_SECRET_KEY=${HALO_API_SECRET_KEY}
+  -e HALO_API_HOSTNAME=${HALO_API_HOSTNAME} -e HALO_API_PORT=${HALO_API_PORT}
+  -e CODECLIMATE_REPO_TOKEN=${CODECLIMATE_REPO_TOKEN}
+  -e TRAVIS_BRANCH=${TRAVIS_BRANCH}
+  -e PY_VER=${PY_VER}
+  cloudpassage_halo_python_sdk /source/codeclimate.sh
 - docker run -it --rm -e "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}" -e "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
   -e "AWS_REGION=${AWS_REGION}" -e "ENVIRONMENT_NAME=${ENVIRONMENT_NAME}" ${TESTING_IMAGE_NAME}
   deprovision
