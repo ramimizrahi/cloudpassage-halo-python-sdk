@@ -186,9 +186,7 @@ class Scan(object):
 
         endpoint = "/v1/scans/%s" % scan_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        report = response["scan"]
-        return report
+        return request.get(endpoint)["scan"]
 
     def scan_status_supported(self, scan_status):
         """Determine if scan status is supported for query"""

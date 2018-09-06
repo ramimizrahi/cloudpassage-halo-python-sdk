@@ -114,9 +114,7 @@ class Server(object):
 
         endpoint = "/v1/servers/%s" % server_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        server_details = response["server"]
-        return server_details
+        return request.get(endpoint)["server"]
 
     def retire(self, server_id):
         """This method retires a server
@@ -218,9 +216,7 @@ class Server(object):
 
         endpoint = "/v1/servers/%s/commands/%s" % (server_id, command_id)
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        command_status = response["command"]
-        return command_status
+        return request.get(endpoint)["command"]
 
     def list_local_accounts(self, server_id):
         """This method retrieves all local user accounts on the server\
@@ -252,9 +248,7 @@ class Server(object):
         """
         endpoint = "/v1/servers/%s/accounts/%s" % (server_id, username)
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        account_detail = response["account"]
-        return account_detail
+        return request.get(endpoint)["account"]
 
     def list_connections(self, server_id, **kwargs):
         """This method retrieves all recently detected connections on the server\

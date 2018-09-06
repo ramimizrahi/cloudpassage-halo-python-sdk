@@ -52,9 +52,7 @@ class ServerGroup(object):
 
         endpoint = "/v1/groups/%s/servers" % group_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        servers = response["servers"]
-        return servers
+        return request.get(endpoint)["servers"]
 
     def create(self, group_name, **kwargs):
         """Creates a ServerGroup.
@@ -104,9 +102,7 @@ class ServerGroup(object):
 
         endpoint = "/v1/groups/%s" % group_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        group = response["group"]
-        return group
+        return request.get(endpoint)["group"]
 
     def update(self, group_id, **kwargs):
         """Updates a ServerGroup.
