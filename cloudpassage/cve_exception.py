@@ -53,9 +53,7 @@ class CveExceptions(object):
 
         endpoint = "/v1/cve_exceptions/%s" % exception_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        cve_exception = response["cve_exception"]
-        return cve_exception
+        return request.get(endpoint)["cve_exception"]
 
     def create(self, package_name, package_version, scope="all", scope_id=''):
         """This method allows user to create CVE exceptions.
