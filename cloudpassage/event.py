@@ -34,32 +34,30 @@ class Event(object):
         return None
 
     def list_all(self, pages, **kwargs):
-        """Returns a list of all events.
+        """Return a list of all events.
 
 
-        Default filter returns ALL events.  This is a very verbose \
-        and time-consuming operation.
+        Default filter returns ALL events.  This is a very verbose and
+        time-consuming operation.
 
         Args:
             pages (int): Max number of pages (of ten items each) to retrieve
 
         Keyword Args:
-            group_id (list or str): A list or comma-separated string \
-            containing the group IDs to retrieve events for.
-            server_id (list or str): A list or comma-separated string \
-            containing the server IDs to retrieve events for.
+            group_id (list or str): A list or comma-separated string containing
+                the group IDs to retrieve events for.
+            server_id (list or str): A list or comma-separated string
+                containing the server IDs to retrieve events for.
             server_platform (str): (linux | windows)
-            critical (bool): Returns only critical or \
-            noncritical events.
-            type (list or str): A list or comma-separated string containing \
-            the event types to query for.  A complete list of event types is \
-            available \
-            `here: <https://support.cloudpassage.com/entries/23125117-Events\
-            #event-types>`_
-            since (str): ISO 8601 formatted string representing the starting \
-            date and time for query
-            until (str): ISO 8601 formatted string representing the ending \
-            date and time for query
+            critical (bool): Returns only critical or noncritical events.
+            type (list or str): A list or comma-separated string containing the
+                event types to query for.  A complete list of event types is
+                available
+                `here: <https://api-doc.cloudpassage.com/help#event-types>`_
+            since (str): ISO 8601 formatted string representing the starting
+                date and time for query
+            until (str): ISO 8601 formatted string representing the ending
+                date and time for query
 
         Returns:
             list: List of dictionary objects describing servers
