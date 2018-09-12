@@ -1,10 +1,10 @@
 """SpecialEventsPolicy class"""
 
 
-from cloudpassage.policy import Policy
+from cloudpassage.halo_endpoint import HaloEndpoint
 
 
-class SpecialEventsPolicy(Policy):
+class SpecialEventsPolicy(HaloEndpoint):
     """Initializing the SpecialEventsPolicy class:
 
     Args:
@@ -15,22 +15,23 @@ class SpecialEventsPolicy(Policy):
 
     """
 
-    policy = "special_events_policy"
-    policies = "special_events_policies"
+    object_name = "special_events_policy"
+    objects_name = "special_events_policies"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % SpecialEventsPolicy.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return SpecialEventsPolicy.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        return SpecialEventsPolicy.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name
 
     def create(self, unimportant):
         """Not implemented for this module.  Raises exception."""

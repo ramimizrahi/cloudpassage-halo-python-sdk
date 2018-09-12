@@ -1,38 +1,36 @@
 """FimPolicy and FimBaseline classes"""
 
 import cloudpassage.sanity as sanity
-from cloudpassage.policy import Policy
+from cloudpassage.halo_endpoint import HaloEndpoint
 from cloudpassage.http_helper import HttpHelper
 
 
-class FimPolicy(Policy):
+class FimPolicy(HaloEndpoint):
     """Initializing the FimPolicy class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
-
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
     """
 
-    policy = "fim_policy"
-    policies = "fim_policies"
+    object_name = "fim_policy"
+    objects_name = "fim_policies"
 
     @classmethod
     def endpoint(cls):
         """Defines endpoint for API requests"""
-        return "/v1/%s" % FimPolicy.policies
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
         """Defines the pagination key for parsing paged results"""
-        return FimPolicy.policies
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
+    def object_key(cls):
         """Defines the key used to pull the policy from the json document"""
-        return FimPolicy.policy
+        return cls.object_name
 
 
 class FimBaseline(object):

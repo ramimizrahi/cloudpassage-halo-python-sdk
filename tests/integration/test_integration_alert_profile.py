@@ -104,9 +104,9 @@ class TestIntegrationAlertProfiles:
         }
         policy_body = json.dumps(raw_policy_body, indent=2)
         policy_id = profile.create(policy_body)
-        policy_endpoint = "/v1/%s/%s" % (profile.policies, policy_id)
+        policy_endpoint = "/v1/%s/%s" % ("alert_profiles", policy_id)
         policy_update = http.get(policy_endpoint)
-        policy_update[profile.policy]["name"] = newname
+        policy_update["alert_profile"]["name"] = newname
         profile.update(policy_update)
         profile.delete(policy_id)
         try:
