@@ -127,15 +127,3 @@ class CveException(HaloEndpoint):
     def pagination_key(cls):
         """Return the pagination key for parsing paged results."""
         return cls.objects_name
-
-    def create(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError
-
-    def delete(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError
-
-    def update(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError
