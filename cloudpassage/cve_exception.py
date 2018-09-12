@@ -1,59 +1,36 @@
 """CveException Class"""
 
 import cloudpassage.sanity as sanity
+from cloudpassage.halo_endpoint import HaloEndpoint
 from cloudpassage.http_helper import HttpHelper
 
 
-class CveExceptions(object):
+class CveExceptions(HaloEndpoint):
     """Initializing the CveException class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
-
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
     """
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    object_name = "cve_exception"
+    objects_name = "cve_exceptions"
 
-    def list_all(self):
-        """This method will retreive all defined software exceptions
-           from the Halo database.
+    @classmethod
+    def endpoint(cls):
+        """Return the endpoint for API requests."""
+        return "/v1/%s" % cls.objects_name
 
-        This is represented as a list of dictionaries
+    @classmethod
+    def object_key(cls):
+        """Return the key used to pull the object from the json document."""
+        return cls.object_name
 
-        This will only return a maximum of 20 pages, which amounts to
-        200 cve exceptions. If you have more than that, you should consider
-        using the SDK within a multi-threaded application.
-
-        """
-
-        endpoint = "/v1/cve_exceptions"
-        key = "cve_exceptions"
-        max_pages = 20
-        request = HttpHelper(self.session)
-        response = request.get_paginated(endpoint, key,
-                                         max_pages)
-
-        return response
-
-    def describe(self, exception_id):
-        """This method will retrieves the software exception
-           specified by exception ID.
-
-        Args:
-            exception_id (str): Identifier for this CVE exception.
-
-        Returns:
-            dict: Dictionary object describing CVE exceptions.
-        """
-
-        endpoint = "/v1/cve_exceptions/%s" % exception_id
-        request = HttpHelper(self.session)
-        return request.get(endpoint)["cve_exception"]
+    @classmethod
+    def pagination_key(cls):
+        """Return the pagination key for parsing paged results."""
+        return cls.objects_name
 
     def create(self, package_name, package_version, scope="all", scope_id=''):
         """This method allows user to create CVE exceptions.
@@ -118,18 +95,35 @@ class CveExceptions(object):
         response = request.put(endpoint, body)
         return response
 
-    def delete(self, exception_id):
-        """ Delete a CVE Exception.
 
-        Args:
-            exception_id (str): Identifier for the CVE exception.
+# The following class needs to live on only in name, and should absorb the
+# functionality of the current CveExceptions class.
 
-        Returns:
-            None if successful, exceptions otherwise.
+class CveException(HaloEndpoint):
+    """Initializing the CveException class:
 
-        """
+    Args:
+        session (:class:`cloudpassage.HaloSession`): \
+        This will define how you interact \
+        with the Halo API, including proxy settings and API keys \
+        used for authentication.
 
-        endpoint = "/v1/cve_exceptions/%s" % exception_id
-        request = HttpHelper(self.session)
-        request.delete(endpoint)
-        return None
+    """
+
+    object_name = "cve_exception"
+    objects_name = "cve_exceptions"
+
+    @classmethod
+    def endpoint(cls):
+        """Return the endpoint for API requests."""
+        return "/v1/%s" % cls.objects_name
+
+    @classmethod
+    def object_key(cls):
+        """Return the key used to pull the object from the json document."""
+        return cls.object_name
+
+    @classmethod
+    def pagination_key(cls):
+        """Return the pagination key for parsing paged results."""
+        return cls.objects_name

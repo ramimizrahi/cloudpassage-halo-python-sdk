@@ -3,6 +3,7 @@ from cloudpassage.agent_upgrade import AgentUpgrade  # noqa: F401
 from cloudpassage.alert_profile import AlertProfile  # noqa: F401
 from cloudpassage.api_key_manager import ApiKeyManager  # noqa: F401
 from cloudpassage.configuration_policy import ConfigurationPolicy  # noqa: F401
+from cloudpassage.cve_exception import CveException  # noqa: F401
 from cloudpassage.cve_exception import CveExceptions  # noqa: F401
 from cloudpassage.cve_details import CveDetails  # noqa: F401
 from cloudpassage.fim_policy import FimPolicy  # noqa: F401
@@ -27,7 +28,6 @@ from cloudpassage.issue import Issue  # noqa: F401
 from cloudpassage.lids_policy import LidsPolicy  # noqa: F401
 from cloudpassage.local_user_account import LocalUserAccount  # noqa: F401
 from cloudpassage.local_user_group import LocalUserGroup  # noqa: F401
-from cloudpassage.scan import CveException  # noqa: F401
 from cloudpassage.scan import Scan  # noqa: F401
 from cloudpassage.server import Server  # noqa: F401
 from cloudpassage.server_group import ServerGroup  # noqa: F401

@@ -35,6 +35,7 @@ Contents:
    system_announcement
    special_events_policy
    alert_profiles
+   cve_exception
    exceptions
    changelog
 
