@@ -1,9 +1,10 @@
 engines:
   duplication:
-    enabled: false
+    enabled: true
     config:
       languages:
-      - python
+        python:
+          mass_threshold: 50
   fixme:
     enabled: true
   radon:

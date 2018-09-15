@@ -5,13 +5,15 @@ CloudPassage Halo API.
 """
 
 import base64
+import json
 import threading
 import time
 import cloudpassage.utility as utility
 import cloudpassage.sanity as sanity
 from cloudpassage.exceptions import CloudPassageAuthentication
 from cloudpassage.exceptions import CloudPassageValidation
-
+from requests.adapters import HTTPAdapter
+from urllib3.util.retry import Retry
 import requests
 
 
@@ -29,23 +31,26 @@ class HaloSession(object):
         CloudPassage Halo account
 
     Keyword Args:
-        api_host (str): Override the API endpoint hostname. \
-        Defaults to api.cloudpassage.com.
-        api_port (str): Override the API HTTPS port \
-        Defaults to 443.
+        api_host (str): Override the API endpoint hostname. Defaults to
+            api.cloudpassage.com.
+        api_port (str): Override the API HTTPS port. Defaults to 443.
         proxy_host (str): Hostname or IP address of proxy
         proxy_port (str): Port for proxy.  Ignored if proxy_host is not set
-        user_agent (str): Override for UserAgent string.  We set this so that \
-        we can see what tools are being used in the field and \
-        set our development focus accordingly.  To override \
-        the default, feel free to pass this kwarg in.
-        integration_string (str): If set, this will cause the user agent \
-        string to include an identifier for the integration being used.
+        user_agent (str): Override for UserAgent string.  We set this so that
+            we can see what tools are being used in the field and set our
+            development focus accordingly.  To override the default, feel free
+            to pass this kwarg in.
+        integration_string (str): If set, this will cause the user agent
+            string to include an identifier for the integration being used.
 
     """
+    # Max number of retries for any reason
+    max_retries = 5
+    # Always retry on these statuses, within the requests session.
+    # We retry for auth failure (401) within the SDK code. See try_wrapper().
+    retry_statuses = [429, 500, 502, 503, 504]
 
     # pylint: disable=too-many-instance-attributes
-    # In this case, an attribute count of 11 is necessary.
 
     def __init__(self, apikey, apisecret, **kwargs):
         self.auth_endpoint = 'oauth/access_token'
@@ -81,6 +86,21 @@ class HaloSession(object):
         if self.integration_string != '':
             self.user_agent = "%s %s" % (self.integration_string,
                                          self.user_agent)
+        # Set up session and connection pool
+        self.build_client()
+        return None
+
+    def build_client(self):
+        """Build client object for class instantiation."""
+        self.client = requests.Session()
+        self.retries = Retry(total=self.max_retries,
+                             status_forcelist=self.retry_statuses,
+                             backoff_factor=1)
+        self.halo_http_adapter = HTTPAdapter(pool_connections=1,
+                                             pool_maxsize=10,
+                                             max_retries=self.retries)
+        self.session_mount = "https://%s:%s" % (self.api_host, self.api_port)
+        self.client.mount(self.session_mount, self.halo_http_adapter)
         return None
 
     @classmethod
@@ -99,8 +119,7 @@ class HaloSession(object):
             ret_struct["https"] = "http://" + str(host) + ":8080"
         return ret_struct
 
-    @classmethod
-    def get_auth_token(cls, endpoint, headers):
+    def get_auth_token(self, endpoint, headers):
         """This method takes endpoint and header info, and returns the
         oauth token and scope.
 
@@ -115,7 +134,7 @@ class HaloSession(object):
 
         token = None
         scope = None
-        resp = requests.post(endpoint, headers=headers)
+        resp = self.client.post(endpoint, headers=headers)
         if resp.status_code == 200:
             auth_resp_json = resp.json()
             token = auth_resp_json["access_token"]
@@ -156,6 +175,7 @@ class HaloSession(object):
                 break
             else:
                 time.sleep(1)
+        self.client.headers.update(self.build_header())
         return success
 
     def build_endpoint_prefix(self):
@@ -178,3 +198,90 @@ class HaloSession(object):
                   "User-Agent": self.user_agent,
                   "Accept-Encoding": "gzip"}
         return header
+
+    def interact(self, verb, endpoint, params=None, reqbody=None):
+        """This method allows us to wrap common Halo interaction functionality.
+
+        Most exceptions will be caught and validated here, and if retries fail,
+        those exceptions will be raised again for catching at a higher level.
+
+        Args:
+            verb (str): get, post, put, or delete.
+            endpoint (str): URL- everything past api.cloudpassage.com.
+            params (list of dict): This is a list of dictionary objects,
+                represented like this: [{"k1": "two,too"}]
+            reqbody (dict): Dictionary to be converted to JSON for insertion \
+                as payload for request.
+
+        Returns:
+            response object
+        """
+        # Build the complete URL
+        url = "%s%s" % (self.build_endpoint_prefix(), endpoint)
+        # Set up for try/retry
+        success = False
+        # If we've not authenticated the session, we do it now
+        if self.auth_token is None:
+            self.authenticate_client()
+        success, response, exception = self.try_wrapper(verb, url, params,
+                                                        reqbody)
+        if success:
+            return response
+        raise exception
+
+    def try_wrapper(self, verb, url, params, reqbody):
+        """Wraps tries.
+
+        Args:
+            endpoint (str): Path part of URL.
+            params (list of dict): URL params.
+            reqbody (dict): Request body.
+
+        Returns:
+            success (bool)
+            response (requests.response)
+            exception (Exception)
+        """
+        verb_mapping = {'get': self.client.get,
+                        'post': self.client.post,
+                        'put': self.client.put,
+                        'delete': self.client.delete}
+        # Raise ValueError if invalid verb is used
+        if verb not in verb_mapping:
+            raise ValueError("Invalid HTTP verb for Halo API: %s" % verb)
+        if self.auth_token is None:
+            self.authenticate_client()
+        success, response, exception = self.get_response(verb_mapping[verb],
+                                                         verb, url, params,
+                                                         reqbody)
+        if response.status_code == 401:  # Try to reauth once.
+            self.authenticate_client()
+            success, response, exception = self.get_response(verb_mapping[verb],  # NOQA
+                                                             verb, url, params,
+                                                             reqbody)
+        return success, response, exception
+
+    def get_response(self, client_method, verb, url, params, reqbody):
+        """Base method for getting response from Halo API.
+
+        Args:
+            client_method (requests.Session() method): This method is what
+                performs the actual interaction with the Halo API. Example:
+                ``self.connection.client.get``
+            verb (str): The HTTP verb used in interacting with the Halo API.
+            url (str): Complete URL for request.
+            params (list): URL params in a list of dictionaries.
+            reqbody (dict): Body of put/post request
+
+        Returns:
+            success (bool)
+            response (requests.response)
+            exception (Exception)
+        """
+        if verb in ['get', 'delete']:
+            response = client_method(url, params=params)
+        else:
+            response = client_method(url, data=json.dumps(reqbody))
+        success, exception = utility.parse_status(url, response.status_code,
+                                                  response.text)
+        return success, response, exception

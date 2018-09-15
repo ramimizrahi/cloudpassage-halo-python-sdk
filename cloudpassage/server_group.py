@@ -2,42 +2,43 @@
 
 import cloudpassage.utility as utility
 import cloudpassage.sanity as sanity
-from cloudpassage.http_helper import HttpHelper
+from cloudpassage import HttpHelper
+from cloudpassage.halo_endpoint import HaloEndpoint
 
 
-class ServerGroup(object):
+class ServerGroup(HaloEndpoint):
     """Initializing the ServerGroup class:
 
+
+    Filters for ServerGroup queries can be found in the API documentation.
+    See
+    `here: <https://api-doc.cloudpassage.com/help#object-representation-1>`_
+    for more information.
+
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    object_name = "group"
+    objects_name = "groups"
 
-    def list_all(self):
-        """Returns a list of all groups for an account
+    @classmethod
+    def endpoint(cls):
+        """Defines endpoint for API requests"""
+        return "/v1/%s" % ServerGroup.objects_name
 
-        This is represented as a list of dictionaries
+    @classmethod
+    def pagination_key(cls):
+        """Defines the pagination key for parsing paged results"""
+        return ServerGroup.objects_name
 
-        This will only return a maximum of 20 pages, which amounts to
-        200 groups.  If you have more than that, you should consider
-        using the SDK within a multi-threaded application so you don't
-        spend the rest of your life waiting on a list of groups.
-        """
-
-        session = self.session
-        max_pages = 20
-        key = "groups"
-        endpoint = "/v1/groups"
-        request = HttpHelper(session)
-        groups = request.get_paginated(endpoint, key, max_pages)
-        return groups
+    @classmethod
+    def object_key(cls):
+        """Defines the key used to pull the policy from the json document"""
+        return ServerGroup.object_name
 
     def list_members(self, group_id):
         """Returns a list of all member servers of a group_id
@@ -52,9 +53,7 @@ class ServerGroup(object):
 
         endpoint = "/v1/groups/%s/servers" % group_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        servers = response["servers"]
-        return servers
+        return request.get(endpoint)["servers"]
 
     def create(self, group_name, **kwargs):
         """Creates a ServerGroup.
@@ -63,12 +62,12 @@ class ServerGroup(object):
             group_name (str): Name for the new group
 
         Keyword Args:
-            firewall_policy_id (str): ID of firewall policy to be assigned to \
-            the group (deprecated- use linux_firewall_policy_id)
-            linux_firewall_policy_id (str): ID of linux firewall policy to \
-            associate with the new group
-            windows_firewall_policy_id (str): ID of Windows firewall policy \
-            to associate with the new group
+            firewall_policy_id (str): ID of firewall policy to be assigned to
+                the group (deprecated- use linux_firewall_policy_id)
+            linux_firewall_policy_id (str): ID of linux firewall policy to
+                associate with the new group
+            windows_firewall_policy_id (str): ID of Windows firewall policy
+                to associate with the new group
             policy_ids (list): List of Linux configuration policy IDs
             windows_policy_ids (list): List of Windows configuration policy IDs
             fim_policy_ids (list): List of Linux FIM policies
@@ -90,23 +89,6 @@ class ServerGroup(object):
         request = HttpHelper(self.session)
         response = request.post(endpoint, body)
         return response["group"]["id"]
-
-    def describe(self, group_id):
-        """Describe a ServerGroup.  In detail.
-
-        Args:
-            group_id (str): ID of group
-
-        Returns:
-            dict: Dictionary object describing group.  In detail.
-
-        """
-
-        endpoint = "/v1/groups/%s" % group_id
-        request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        group = response["group"]
-        return group
 
     def update(self, group_id, **kwargs):
         """Updates a ServerGroup.

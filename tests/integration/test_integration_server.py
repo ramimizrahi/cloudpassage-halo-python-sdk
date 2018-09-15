@@ -140,17 +140,7 @@ class TestIntegrationServer:
         states = ["deactivated"]
         s = self.build_server_object()
         result = s.list_all(state=states)
-        assert "id" in result[0]
-
-    def test_server_list_inactive_test3(self):
-        """This test requires a server with a status of either missing or
-        deactivated.  If no such server exists in your account, the test will
-        fail.
-        """
-        states = ["missing", "deactivated"]
-        s = self.build_server_object()
-        result = s.list_all(state=states)
-        assert "id" in result[0]
+        assert result[0]["state"] == "deactivated"
 
     def test_server_local_account(self):
         """This test requires at least one active server in your Halo

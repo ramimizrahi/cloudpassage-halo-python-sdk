@@ -4,7 +4,6 @@ import cloudpassage.sanity as sanity
 import cloudpassage.utility as utility
 from cloudpassage.exceptions import CloudPassageValidation
 from cloudpassage.http_helper import HttpHelper
-from cloudpassage.policy import Policy
 
 
 class Scan(object):
@@ -186,9 +185,7 @@ class Scan(object):
 
         endpoint = "/v1/scans/%s" % scan_id
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        report = response["scan"]
-        return report
+        return request.get(endpoint)["scan"]
 
     def scan_status_supported(self, scan_status):
         """Determine if scan status is supported for query"""
@@ -236,45 +233,3 @@ class Scan(object):
                 error_message = "Unsupported module: %s" % module_raw
                 raise CloudPassageValidation(error_message)
         return module_raw
-
-
-class CveException(Policy):
-    """Initializing the CveException class:
-
-    Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
-
-    """
-
-    policy = "cve_exception"
-    policies = "cve_exceptions"
-
-    @classmethod
-    def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % CveException.policies
-
-    @classmethod
-    def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return CveException.policies
-
-    @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return CveException.policy
-
-    def create(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError
-
-    def delete(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError
-
-    def update(self, unimportant):
-        """Not implemented for this module.  Raises exception."""
-        raise NotImplementedError

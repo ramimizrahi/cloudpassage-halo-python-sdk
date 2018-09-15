@@ -4,4 +4,4 @@ SpecialEventsPolicy
 .. toctree::
 
 .. autoclass:: cloudpassage.SpecialEventsPolicy
-   :members: list_all
+   :members: describe, list_all

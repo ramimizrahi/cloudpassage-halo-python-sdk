@@ -15,7 +15,7 @@ secret_key = session_info.secret_key
 api_hostname = session_info.api_hostname
 api_port = session_info.api_port
 
-
+nonexistent_url = "/v1/does_not_exist"
 # This will make cleaning up easier...
 content_prefix = '_SDK_test-'
 content_name = str(content_prefix +
@@ -24,7 +24,7 @@ content_name = str(content_prefix +
 
 class TestIntegrationGet:
     def test_get_404(self):
-        endpoint = "/v1/barf"
+        endpoint = nonexistent_url
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
                                            api_port=api_port,
@@ -49,8 +49,8 @@ class TestIntegrationGet:
 
 class TestIntegrationGetPaginated:
     def test_get_paginated_404(self):
-        endpoint = "/v1/barf"
-        key = "barfs"
+        endpoint = nonexistent_url
+        key = "noexist"
         pages = 5
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
@@ -118,7 +118,7 @@ class TestIntegrationGetPaginated:
 
 class TestIntegrationPost:
     def test_post_404(self):
-        endpoint = "/v1/barf"
+        endpoint = nonexistent_url
         post_data = {"whatevs": "becausenobodycares"}
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
@@ -144,7 +144,7 @@ class TestIntegrationPost:
         assert '400' in str(e)
 
     def test_post_rekey(self):
-        endpoint = "/v1/gropes"
+        endpoint = nonexistent_url
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
                                            api_port=api_port,
@@ -158,7 +158,7 @@ class TestIntegrationPost:
 
 class TestIntegrationPut:
     def test_put_bad_endpoint(self):
-        endpoint = "/v1/barf"
+        endpoint = nonexistent_url
         put_data = {"whatevs": "becausenobodycares"}
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
@@ -200,7 +200,7 @@ class TestIntegrationPut:
 
 class TestIntegrationDelete:
     def test_delete_404(self):
-        endpoint = "/v1/barf"
+        endpoint = nonexistent_url
         session = cloudpassage.HaloSession(key_id, secret_key,
                                            api_host=api_hostname,
                                            api_port=api_port,

@@ -4,10 +4,10 @@ and FirewallInterface classes
 
 import cloudpassage.sanity as sanity
 from cloudpassage.http_helper import HttpHelper
-from cloudpassage.policy import Policy
+from cloudpassage.halo_endpoint import HaloEndpoint
 
 
-class FirewallPolicy(Policy):
+class FirewallPolicy(HaloEndpoint):
     """Initializing the FirewallPolicy class:
 
     Args:
@@ -17,23 +17,23 @@ class FirewallPolicy(Policy):
 
     """
 
-    policy = "firewall_policy"
-    policies = "firewall_policies"
+    object_name = "firewall_policy"
+    objects_name = "firewall_policies"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % FirewallPolicy.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return FirewallPolicy.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return FirewallPolicy.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name
 
 
 class FirewallRule(object):
@@ -196,7 +196,7 @@ class FirewallRule(object):
         return None
 
 
-class FirewallZone(Policy):
+class FirewallZone(HaloEndpoint):
     """Initializing the FirewallZone class:
 
     Args:
@@ -207,26 +207,26 @@ class FirewallZone(Policy):
 
     """
 
-    policy = "firewall_zone"
-    policies = "firewall_zones"
+    object_name = "firewall_zone"
+    objects_name = "firewall_zones"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % FirewallZone.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return FirewallZone.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return FirewallZone.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name
 
 
-class FirewallService(Policy):
+class FirewallService(HaloEndpoint):
     """Initializing the FirewallService class:
 
     Args:
@@ -237,26 +237,26 @@ class FirewallService(Policy):
 
     """
 
-    policy = "firewall_service"
-    policies = "firewall_services"
+    object_name = "firewall_service"
+    objects_name = "firewall_services"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % FirewallService.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return FirewallService.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return FirewallService.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name
 
 
-class FirewallInterface(Policy):
+class FirewallInterface(HaloEndpoint):
     """Initializing the FirewallInterface class:
 
     Args:
@@ -267,20 +267,20 @@ class FirewallInterface(Policy):
 
     """
 
-    policy = "firewall_interface"
-    policies = "firewall_interfaces"
+    object_name = "firewall_interface"
+    objects_name = "firewall_interfaces"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % FirewallInterface.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return FirewallInterface.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return FirewallInterface.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name

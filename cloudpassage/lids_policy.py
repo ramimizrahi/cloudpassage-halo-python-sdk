@@ -1,34 +1,33 @@
 """LidsPolicy class"""
 
 
-from cloudpassage.policy import Policy
+from cloudpassage.halo_endpoint import HaloEndpoint
 
 
-class LidsPolicy(Policy):
+class LidsPolicy(HaloEndpoint):
     """Initializing the LidsPolicy class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
-    policy = "lids_policy"
-    policies = "lids_policies"
+    object_name = "lids_policy"
+    objects_name = "lids_policies"
 
     @classmethod
     def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % LidsPolicy.policies
+        """Return endpoint for API requests"""
+        return "/v1/%s" % cls.objects_name
 
     @classmethod
     def pagination_key(cls):
-        """Defines the pagination key for parsing paged results"""
-        return LidsPolicy.policies
+        """Return the pagination key for parsing paged results"""
+        return cls.objects_name
 
     @classmethod
-    def policy_key(cls):
-        """Defines the key used to pull the policy from the json document"""
-        return LidsPolicy.policy
+    def object_key(cls):
+        """Defines the key used to pull the object from the json document"""
+        return cls.object_name

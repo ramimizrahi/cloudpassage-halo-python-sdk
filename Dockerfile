@@ -1,19 +1,10 @@
-FROM alpine:3.4
+ARG PY_VER=2.7.10
+FROM docker.io/halotools/python_tester:${PY_VER}
 MAINTAINER toolbox@cloudpassage.com
-
-RUN apk add -U \
-    gettext \
-    git \
-    python \
-    py-pip 
 
 COPY ./ /source/
 
 WORKDIR /source/
 
-RUN pip install -r requirements-testing.txt && \
-    pip install -e .
-
-RUN pip install codeclimate-test-reporter
-
-CMD /source/test_wrapper.sh
+RUN /opt/python/bin/python -mpip install -r requirements-testing.txt && \
+    /opt/python/bin/python -mpip install -e .
