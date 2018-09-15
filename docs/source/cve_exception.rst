@@ -5,4 +5,4 @@ CveException
 
 
 .. autoclass:: cloudpassage.CveException
-   :members: describe, list_all
+   :members: create, delete, describe, list_all, update
