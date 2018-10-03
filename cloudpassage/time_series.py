@@ -36,8 +36,10 @@ class TimeSeries(object):
         self.last_item_id = None
         self.params["since"] = start_time
         self.params["per_page"] = self.page_size
+        self.params["sort_by"] = "created_at.asc"
         self.verify_start_url(start_url)
         self.stop = False
+        self.prior_batch_ids = set([])
         return
 
     def __iter__(self):
@@ -127,21 +129,14 @@ class TimeSeries(object):
         self.adjust_batch_size(adjustment_factor)
         items = self.sorted_items_from_pages(pages, self.item_key,
                                              self.sort_key)
-        items = self.remove_duplicate_items(items)
-        try:
-            if items[0]["id"] == self.last_item_id:
-                del items[0]
-        except IndexError:  # This happens when the return set is empty...
-            time.sleep(3)
-            return []
+        items = self.remove_duplicate_items(items, self.prior_batch_ids)
         try:
             last_item_timestamp = items[-1]['created_at']
-            last_item_id = items[-1]['id']
         except IndexError:
             time.sleep(3)
             return []
         self.params["since"] = last_item_timestamp
-        self.last_item_id = last_item_id
+        self.prior_batch_ids = set([x["id"] for x in items])
         return items
 
     @classmethod
@@ -200,10 +195,21 @@ class TimeSeries(object):
         return results
 
     @classmethod
-    def remove_duplicate_items(cls, items_in):
-        """Remove duplicate items by id."""
+    def remove_duplicate_items(cls, items_in, prior_batch_ids):
+        """Return only unique itemsself.
+
+        Args:
+            items_in (list): List of dict-type items. These will be
+                deduplicated by item["id"].
+            prior_batch_ids (set): Set of strings, where each string is the
+                id of an event which has already been yielded by __iter__().
+
+        Returns:
+            list: List of items, which is `items_in`, with duplicates removed
+                and any items with item["id"] existing in `prior_batch_ids`.
+        """
         items_out = []
-        item_ids = set([])
+        item_ids = set(prior_batch_ids)
         for item in items_in:
             if item["id"] not in item_ids:
                 item_ids.add(item["id"])
