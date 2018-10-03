@@ -1,5 +1,6 @@
 import imp
 import os
+import pprint
 import pytest
 import sys
 
@@ -53,15 +54,24 @@ class TestIntegrationTimeSeries(object):
         item_key = "events"
         streamer = cloudpassage.TimeSeries(session, start_time,
                                            start_url, item_key)
+        dupes = []
         item_counter = 0
         item_ids = set([])
         for item in streamer:
+            print("Item counter: %s Item ID: %s Item timestamp: %s" %
+                  (item_counter, item["id"], item["created_at"]))
             assert "id" in item
-            assert item["id"] not in item_ids
+            if item["id"] in item_ids:
+                print("Duplicate ^^^")
+                dupes.append(item["id"])
             item_ids.add(item["id"])
             item_counter += 1
             if item_counter > 60:
                 break
+        if dupes:
+            print("Dupes:")
+            pprint.pprint(dupes)
+            assert False
 
     def test_time_series_iter_issues_many_pages(self):
         """Test against issues endpoint."""
@@ -72,15 +82,24 @@ class TestIntegrationTimeSeries(object):
         item_key = "issues"
         streamer = cloudpassage.TimeSeries(session, start_time,
                                            start_url, item_key)
+        dupes = []
         item_counter = 0
         item_ids = set([])
         for item in streamer:
+            print("Item counter: %s Item ID: %s Item timestamp: %s" %
+                  (item_counter, item["id"], item["created_at"]))
             assert "id" in item
-            assert item["id"] not in item_ids
+            if item["id"] in item_ids:
+                print("Duplicate ^^^")
+                dupes.append(item["id"])
             item_ids.add(item["id"])
             item_counter += 1
             if item_counter > 5:
                 break
+        if dupes:
+            print("Dupes:")
+            pprint.pprint(dupes)
+            assert False
 
     def test_time_series_iter_scans_many_pages(self):
         """Test against scans endpoint."""
@@ -91,15 +110,24 @@ class TestIntegrationTimeSeries(object):
         item_key = "scans"
         streamer = cloudpassage.TimeSeries(session, start_time,
                                            start_url, item_key)
+        dupes = []
         item_counter = 0
         item_ids = set([])
         for item in streamer:
+            print("Item counter: %s Item ID: %s Item timestamp: %s" %
+                  (item_counter, item["id"], item["created_at"]))
             assert "id" in item
-            assert item["id"] not in item_ids
+            if item["id"] in item_ids:
+                print("Duplicate ^^^")
+                dupes.append(item["id"])
             item_ids.add(item["id"])
             item_counter += 1
             if item_counter > 5:
                 break
+        if dupes:
+            print("Dupes:")
+            pprint.pprint(dupes)
+            assert False
 
     def test_time_series_iter_events_many_pages_internal_killswitch(self):
         """Test triggering exit w/ StopIteration in TimeSeries().__iter__()"""
@@ -110,12 +138,21 @@ class TestIntegrationTimeSeries(object):
         item_key = "events"
         streamer = cloudpassage.TimeSeries(session, start_time,
                                            start_url, item_key)
+        dupes = []
         item_counter = 0
         item_ids = set([])
         for item in streamer:
+            print("Item counter: %s Item ID: %s Item timestamp: %s" %
+                  (item_counter, item["id"], item["created_at"]))
             assert "id" in item
-            assert item["id"] not in item_ids
+            if item["id"] in item_ids:
+                print("Duplicate ^^^")
+                dupes.append(item["id"])
             item_ids.add(item["id"])
             item_counter += 1
             if item_counter > 60:
                 streamer.stop = True  # This triggers a StopIteration
+        if dupes:
+            print("Dupes:")
+            pprint.pprint(dupes)
+            assert False
