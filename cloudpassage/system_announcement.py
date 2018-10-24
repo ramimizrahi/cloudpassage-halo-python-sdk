@@ -1,7 +1,7 @@
 """SyetemAnnouncement class"""
 
 
-from cloudpassage.http_helper import HttpHelper
+from .http_helper import HttpHelper
 
 
 class SystemAnnouncement(object):

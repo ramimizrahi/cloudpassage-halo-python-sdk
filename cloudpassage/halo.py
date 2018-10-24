@@ -6,12 +6,13 @@ CloudPassage Halo API.
 
 import base64
 import json
+import sys
 import threading
 import time
-import cloudpassage.utility as utility
+from .utility import Utility as utility
 import cloudpassage.sanity as sanity
-from cloudpassage.exceptions import CloudPassageAuthentication
-from cloudpassage.exceptions import CloudPassageValidation
+from .exceptions import CloudPassageAuthentication
+from .exceptions import CloudPassageValidation
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 import requests
@@ -20,15 +21,15 @@ import requests
 class HaloSession(object):
     """ Create a Halo API connection object.
 
-    On instantiation, it will attempt to authenticate \
-    against the Halo API using the apikey and apisecret \
-    provided, together with any overrides passed in through \
+    On instantiation, it will attempt to authenticate
+    against the Halo API using the apikey and apisecret
+    provided, together with any overrides passed in through
     kwargs.
 
     Args:
         apikey (str): API key, retrieved from your CloudPassage Halo account
-        apisecret (str): API key secret, found with your API key in your \
-        CloudPassage Halo account
+        apisecret (str): API key secret, found with your API key in your
+            CloudPassage Halo account
 
     Keyword Args:
         api_host (str): Override the API endpoint hostname. Defaults to
@@ -114,9 +115,10 @@ class HaloSession(object):
 
         ret_struct = {"https": ""}
         if port is not None:
-            ret_struct["https"] = "http://" + str(host) + ":" + str(port)
+            ret_struct["https"] = "http://{host}:{port}".format(host=host,
+                                                                port=port)
         else:
-            ret_struct["https"] = "http://" + str(host) + ":8080"
+            ret_struct["https"] = "http://{host}:8080".format(host=host)
         return ret_struct
 
     def get_auth_token(self, endpoint, headers):
@@ -158,9 +160,14 @@ class HaloSession(object):
         success = False
         prefix = self.build_endpoint_prefix()
         endpoint = prefix + "/oauth/access_token?grant_type=client_credentials"
-        combined = str(self.key_id) + ':' + str(self.secret)
-        encoded = base64.b64encode(combined)
-        headers = {"Authorization": str("Basic " + encoded)}
+        combined = "{key_id}:{secret}".format(key_id=self.key_id,
+                                              secret=self.secret)
+        if sys.version_info < (3, 0):
+            encoded = base64.b64encode(bytes(combined))
+        else:
+            encoded = base64.b64encode(bytes(combined, 'utf8')).decode()
+        auth_header = "Basic {}".format(encoded)
+        headers = {"Authorization": auth_header}
         max_tries = 5
         for _ in range(max_tries):
             token, scope = self.get_auth_token(endpoint, headers)
@@ -185,7 +192,8 @@ class HaloSession(object):
         if not sanity.validate_api_hostname(self.api_host):
             error_message = "Bad API hostname: %s" % self.api_host
             raise CloudPassageValidation(error_message)
-        prefix = "https://" + self.api_host + ":" + str(self.api_port)
+        prefix = "https://{host}:{port}".format(host=self.api_host,
+                                                port=self.api_port)
         return prefix
 
     def build_header(self):

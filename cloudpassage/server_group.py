@@ -1,9 +1,9 @@
 """ServerGroup class"""
 
-import cloudpassage.utility as utility
+from .utility import Utility as utility
 import cloudpassage.sanity as sanity
-from cloudpassage import HttpHelper
-from cloudpassage.halo_endpoint import HaloEndpoint
+from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
 class ServerGroup(HaloEndpoint):

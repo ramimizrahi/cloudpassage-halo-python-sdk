@@ -21,7 +21,7 @@ class TestIntegrationServer:
                                            api_port=api_port,
                                            integration_string="SDK-Smoke")
         server_object = cloudpassage.Server(session)
-        print key_id
+        print(key_id)
         return(server_object)
 
     def build_server_group_object(self):

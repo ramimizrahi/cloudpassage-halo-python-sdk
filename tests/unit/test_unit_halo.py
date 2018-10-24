@@ -1,6 +1,4 @@
 import cloudpassage
-import datetime
-import hashlib
 import os
 import re
 
@@ -16,12 +14,6 @@ api_hostname = session_info.api_hostname
 bad_key = "abad53c"
 proxy_host = '190.109.164.81'
 proxy_port = '1080'
-
-# This will make cleaning up easier...
-content_prefix = '_SDK_test-'
-
-content_name = str(content_prefix +
-                   str(hashlib.md5(str(datetime.datetime.now())).hexdigest()))
 
 
 class TestUnitHaloSession:
@@ -96,7 +88,7 @@ class TestUnitHaloSession:
         session.api_host = "apples.nonexist.nope.nada"
         try:
             session.build_endpoint_prefix()
-        except:
+        except cloudpassage.CloudPassageValidation:
             rejected = True
         assert rejected
 

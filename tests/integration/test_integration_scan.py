@@ -2,6 +2,7 @@ import cloudpassage
 import datetime
 import os
 import pytest
+from cloudpassage.utility import Utility as utility
 
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -295,7 +296,7 @@ class TestIntegrationScan:
         last week.  If no such records exist, this test will fail.
         """
         scan = self.build_scan_object()
-        until = cloudpassage.utility.time_string_now()
+        until = utility.time_string_now()
         since = datetime.datetime.utcnow() - datetime.timedelta(weeks=1)
         scan_list = scan.scan_history(max_pages=2, since=since, until=until)
         assert "id" in scan_list[0]

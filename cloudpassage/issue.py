@@ -1,8 +1,8 @@
 """Issue class"""
 
 import cloudpassage.sanity as sanity
-import cloudpassage.utility as utility
-from cloudpassage.http_helper import HttpHelper
+from .utility import Utility as utility
+from .http_helper import HttpHelper
 
 
 class Issue(object):
