@@ -5,6 +5,7 @@ import pytest
 import sys
 
 from datetime import datetime, timedelta
+from cloudpassage.utility import Utility as utility
 
 
 module_name = 'cloudpassage'
@@ -35,8 +36,8 @@ class TestIntegrationTimeSeries(object):
     def test_time_series_iter_events_many_pages_fail(self):
         """Test against events endpoint."""
         session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
+        start_time = utility.datetime_to_8601((datetime.now() -
+                                               timedelta(30)))
         start_url = "/v1/eventss"
         item_key = "events"
         with pytest.raises(cloudpassage.CloudPassageValidation):
@@ -48,8 +49,8 @@ class TestIntegrationTimeSeries(object):
     def test_time_series_iter_events_many_pages(self):
         """Test against events endpoint."""
         session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
+        start_time = utility.datetime_to_8601((datetime.now() -
+                                               timedelta(30)))
         start_url = "/v1/events"
         item_key = "events"
         streamer = cloudpassage.TimeSeries(session, start_time,
@@ -76,8 +77,8 @@ class TestIntegrationTimeSeries(object):
     def test_time_series_iter_issues_many_pages(self):
         """Test against issues endpoint."""
         session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
+        start_time = utility.datetime_to_8601((datetime.now() -
+                                               timedelta(30)))
         start_url = "/v1/issues"
         item_key = "issues"
         streamer = cloudpassage.TimeSeries(session, start_time,
@@ -104,8 +105,8 @@ class TestIntegrationTimeSeries(object):
     def test_time_series_iter_scans_many_pages(self):
         """Test against scans endpoint."""
         session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
+        start_time = utility.datetime_to_8601((datetime.now() -
+                                               timedelta(30)))
         start_url = "/v1/scans"
         item_key = "scans"
         streamer = cloudpassage.TimeSeries(session, start_time,
@@ -132,8 +133,8 @@ class TestIntegrationTimeSeries(object):
     def test_time_series_iter_events_many_pages_internal_killswitch(self):
         """Test triggering exit w/ StopIteration in TimeSeries().__iter__()"""
         session = self.get_halo_session()
-        start_time = cloudpassage.utility.datetime_to_8601((datetime.now() -
-                                                            timedelta(30)))
+        start_time = utility.datetime_to_8601((datetime.now() -
+                                               timedelta(30)))
         start_url = "/v1/events"
         item_key = "events"
         streamer = cloudpassage.TimeSeries(session, start_time,

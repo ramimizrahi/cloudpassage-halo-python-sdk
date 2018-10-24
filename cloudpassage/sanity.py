@@ -2,7 +2,8 @@
 
 import os
 import re
-from cloudpassage.exceptions import CloudPassageValidation
+import sys
+from .exceptions import CloudPassageValidation
 
 
 def validate_object_id(object_id):
@@ -20,21 +21,30 @@ def validate_object_id(object_id):
     """
 
     rex = re.compile('^[A-Za-z0-9]+$')
-    if isinstance(object_id, (str, unicode)):
+    if is_it_a_string(object_id):
         if not rex.match(object_id):
-            error_message = "Object ID failed validation: %s" % object_id
-            raise CloudPassageValidation(error_message)
+            msg = "Object ID failed validation: {}".format(object_id)
+            raise CloudPassageValidation(msg)
         else:
             return True
     elif isinstance(object_id, list):
         for individual in object_id:
             if not rex.match(individual):
-                error_message = "Object ID failed validation: %s" % object_id
-                raise CloudPassageValidation(error_message)
+                msg = "Object ID failed validation: {}".format(object_id)
+                raise CloudPassageValidation(msg)
         return True
     else:
-        error_message = "Wrong type for object ID: %s" % str(type(object_id))
-        raise TypeError(error_message)
+        msg = "Wrong type for object ID: {}".format(type(object_id))
+        raise TypeError(msg)
+
+
+def is_it_a_string(sample):
+    """Return boolean True if ``sample`` is a string, else return False."""
+
+    if sys.version_info < (3, 0):
+        return True if isinstance(sample, basestring) else False  # NOQA: F821
+    else:
+        return True if isinstance(sample, str) else False
 
 
 def validate_api_hostname(api_hostname):

@@ -1,6 +1,7 @@
 *.old
 *.local
 *.pyc
+.eggs/
 .cache
 tests/public
 cloudpassage.egg-info

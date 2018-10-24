@@ -20,9 +20,8 @@ proxy_port = '1080'
 
 # This will make cleaning up easier...
 content_prefix = 'SDK_test-'
-
-content_name = str(content_prefix +
-                   str(hashlib.md5(str(datetime.datetime.now())).hexdigest()))
+d_hash = hashlib.md5(datetime.datetime.now().isoformat().encode()).hexdigest()
+content_name = (content_prefix + d_hash)
 
 
 class TestIntegrationHaloSession:

@@ -22,14 +22,14 @@ class CloudPassageBaseException(Exception):
     def __init__(self, error_msg, **kwargs):
         if "code" in kwargs:
             self.code = massage_error_code(kwargs["code"])
-            self.msg = "%d %s" % (self.code, error_msg)
+            self.msg = "{code} {msg}".format(code=self.code, msg=error_msg)
             if "url" in kwargs:
                 self.msg += kwargs["url"]
         else:
             self.msg = error_msg
 
     def __str__(self):
-        return str(self.msg)
+        return "{}".format(self.msg)
 
 
 class CloudPassageAuthentication(CloudPassageBaseException):

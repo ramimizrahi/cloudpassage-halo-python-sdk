@@ -1,1 +1,143 @@
-{"fim_policy":{"name":"CPAPI TEST Core System Files (CentOS) v1","description":"This is a FIM policy for CentOS Linux servers and will work with CentOS 5, CentOS 6, and CentOS 7. This policy includes the standard CentOS directories that should be monitored for security and compliance purposes.\nRecommended for: General system security, PCI-DSS, HIPAA, SANS 20, SOC 2","platform":"linux","template":true,"rules":[{"target":"/","description":"Some kernel files are sometimes stored here","active":true,"recurse":false,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/bin","description":"/bin contains commands that may be used by both the system administrator and by users\n","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/boot","description":"This directory contains everything required for the boot process except configuration files not needed at boot time and the map installer.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/etc","description":"The /etc directory hierarchy contains configuration files. \n\n","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/lib","description":"Contains libraries used by the binaries in /bin and /sbin. This directory sometimes may include a very large number of files, for performance reasons it is suggested that this check is disabled.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/lib64","description":"This directory includes additional libraries used by binaries in /bin and /sbin that are specific to a 64-bit architecture.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/opt","description":"/opt is reserved for the installation of add-on application software packages and their configuration files.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/root","description":"This is the superuser's home directory.  If a superuser has critical files in their root home directories that they want to protect then make sure this rule is enabled.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/sbin","description":"System binaries. Utilities used for system administration (and other root-only commands) are stored in /sbin, /usr/sbin, and\n/usr/local/sbin.\n\n","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/usr/bin","description":"User binaries","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/usr/lib","description":"Includes libraries used by binaries in /usr/bin and /usr/sbin. This directory usually includes a very large number of files, for performance reasons it is suggested that this check is disabled.","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]},{"target":"/usr/sbin","description":"User system binaries","active":true,"recurse":true,"critical":false,"alert":false,"prelink":false,"patterns":[],"reference_identifiers":[]}],"active":false}}
+{
+  "fim_policy": {
+    "name": "CPAPI TEST Core System Files (CentOS) v1",
+    "description": "This is a FIM policy for CentOS Linux servers and will work with CentOS 5, CentOS 6, and CentOS 7. This policy includes the standard CentOS directories that should be monitored for security and compliance purposes.\nRecommended for: General system security, PCI-DSS, HIPAA, SANS 20, SOC 2",
+    "platform": "linux",
+    "template": true,
+    "rules": [
+      {
+        "target": "/",
+        "description": "Some kernel files are sometimes stored here",
+        "active": true,
+        "recurse": false,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/bin",
+        "description": "/bin contains commands that may be used by both the system administrator and by users\n",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/boot",
+        "description": "This directory contains everything required for the boot process except configuration files not needed at boot time and the map installer.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/etc",
+        "description": "The /etc directory hierarchy contains configuration files. \n\n",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/lib",
+        "description": "Contains libraries used by the binaries in /bin and /sbin. This directory sometimes may include a very large number of files, for performance reasons it is suggested that this check is disabled.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/lib64",
+        "description": "This directory includes additional libraries used by binaries in /bin and /sbin that are specific to a 64-bit architecture.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/opt",
+        "description": "/opt is reserved for the installation of add-on application software packages and their configuration files.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/root",
+        "description": "This is the superuser's home directory.  If a superuser has critical files in their root home directories that they want to protect then make sure this rule is enabled.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/sbin",
+        "description": "System binaries. Utilities used for system administration (and other root-only commands) are stored in /sbin, /usr/sbin, and\n/usr/local/sbin.\n\n",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/usr/bin",
+        "description": "User binaries",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/usr/lib",
+        "description": "Includes libraries used by binaries in /usr/bin and /usr/sbin. This directory usually includes a very large number of files, for performance reasons it is suggested that this check is disabled.",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      },
+      {
+        "target": "/usr/sbin",
+        "description": "User system binaries",
+        "active": true,
+        "recurse": true,
+        "critical": false,
+        "alert": false,
+        "prelink": false,
+        "patterns": [],
+        "reference_identifiers": []
+      }
+    ],
+    "active": false
+  }
+}

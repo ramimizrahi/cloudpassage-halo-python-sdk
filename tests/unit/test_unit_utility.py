@@ -4,7 +4,7 @@ import json
 import os
 import re
 
-utility = cloudpassage.utility
+utility = cloudpassage.utility.Utility
 policy_file_name = "firewall.json"
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -128,14 +128,29 @@ class TestUnitUtility:
         assert "something" in result
         assert "cats" not in result
 
-    def test_verify_python_version_pass(self):
+    def test_verify_python_version_pass_v2(self):
         actual = "2.7.99"
-        target = "2.7.10"
+        target = {"2": "2.7.10", "3": "3.7.0"}
+        assert utility.verify_python_version(actual, target)
+
+    def test_verify_python_version_pass_v37(self):
+        actual = "3.7.0"
+        target = {"2": "2.7.10", "3": "3.7.0"}
         assert utility.verify_python_version(actual, target)
 
     def test_verify_python_version_fail(self):
         actual = "2.4.9"
-        target = "2.7.10"
+        target = {"2": "2.7.10", "3": "3.7.0"}
+        assert not utility.verify_python_version(actual, target)
+
+    def test_verify_python_version_fail_31(self):
+        actual = "3.1.0"
+        target = {"2": "2.7.10", "3": "3.7.0"}
+        assert not utility.verify_python_version(actual, target)
+
+    def test_verify_python_version_fail_v1(self):
+        actual = "1.0"
+        target = {"2": "2.7.10", "3": "3.7.0"}
         assert not utility.verify_python_version(actual, target)
 
     def test_get_installed_python_version(self):

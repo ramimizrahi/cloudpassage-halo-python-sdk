@@ -3,8 +3,8 @@ and FirewallInterface classes
 """
 
 import cloudpassage.sanity as sanity
-from cloudpassage.http_helper import HttpHelper
-from cloudpassage.halo_endpoint import HaloEndpoint
+from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
 class FirewallPolicy(HaloEndpoint):

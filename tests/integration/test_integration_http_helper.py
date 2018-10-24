@@ -18,8 +18,8 @@ api_port = session_info.api_port
 nonexistent_url = "/v1/does_not_exist"
 # This will make cleaning up easier...
 content_prefix = '_SDK_test-'
-content_name = str(content_prefix +
-                   str(hashlib.md5(str(datetime.datetime.now())).hexdigest()))
+d_hash = hashlib.md5(datetime.datetime.now().isoformat().encode()).hexdigest()
+content_name = (content_prefix + d_hash)
 
 
 class TestIntegrationGet:

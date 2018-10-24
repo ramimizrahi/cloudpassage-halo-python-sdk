@@ -1,7 +1,7 @@
 """LidsPolicy class"""
 
 
-from cloudpassage.halo_endpoint import HaloEndpoint
+from .halo_endpoint import HaloEndpoint
 
 
 class LidsPolicy(HaloEndpoint):

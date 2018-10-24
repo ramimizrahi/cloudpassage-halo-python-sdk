@@ -1,9 +1,13 @@
 import operator
 import time
-import urllib
-from http_helper import HttpHelper
+from .http_helper import HttpHelper
 from multiprocessing.dummy import Pool as ThreadPool
-from cloudpassage.exceptions import CloudPassageValidation
+from .exceptions import CloudPassageValidation
+# urllib in py 2 vs 3 is quite different...
+try:
+    from urllib import urlencode
+except ImportError:
+    from urllib.parse import urlencode
 
 
 class TimeSeries(object):
@@ -46,7 +50,7 @@ class TimeSeries(object):
         """Yields one item from a time-series query against Halo. Forever."""
         while True:
             if self.stop:
-                raise StopIteration
+                return
             for item in self.get_next_batch():
                 yield item
 
@@ -190,7 +194,7 @@ class TimeSeries(object):
         helper = HttpHelper(self.session)
         path, args = get_tup[0], get_tup[1]
         url = "{path}?{opts}".format(path=path,
-                                     opts=urllib.urlencode(dict(args)))
+                                     opts=urlencode(dict(args)))
         results = helper.get(url)
         return results
 

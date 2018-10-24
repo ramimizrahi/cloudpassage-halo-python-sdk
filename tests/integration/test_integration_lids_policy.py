@@ -1,6 +1,7 @@
 import cloudpassage
 import json
 import os
+from cloudpassage.utility import Utility as utility
 
 policy_file_name = "core-system-centos-v1-1.lids.json"
 config_file_name = "portal.yaml.local"
@@ -57,7 +58,7 @@ class TestIntgrationLidsPolicy:
         request = self.build_lids_policy_object()
         with open(policy_file, 'r') as policy_file_object:
             policy_body = policy_file_object.read()
-        pol_meta = cloudpassage.utility.determine_policy_metadata(policy_body)
+        pol_meta = utility.determine_policy_metadata(policy_body)
         self.remove_policy_by_name(pol_meta["policy_name"])
         policy_id = request.create(policy_body)
         request.delete(policy_id)

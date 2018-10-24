@@ -83,7 +83,7 @@ class ApiKeyManager(object):
         try:
             if 65535 > int(config_variables["api_port"]) > 0:
                 self.api_port = int(config_variables["api_port"])
-        except:
+        except:  # NOQA
             self.api_port = 443
         return
 
@@ -95,7 +95,7 @@ class ApiKeyManager(object):
                 session_yaml = yaml.load(y_config_file)['defaults']
         except IOError:
             error_message = "Unable to load config from file: %s" % config_file
-            print error_message
+            print(error_message)
         return session_yaml
 
     def get_config_from_env(self):

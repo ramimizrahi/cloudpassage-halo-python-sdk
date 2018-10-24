@@ -1,6 +1,6 @@
 """ConfigurationPolicy class"""
 
-from cloudpassage.halo_endpoint import HaloEndpoint
+from .halo_endpoint import HaloEndpoint
 
 
 class ConfigurationPolicy(HaloEndpoint):

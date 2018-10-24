@@ -19,7 +19,7 @@ class TestUnitSanity:
                             "../../servers/951ffd865e4f11e59ba055477bd3e999"]
         try:
             sanity.validate_object_id(sample_object_id)
-        except:
+        except cloudpassage.CloudPassageValidation:
             rejected = True
         assert rejected
 
@@ -28,7 +28,7 @@ class TestUnitSanity:
         sample_object_id = "../../servers/951ffd865e4f11e59ba055477bd3e868"
         try:
             sanity.validate_object_id(sample_object_id)
-        except:
+        except cloudpassage.CloudPassageValidation:
             rejected = True
         assert rejected
 
@@ -37,7 +37,7 @@ class TestUnitSanity:
         sample_object_id = ("Tuple", "of", ["Things", "AndStuff"])
         try:
             sanity.validate_object_id(sample_object_id)
-        except:
+        except TypeError:
             rejected = True
         assert rejected
 
