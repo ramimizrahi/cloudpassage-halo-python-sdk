@@ -55,7 +55,22 @@ Environmental Requirements
 Running tests automagically
 ---------------------------
 
-Build the container and run it.  If you run it with no environment variables,
+Build the container and run it.
+
+::
+ docker build -t cloudpassage_halo_python_sdk .
+
+ docker run \
+     -it \
+     --rm \
+     -e HALO_API_KEY=${HALO_API_KEY} \
+     -e HALO_API_SECRET_KEY=${HALO_API_SECRET_KEY} \
+     -e HALO_API_HOSTNAME=${HALO_API_HOSTNAME} \
+     -e HALO_API_PORT=${HALO_API_PORT} \
+     cloudpassage_halo_python_sdk \
+     /source/codeclimate.sh
+
+If you run it with no environment variables,
 it will only run unit and style tests.  If you pass in `$HALO_API_KEY` and
 `$HALO_API_SECRET_KEY`, it will run integration tests as well.  You can use
 `$HALO_API_HOSTNAME` and `$HALO_API_PORT` to override the default settings
@@ -63,4 +78,6 @@ of `api.cloudpassage.com` and `443`, respectively.  These variables are
 written into the `tests/config/portal.yaml.local` file using envsubst.
 The exit code encountered in testing is what you'll get out when the container
 exits.
-**This is the preferred method of testing**
+
+For more detailed information, check out the .travis.yml file in the github
+repository.

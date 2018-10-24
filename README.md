@@ -23,7 +23,7 @@
 
 Requirements:
 
-* Python 2.7.10 or newer (CloudPassage Halo Python SDK is not compatible with Python 3)
+* Python 2.7.10+ or 3.7
 * OpenSSL 1.0.2 or newer
 * requests 2.18 or newer
 * pyaml
