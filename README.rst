@@ -33,6 +33,7 @@ Installation
 
 Requirements:
 
+* Python 2.7.10+ or Python 3.7
 * requests
 * pyaml
 
