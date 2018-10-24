@@ -1,24 +1,110 @@
 Changelog
 =========
 
+
+v1.2
+----
+
+New
+~~~
+- Python 3.7 support. [Ash Wilson]
+
+Changes
+~~~~~~~
+- Improved deduplication in TimeSeries class. [Ash Wilson]
+
+  Expanded deduplication routine to compare against prior
+  batch of objects from API. In some extremely rare circumstances,
+  multiple different events with the exact same timestamp would slip
+  through the deduplication routine `TimeSeries.remove_duplicate_items`.
+  This patch improves deduplication while still using the object's
+  timestamp as a cursor.
+
+  Closes #142
+- Improve documentation of Server() instance methods. [Ash Wilson]
+
+
+v1.1.5 (2018-09-15)
+-------------------
+
+New
+~~~
+- Use connection pooling. [Ash Wilson]
+
+  The SDK now uses connection pooling via the requests.Session() object. This
+  brings performance benefits as the SDK will no longer need to open a new TLS
+  connection for every interaction with the CloudPassage API.
+
+  Connection pool minimum of 1, max of 10 concurrent connections in session.
+  Closes #112
+
+  Exponential backoff implemented via requests, 5 tries max.
+
+  Retry happens in requests via HTTPAdapter for everything but re-auth, which is caught and retried in SDK.
+  Closes #113
+
+  Migrated CI testing environment.
+  Closes #114
+
+Changes
+~~~~~~~
+- Codeclimate coverage for master branch. [Ash Wilson]
+
+  Closes #121
+- Testing matrix includes Python2.7.10 and 2.7.15. [Ash Wilson]
+
+  We can add more over time, as the need arises. Adding
+  another version of Python adds around 12 minutes to total
+  CI time per commit, and tests cannot be run in parallel.
+  Closes #115
+- Updated requests version pin to >=2.18. [Ash Wilson]
+
+  Removed requirements.txt file, which was unnecessary. The
+  setup.py file is used by easy_install to ensure dependencies
+  are in place.
+  Closes #118
+
+Other
+~~~~~
+- Use uuid to generate random alert profile and server group name. [Hana
+  Lee]
+
+
 v1.1.4 (2018-03-12)
 -------------------
-- Bug Fix: set default hostname if empty. [Ash Wilson]
+- V1.1.4. [Jye Lee]
 
 
-v1.1.3 (2018-03-07)
+v1.1.3 (2018-03-08)
 -------------------
-- CS-479 Add CloudPassageRateLimit Exception Class. [Jye Lee]
-- Add Timeseries.stop() [Ash Wilson]
+- V1.1.3. [Jye Lee]
+
+  CS-479 add 429 exception
+  chg: usr: Add TimeSeries().stop, which allows a cleaner exit for event/scan/issue streams.
+- V1.1.2 added merge multiple servers to server group. [Hana Lee]
+- CS-458 Python SDK: Move multiple servers into a target group. [Hana
+  Lee]
 
 
 v1.1.2 (2018-02-26)
 -------------------
+- V1.1.2 added merge multiple servers to server group. [Hana Lee]
+- CS-458 Python SDK: Move multiple servers into a target group. [Hana
+  Lee]
+
+
+v1.1.1 (2018-02-17)
+-------------------
+
+Changes
+~~~~~~~
 - Adding tests for TimeSeries() for events, scans, and issues endpoints.
   [Ash Wilson]
 - Adding docs for TimeSeries class. [Ash Wilson]
-- CS-458 Python SDK: Move multiple servers into a target group. [Hana
-  Lee]
+
+Other
+~~~~~
+- V1.1.1. [Jye Lee]
 
 
 v1.1 (2018-01-05)
