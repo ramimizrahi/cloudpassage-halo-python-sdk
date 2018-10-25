@@ -35,7 +35,7 @@ class TestUnitScan:
         for status in bad_statuses:
             try:
                 accepted = scanner.verify_and_build_status_params(status)
-            except:
+            except cloudpassage.CloudPassageValidation:
                 accepted = False
             assert accepted is False
         for status in good_statuses:
@@ -53,7 +53,7 @@ class TestUnitScan:
             for status in bad_modules:
                 try:
                     accepted = scanner.verify_and_build_module_params(status)
-                except:
+                except cloudpassage.CloudPassageValidation:
                     accepted = False
                 assert accepted is False
             for status in good_modules:

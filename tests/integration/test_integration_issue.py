@@ -119,8 +119,8 @@ class TestIntegrationIssue:
             assert issue["critical"]
 
     def test_get_issue_by_noncritical(self):
-        """This test requires at least one active non-critical issue in your Halo
-        account.  If you have no non-critical issues, this test will fail.
+        """This test requires at least one active non-critical issue in your
+        Halo account.  If you have no non-critical issues, this test will fail.
         """
         i = self.build_issue_object()
         issue_list = i.list_all(critical=False)
@@ -130,14 +130,14 @@ class TestIntegrationIssue:
             assert issue["critical"] is False
 
     def test_get_issue_by_policy_id(self):
-        """This test requires at least one active issue with a policy id in your Halo
-            account else this test will fail.
+        """This test requires at least one active issue with a policy id in
+        your Halo account else this test will fail.
         """
         i = self.build_issue_object()
         issue_list = i.list_all(critical=False)
-        assert issue_list is not None
-
+        assert issue_list
         for issue in issue_list:
+            print(issue["policy_id"])
             if issue["policy_id"] != "null_value":
                 policy_id = issue["policy_id"]
                 break

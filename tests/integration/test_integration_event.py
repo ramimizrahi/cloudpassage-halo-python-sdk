@@ -1,6 +1,7 @@
 import cloudpassage
 import datetime
 import os
+from cloudpassage.utility import Utility as utility
 
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -41,7 +42,7 @@ class TestIntegrationEvent:
 
     def test_one_day_ago_until_now(self):
         event = self.create_event_obj()
-        until = cloudpassage.utility.time_string_now()
+        until = utility.time_string_now()
         since = datetime.datetime.utcnow() - datetime.timedelta(days=1)
         event_list = event.list_all(10, since=since, until=until)
         assert "id" in event_list[0]

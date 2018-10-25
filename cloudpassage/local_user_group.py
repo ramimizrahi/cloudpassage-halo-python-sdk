@@ -1,7 +1,7 @@
 """LocalUserGroup Class"""
 
-import cloudpassage.utility as utility
-from cloudpassage.http_helper import HttpHelper
+from .utility import Utility as utility
+from .http_helper import HttpHelper
 
 
 class LocalUserGroup(object):

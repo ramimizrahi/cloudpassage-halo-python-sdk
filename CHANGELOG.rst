@@ -2,8 +2,30 @@ Changelog
 =========
 
 
-v1.1.5
-------
+v1.2
+----
+
+New
+~~~
+- Python 3.7 support. [Ash Wilson]
+
+Changes
+~~~~~~~
+- Improved deduplication in TimeSeries class. [Ash Wilson]
+
+  Expanded deduplication routine to compare against prior
+  batch of objects from API. In some extremely rare circumstances,
+  multiple different events with the exact same timestamp would slip
+  through the deduplication routine `TimeSeries.remove_duplicate_items`.
+  This patch improves deduplication while still using the object's
+  timestamp as a cursor.
+
+  Closes #142
+- Improve documentation of Server() instance methods. [Ash Wilson]
+
+
+v1.1.5 (2018-09-15)
+-------------------
 
 New
 ~~~

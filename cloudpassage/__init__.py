@@ -34,15 +34,15 @@ from cloudpassage.server_group import ServerGroup  # noqa: F401
 from cloudpassage.special_events_policy import SpecialEventsPolicy  # NOQA
 from cloudpassage.system_announcement import SystemAnnouncement  # noqa: F401
 from cloudpassage.time_series import TimeSeries  # noqa: F401
-import utility as init_util
+from cloudpassage.utility import Utility as init_util
 
 
-minimum = "2.7.10"
+minimum = {"2": "2.7.10", "3": "3.7.0"}
 installed = init_util.get_installed_python_version()
 if init_util.verify_python_version(installed, minimum) is False:
     err_msg = "Warning: Minimum supported Python version %s" % minimum
-    print err_msg
+    print(err_msg)
 
 __author__ = "CloudPassage"
-__version__ = "1.1.5"
+__version__ = "1.2"
 __license__ = "BSD"

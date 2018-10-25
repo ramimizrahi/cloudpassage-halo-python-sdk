@@ -1,1 +1,230 @@
-{"lids_policy":{"id":"cec1b0dc695f11e5941a13ee8436bb31","name":"CPAPI TEST Core System (CentOS) v1.1","description":"This is a LIDS policy for CentOS Linux servers.\nThis policy can be used with CentOS 5, CentOS 6, and CentOS 7.\nRecommended for: General system security, PCI-DSS, HIPAA, SANS 20, SOC 2","platform":"linux","template":true,"retired":false,"used_by":[],"url":"https://portal.cloudpassage.com/v1/lids_policies/cec1b0dc695f11e5941a13ee8436bb31","rules":[{"name":"User ID (UID) was modified","kind":"text","search_pattern":"change user '.+' UID from","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"System time change attempt","kind":"text","search_pattern":"USER=.*\\s;\\sCOMMAND=\\/bin\\/date","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Successful root logon using a key","kind":"text","search_pattern":"Accepted publickey for root from","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Successful root login","kind":"text","search_pattern":"Accepted password for root from","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Software was removed","kind":"text","search_pattern":"Erased:\\s","critical":false,"active":true,"alert":false,"file_path":"/var/log/yum.log"},{"name":"Software was installed","kind":"text","search_pattern":"Installed:\\s","critical":false,"active":true,"alert":false,"file_path":"/var/log/yum.log"},{"name":"Potential account brute-force attempt","kind":"text","search_pattern":"Too many authentication failures from","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Potential SYN flooding detected","kind":"text","search_pattern":"possible SYN flooding on port","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Potential SSH brute-force attempt","kind":"text","search_pattern":"POSSIBLE BREAK\\-IN ATTEMPT!","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Password was changed","kind":"text","search_pattern":"password changed for","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Password for root was changed","kind":"text","search_pattern":"password changed for root","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Multiple failed sudo attempts","kind":"text","search_pattern":"3 incorrect password attempts","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Invalid user login attempt","kind":"text","search_pattern":"input_userauth_request: invalid user","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Interface entered promiscuous mode","kind":"text","search_pattern":"entered promiscuous mode","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Group was added to a user account","kind":"text","search_pattern":"add '.+' to group","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Group ID (GID) was modified","kind":"text","search_pattern":"group changed in.*new gid:","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Failed root login attempt using su","kind":"text","search_pattern":"su: pam_unix(su:auth): authentication failure;.*user=root","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Failed root login attempt","kind":"text","search_pattern":"FAILED LOGIN SESSION FROM (.*) FOR root","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Failed login attempt","kind":"text","search_pattern":"Failed password for","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Bad protocol version detected","kind":"text","search_pattern":"Bad protocol version identification","critical":true,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Account was modified","kind":"text","search_pattern":"change user","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Account was created","kind":"text","search_pattern":"new user: name=","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Account was added to 'root'","kind":"text","search_pattern":"add '.+' to group 'root'","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"},{"name":"Account was added to 'adm'","kind":"text","search_pattern":"add '.+' to group 'adm'","critical":false,"active":true,"alert":false,"file_path":"/var/log/secure"}]}}
+{
+  "lids_policy": {
+    "id": "cec1b0dc695f11e5941a13ee8436bb31",
+    "name": "CPAPI TEST Core System (CentOS) v1.1",
+    "description": "This is a LIDS policy for CentOS Linux servers.\nThis policy can be used with CentOS 5, CentOS 6, and CentOS 7.\nRecommended for: General system security, PCI-DSS, HIPAA, SANS 20, SOC 2",
+    "platform": "linux",
+    "template": true,
+    "retired": false,
+    "used_by": [],
+    "url": "https://portal.cloudpassage.com/v1/lids_policies/cec1b0dc695f11e5941a13ee8436bb31",
+    "rules": [
+      {
+        "name": "User ID (UID) was modified",
+        "kind": "text",
+        "search_pattern": "change user '.+' UID from",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "System time change attempt",
+        "kind": "text",
+        "search_pattern": "USER=.*\\s;\\sCOMMAND=\\/bin\\/date",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Successful root logon using a key",
+        "kind": "text",
+        "search_pattern": "Accepted publickey for root from",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Successful root login",
+        "kind": "text",
+        "search_pattern": "Accepted password for root from",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Software was removed",
+        "kind": "text",
+        "search_pattern": "Erased:\\s",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/yum.log"
+      },
+      {
+        "name": "Software was installed",
+        "kind": "text",
+        "search_pattern": "Installed:\\s",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/yum.log"
+      },
+      {
+        "name": "Potential account brute-force attempt",
+        "kind": "text",
+        "search_pattern": "Too many authentication failures from",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Potential SYN flooding detected",
+        "kind": "text",
+        "search_pattern": "possible SYN flooding on port",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Potential SSH brute-force attempt",
+        "kind": "text",
+        "search_pattern": "POSSIBLE BREAK\\-IN ATTEMPT!",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Password was changed",
+        "kind": "text",
+        "search_pattern": "password changed for",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Password for root was changed",
+        "kind": "text",
+        "search_pattern": "password changed for root",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Multiple failed sudo attempts",
+        "kind": "text",
+        "search_pattern": "3 incorrect password attempts",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Invalid user login attempt",
+        "kind": "text",
+        "search_pattern": "input_userauth_request: invalid user",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Interface entered promiscuous mode",
+        "kind": "text",
+        "search_pattern": "entered promiscuous mode",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Group was added to a user account",
+        "kind": "text",
+        "search_pattern": "add '.+' to group",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Group ID (GID) was modified",
+        "kind": "text",
+        "search_pattern": "group changed in.*new gid:",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Failed root login attempt using su",
+        "kind": "text",
+        "search_pattern": "su: pam_unix(su:auth): authentication failure;.*user=root",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Failed root login attempt",
+        "kind": "text",
+        "search_pattern": "FAILED LOGIN SESSION FROM (.*) FOR root",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Failed login attempt",
+        "kind": "text",
+        "search_pattern": "Failed password for",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Bad protocol version detected",
+        "kind": "text",
+        "search_pattern": "Bad protocol version identification",
+        "critical": true,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Account was modified",
+        "kind": "text",
+        "search_pattern": "change user",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Account was created",
+        "kind": "text",
+        "search_pattern": "new user: name=",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Account was added to 'root'",
+        "kind": "text",
+        "search_pattern": "add '.+' to group 'root'",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      },
+      {
+        "name": "Account was added to 'adm'",
+        "kind": "text",
+        "search_pattern": "add '.+' to group 'adm'",
+        "critical": false,
+        "active": true,
+        "alert": false,
+        "file_path": "/var/log/secure"
+      }
+    ]
+  }
+}

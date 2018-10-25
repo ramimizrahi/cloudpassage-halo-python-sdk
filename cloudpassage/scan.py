@@ -1,9 +1,9 @@
 """Scan and CveException classes"""
 
 import cloudpassage.sanity as sanity
-import cloudpassage.utility as utility
-from cloudpassage.exceptions import CloudPassageValidation
-from cloudpassage.http_helper import HttpHelper
+from .utility import Utility as utility
+from .exceptions import CloudPassageValidation
+from .http_helper import HttpHelper
 
 
 class Scan(object):

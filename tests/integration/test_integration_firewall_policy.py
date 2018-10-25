@@ -1,6 +1,6 @@
 import cloudpassage
 import os
-import cloudpassage.utility
+from cloudpassage.utility import Utility as utility
 
 policy_file_name = "firewall.json"
 config_file_name = "portal.yaml.local"
@@ -109,7 +109,7 @@ class TestIntegrationFirewallPolicy:
 
     def test_firewall_policy_create_update_delete(self):
         firewall_policy = create_firewall_policy_object()
-        pol_meta = cloudpassage.utility.determine_policy_metadata(
+        pol_meta = utility.determine_policy_metadata(
             firewall_policy_body)
         remove_policy_by_name(pol_meta["policy_name"])
         remove_policy_by_name("NewName")
@@ -151,7 +151,7 @@ class TestIntegrationFirewallRule:
         del rule_imported["url"]
         rule_imported["position"] = 1
         rule_body = {"firewall_rule": rule_imported}
-        print rule_body
+        print(rule_body)
         target_rule_id = firewall_rule.create(target_policy_id, rule_body)
         modification_error = firewall_rule.update(target_policy_id,
                                                   target_rule_id,

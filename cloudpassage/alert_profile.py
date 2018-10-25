@@ -1,7 +1,7 @@
 """AlertProfile class"""
-from cloudpassage.halo_endpoint import HaloEndpoint
-from cloudpassage.http_helper import HttpHelper
-import cloudpassage.utility as utility
+from .halo_endpoint import HaloEndpoint
+from .http_helper import HttpHelper
+from .utility import Utility as utility
 
 
 class AlertProfile(HaloEndpoint):

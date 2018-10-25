@@ -2,9 +2,13 @@
 GET / POST / PUT / DELETE requests against API.
 """
 
-import urlparse
-from cloudpassage.exceptions import CloudPassageValidation
-import cloudpassage.utility as utility
+from .exceptions import CloudPassageValidation
+from .utility import Utility as utility
+# This is for Python 3 compatibility
+try:
+    from urllib.parse import urlsplit
+except ImportError:
+    from urlparse import urlsplit
 
 
 class HttpHelper(object):
@@ -122,8 +126,8 @@ class HttpHelper(object):
         if "pagination" in page:
             if "next" in page["pagination"]:
                 nextpage = page["pagination"]["next"]
-                endpoint = str(urlparse.urlsplit(nextpage)[2] + "?" +
-                               urlparse.urlsplit(nextpage)[3])
+                endpoint = "{}?{}".format(urlsplit(nextpage)[2],
+                                          urlsplit(nextpage)[3])
                 next_page = endpoint
         return response_accumulator, next_page
 
