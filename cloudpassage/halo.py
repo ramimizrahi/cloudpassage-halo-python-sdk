@@ -1,7 +1,6 @@
 """HaloSession class.
 
-Manages session configuration information for interacting with the
-CloudPassage Halo API.
+Manage session configuration for interacting with the CloudPassage Halo API.
 """
 
 import base64
@@ -21,10 +20,9 @@ import requests
 class HaloSession(object):
     """ Create a Halo API connection object.
 
-    On instantiation, it will attempt to authenticate
-    against the Halo API using the apikey and apisecret
-    provided, together with any overrides passed in through
-    kwargs.
+    On instantiation, it will attempt to authenticate against the Halo API
+    using the apikey and apisecret provided, together with any overrides passed
+    in through kwargs.
 
     Args:
         apikey (str): API key, retrieved from your CloudPassage Halo account
@@ -106,11 +104,10 @@ class HaloSession(object):
 
     @classmethod
     def build_proxy_struct(cls, host, port):
-        """This builds a structure describing the environment's HTTP
-        proxy requirements.
+        """Return a structure describing the environment's HTTP proxy settings.
 
-        It returns a dictionary object that can be passed to the
-        requests module.
+        It returns a dictionary object that can be passed to the requests
+        module.
         """
 
         ret_struct = {"https": ""}
@@ -122,16 +119,16 @@ class HaloSession(object):
         return ret_struct
 
     def get_auth_token(self, endpoint, headers):
-        """This method takes endpoint and header info, and returns the
-        oauth token and scope.
+        """Returns the oauth token and scope.
 
         Args:
             endpoint (str): Full URL, including schema.
-            headers (dict): Dictionary, containing header with encoded \
-            credentials.
+            headers (dict): Dictionary, containing header with encoded
+                credentials.
+                Example: {"Authorization": str("Basic " + encoded)}
 
-        Example:
-            {"Authorization": str("Basic " + encoded)}
+        Returns:
+            tuple: token, scope
         """
 
         token = None
@@ -218,7 +215,7 @@ class HaloSession(object):
             endpoint (str): URL- everything past api.cloudpassage.com.
             params (list of dict): This is a list of dictionary objects,
                 represented like this: [{"k1": "two,too"}]
-            reqbody (dict): Dictionary to be converted to JSON for insertion \
+            reqbody (dict): Dictionary to be converted to JSON for insertion
                 as payload for request.
 
         Returns:

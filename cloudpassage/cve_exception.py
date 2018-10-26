@@ -41,9 +41,9 @@ class CveExceptions(HaloEndpoint):
             package_version (str): The version number of the
                                    vulnerable package.
             scope (str): Possible values are server, group and all.
-            scope_id (str): If you pass the value server as scope,
-            this field will include server ID. If you pass the value
-            group as scope, this field will include group ID.
+            scope_id (str): If you pass the value server as scope, this field
+                will include server ID. If you pass the value group as scope,
+                this field will include group ID.
 
         Returns:
             str: ID of the newly-created cve exception
@@ -79,10 +79,10 @@ class CveExceptions(HaloEndpoint):
 
         Keyword Args:
             scope (str): Possible values are server, group and all.
-            group_id (str): The ID of the server group containing the
-            server to which this exception applies.
-            server_id (str): The ID of the server to which
-            this exception applies.
+            group_id (str): The ID of the server group containing the server to
+                which this exception applies.
+            server_id (str): The ID of the server to which this exception
+                applies.
             cve_entries : List of CVEs
 
         Returns:
@@ -103,10 +103,9 @@ class CveException(HaloEndpoint):
     """Initializing the CveException class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 

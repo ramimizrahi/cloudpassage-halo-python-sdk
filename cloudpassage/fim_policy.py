@@ -6,7 +6,11 @@ from .http_helper import HttpHelper
 
 
 class FimPolicy(HaloEndpoint):
-    """Initializing the FimPolicy class:
+    """FimPolicy class:
+
+    The list_all() method allows filtering of results with keyword arguments.
+    An exhaustive list of keyword arguments can be found here:
+    https://api-doc.cloudpassage.com/help#file-integrity-policies
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you
@@ -37,10 +41,9 @@ class FimBaseline(object):
     """Initializing the FimBaseline class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 

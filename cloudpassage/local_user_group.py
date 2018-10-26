@@ -8,10 +8,9 @@ class LocalUserGroup(object):
     """Initializing the LocalUserGroup class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -26,28 +25,28 @@ class LocalUserGroup(object):
         to 500 local user groups.
 
         Keyword Args:
-            group_id (list or str): A list of local user groups \
-            in the according server group
-            server_id (list or str): A list of local user groups \
-            in the according server
-            os_type (list or str): A list of local user groups \
-            in the according os type
-            name (list or str): A list of local user groups \
-            with the according name
-            memebers (list or str): A list of local user groups \
-            with the according members
-            comment (str):  A list of local user groups \
-            with the according comment
-            member_name (list or str): A list of local user groups \
-            with the according member names
-            server_name (list or str): A list of local user groups \
-            with the according server name
-            server_label (list or str): A list of local user groups \
-            with the according server label
-            gid (list or str): A list of local user groups \
-            with the according gid
-            sid (list or str): A list of local user groups \
-            with the according sid
+            group_id (list or str): A list of local user groups in the
+                according server group
+            server_id (list or str): A list of local user groups in the
+                according server
+            os_type (list or str): A list of local user groups in the according
+                os type
+            name (list or str): A list of local user groups with the according
+                name
+            memebers (list or str): A list of local user groups with the
+                according members
+            comment (str):  A list of local user groups with the according
+                comment
+            member_name (list or str): A list of local user groups with the
+                according member names
+            server_name (list or str): A list of local user groups with the
+                according server name
+            server_label (list or str): A list of local user groups with the
+                according server label
+            gid (list or str): A list of local user groups with the according
+                gid
+            sid (list or str): A list of local user groups with the according
+                sid
 
         Returns:
             list: List of dictionary objects describing local user groups
@@ -66,8 +65,8 @@ class LocalUserGroup(object):
         """Get local user group deatils by server id and gid
 
         Args:
-            server_id = Server ID
-            gid = gid
+            server_id (str): ID of server to retrieve group information for.
+            gid (str): ID of group to query, for server with `server_id`
 
         Returns:
             list: List of dictionary object describing local user group detail
