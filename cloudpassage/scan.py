@@ -10,10 +10,9 @@ class Scan(object):
     """Initializing the Scan class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -69,9 +68,8 @@ class Scan(object):
             sv   - Agent self-verifiation scan
 
         Returns:
-            dict: Dictionary describing command created as a result of this \
-            call
-            Failure throws an exception.
+            dict: Dictionary describing command created as a result of this
+                call. Failure throws an exception.
         """
 
         sanity.validate_object_id(server_id)
@@ -123,11 +121,11 @@ class Scan(object):
             server_id (str): Id of server
             module (str or list): sca, fim, svm, sam
             status (str or list): queued, pending, running, completed_clean,
-            completed_with_errors, failed
-            since (str): ISO 8601 formatted string representing the starting \
-            date and time for query
-            until (str): ISO 8601 formatted string representing the ending \
-            date and time for query
+                completed_with_errors, failed
+            since (str): ISO 8601 formatted string representing the starting
+                date and time for query
+            until (str): ISO 8601 formatted string representing the ending
+                date and time for query
             max_pages (int): maximum number of pages to fetch.  Default: 20.
 
         Returns:

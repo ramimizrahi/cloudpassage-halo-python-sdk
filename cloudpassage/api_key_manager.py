@@ -43,8 +43,8 @@ class ApiKeyManager(object):
         use_config (boolean): set True is hoping to use config_file
 
     Attributes:
-        api_hostname: Hostname of api endpoint. \
-        Defaults to api.cloudpassage.com
+        api_hostname: Hostname of api endpoint. Defaults to
+            api.cloudpassage.com
         api_port: API port.  Defaults to 443
         key_id: API key ID
         secret_key: API key secret
@@ -75,7 +75,7 @@ class ApiKeyManager(object):
         return
 
     def set_config_variables(self, config_variables):
-        """Sets configuration vars for object"""
+        """Set configuration vars for object"""
         self.key_id = config_variables["key_id"]
         self.secret_key = config_variables["secret_key"]
         if sanity.validate_api_hostname(config_variables["api_hostname"]):
@@ -88,7 +88,7 @@ class ApiKeyManager(object):
         return
 
     def get_config_from_file(self, config_file):
-        """Extracts config from file"""
+        """Return config from file"""
         session_yaml = None
         try:
             with open(self.config_file) as y_config_file:
@@ -99,7 +99,7 @@ class ApiKeyManager(object):
         return session_yaml
 
     def get_config_from_env(self):
-        """Derives config information from environment vars"""
+        """Return config information from environment vars"""
         config = None
         env_variables = {"key_id": os.getenv("HALO_API_KEY"),
                          "secret_key": os.getenv("HALO_API_SECRET_KEY"),

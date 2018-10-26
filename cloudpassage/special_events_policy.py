@@ -8,10 +8,9 @@ class SpecialEventsPolicy(HaloEndpoint):
     """Initializing the SpecialEventsPolicy class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 

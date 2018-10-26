@@ -14,10 +14,9 @@ except ImportError:
 class HttpHelper(object):
     """This class handles communication with the CloudPassage API.
 
-    When instantiating this class, pass in a \
-    :class:`cloudpassage.HaloSession` \
-    object (referred to here as connection, as it defines connection \
-    parameters for interacting with the API).
+    When instantiating this class, pass in a :class:`cloudpassage.HaloSession`
+    object (referred to here as connection, as it defines connection parameters
+    for interacting with the API).
 
     """
 
@@ -40,19 +39,18 @@ class HttpHelper(object):
         an enhancement request in place for you.
 
         Args:
-            endpoint (str): URL- everything between \
-            api.cloudpassage.com and any parameters to be passed. \
-            Example: /v1/events
+            endpoint (str): URL- everything between api.cloudpassage.com and
+                any parameters to be passed. Example: /v1/events
 
         Keyword Args:
-            params (list of dict): This is a list of dictionary objects, \
-            represented like this: [{"k1": "two,too"}] \
-            which goes into the URL looking like this: ?k1=two,too. \
-            If you use a list as the value in a dictionary here, you'll get \
-            two k/v pairs represented in the URL and the CloudPassage API \
-            doesn't operate like that.  Only the last instance of that \
-            variable will be considered, and your results may be confusing.  \
-            So don't do it.  Dictionaries should be {str:str}.
+            params (list of dict): This is a list of dictionary objects,
+                represented like this: [{"k1": "two,too"}]
+                which goes into the URL looking like this: ?k1=two,too.
+                If you use a list as the value in a dictionary here, you'll get
+                two k/v pairs represented in the URL and the CloudPassage API
+                doesn't operate like that.  Only the last instance of that
+                variable will be considered, and your results may be confusing.
+                So don't do it.  Dictionaries should be {str:str}.
         """
         params = kwargs["params"] if "params" in kwargs else None
         response = self.connection.interact('get', endpoint, params)
@@ -68,22 +66,23 @@ class HttpHelper(object):
 
         Args:
             endpoint (str): Path for initial query
-            key (str): The key in the response containing the objects \
-            of interest.  For instance, the /v1/events endpoint will \
-            have the "events" key, which contains a list of dictionary \
-            objects representing Halo events.
-            maxpages (int): This is a number from 2-100.  More than 100 pages \
-            can take quite a while to return, so beyond that you should \
-            consider using this SDK as a component in a multi-threaded tool.
+            key (str): The key in the response containing the objects of
+                interest.  For instance, the /v1/events endpoint will have the
+                "events" key, which contains a list of dictionary objects
+                representing Halo events.
+            maxpages (int): This is a number from 2-100.  More than 100 pages
+                can take quite a while to return, so beyond that you should
+                consider using this SDK as a component in a multi-threaded
+                tool.
         Keyword Args:
-            params (list of dict): This is a list of dictionary objects, \
-            represented like this: [{"k1": "two,too"}] \
-            which goes into the URL looking like this: ?k1=two,too . \
-            If you use a list as the value in a dictionary here, you'll get \
-            two k/v pairs represented in the URL and the CloudPassage API \
-            doesn't operate like that.  Only the last instance of that \
-            variable will be considered, and your results may be confusing.  \
-            So don't do it.  Dictionaries should be {str:str}.
+            params (list of dict): This is a list of dictionary objects,
+                represented like this: [{"k1": "two,too"}]
+                which goes into the URL looking like this: ?k1=two,too .
+                If you use a list as the value in a dictionary here, you'll get
+                two k/v pairs represented in the URL and the CloudPassage API
+                doesn't operate like that.  Only the last instance of that
+                variable will be considered, and your results may be confusing.
+                So don't do it.  Dictionaries should be {str:str}.
 
         """
 
@@ -134,18 +133,18 @@ class HttpHelper(object):
     def post(self, endpoint, reqbody):
         """This method performs a POST against Halo's API.
 
-        As with the GET method, it will attempt to (re)authenticate
-        the session if the key is expired or has not yet been retrieved.
+        As with the GET method, it will attempt to (re)authenticate the session
+        if the key is expired or has not yet been retrieved.
 
         Also like the GET method, it is not intended for direct use (though
-        we won't stop you).  If you need something that the SDK doesn't
-        already provide, please reach out to toolbox@cloudpassage.com and
-        let us get an enhancement request submitted for you.
+        we won't stop you).  If you need something that the SDK doesn't already
+        provide, please reach out to toolbox@cloudpassage.com and let us get an
+        enhancement request submitted for you.
 
         Args:
             endpoint (str): path component of URL
-            reqbody (dict): Dictionary to be converted to JSON for insertion \
-            as payload for request.
+            reqbody (dict): Dictionary to be converted to JSON for insertion as
+                payload for request.
 
         """
         return self.connection.interact("post", endpoint, None, reqbody).json()
@@ -153,18 +152,18 @@ class HttpHelper(object):
     def put(self, endpoint, reqbody):
         """This method performs a PUT against Halo's API.
 
-        As with the GET method, it will attempt to (re)authenticate
-        the session if the key is expired or has not yet been retrieved.
+        As with the GET method, it will attempt to (re)authenticate the session
+        if the key is expired or has not yet been retrieved.
 
         Also like the GET method, it is not intended for direct use (though
-        we won't stop you).  If you need something that the SDK doesn't
-        already provide, please reach out to toolbox@cloudpassage.com and
-        let us get an enhancement request submitted for you.
+        we won't stop you).  If you need something that the SDK doesn't already
+        provide, please reach out to toolbox@cloudpassage.com and let us get an
+        enhancement request submitted for you.
 
         Args:
             endpoint (str): Path component of URL
-            reqbody (dict): Dictionary to be converted to JSON for insertion \
-            as payload for request.
+            reqbody (dict): Dictionary to be converted to JSON for insertion
+                as payload for request.
 
         """
         response = self.connection.interact("put", endpoint, None, reqbody)
@@ -178,7 +177,9 @@ class HttpHelper(object):
 
         It will attempt to authenticate using the credentials (required
         to instantiate the object) if the session has either:
+
         1) Not been authenticated yet
+
         2) OAuth Token has expired
 
         This is a primary method, meaning it reaches out directly to the Halo

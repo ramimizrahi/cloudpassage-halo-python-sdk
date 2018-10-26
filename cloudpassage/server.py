@@ -10,10 +10,9 @@ class Server(object):
     """Initializing the Server class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -36,15 +35,15 @@ class Server(object):
         Default filter returns only servers in the 'active' state.
 
         Keyword Args:
-            state (list or str): A list or comma-separated string containing \
-            any of these: active, missing, deactivated
-            platform (list or str): A list or comma-separated string \
-            containing any of these: \
-            windows, debian, ubuntu, centos, oracle, rhel, etc...
+            state (list or str): A list or comma-separated string containing
+                any of these: active, missing, deactivated
+            platform (list or str): A list or comma-separated string containing
+                any of these: `windows`, `debian`, `ubuntu`, `centos`,
+                `oracle`, `rhel`.
             cve (str): CVE ID.  Example: CVE-2015-1234
             kb (str): Search for presence of KB.  Example: kb="KB2485376"
-            missing_kb (str): Search for absence of KB.  \
-            Example: mising_kb="KB2485376"
+            missing_kb (str): Search for absence of KB. Example:
+                mising_kb="KB2485376"
 
         Returns:
             list: List of dictionary objects describing servers
@@ -83,8 +82,8 @@ class Server(object):
     def delete(self, server_id):
         """Deletes server indicated by server_id.
 
-        Remember, deletion causes the removal of accociated security
-        events and scan information.
+        Remember, deletion causes the removal of accociated security events and
+        scan information.
 
         Args:
             server_id (str): ID of server to be deleted
@@ -219,8 +218,7 @@ class Server(object):
         return request.get(endpoint)["command"]
 
     def list_local_accounts(self, server_id):
-        """This method retrieves all local user accounts on the server\
-            specified by server ID
+        """Return all local user accounts associated with `server_id`.
 
         Args:
             server_id (str): Server ID
@@ -251,8 +249,7 @@ class Server(object):
         return request.get(endpoint)["account"]
 
     def list_connections(self, server_id, **kwargs):
-        """This method retrieves all recently detected connections on the server\
-            specified by server ID
+        """Return all recent connections detected on `server_id`.
 
         Args:
             server_id (str): Server ID

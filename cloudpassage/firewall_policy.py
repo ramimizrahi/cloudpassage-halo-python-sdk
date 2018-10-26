@@ -11,9 +11,9 @@ class FirewallPolicy(HaloEndpoint):
     """Initializing the FirewallPolicy class:
 
     Args:
-        session (HaloSession): This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -40,10 +40,9 @@ class FirewallRule(object):
     """Initializing the FirewallRule class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -58,8 +57,8 @@ class FirewallRule(object):
             firewall_policy_id (str): ID of firewall policy
 
         Returns:
-            list: Returns a list of rules associated with the firewall \
-            policy, each of which are represented by an object of type dict.
+            list: Returns a list of rules associated with the firewall policy,
+                each of which are represented by an object of type dict.
 
         """
 
@@ -75,14 +74,13 @@ class FirewallRule(object):
         """Get the detailed configuration of a firewall rule
 
         Args:
-            firewall_policy_id (str): ID of the policy to retrieve \
-            detailed configuration information for
-            firewall_rule_id (str): ID of the specific rule to \
-            retrieve details for
+            firewall_policy_id (str): ID of the policy to retrieve detailed
+                configuration information for
+            firewall_rule_id (str): ID of the specific rule for which to
+                retrieve details
 
         Returns:
-            dict: dictionary object representing the entire \
-            firewall rule
+            dict: dictionary object representing the entire firewall rule.
 
         """
 
@@ -97,8 +95,8 @@ class FirewallRule(object):
         """Creates a rule within a firewall policy.
 
         Args:
-            rule_body (dict or str): string or dict containing the json \
-            representation of the firewall policy to be created.
+            rule_body (dict or str): string or dict containing the json
+                representation of the firewall policy to be created.
 
         Returns:
             str: ID of newly-created firewall rule
@@ -137,8 +135,8 @@ class FirewallRule(object):
         """Delete a firewall policy rule
 
         Args:
-            firewall_policy_id (str): ID of firewall policy containing\
-            the rule to be deleted
+            firewall_policy_id (str): ID of firewall policy containing the rule
+                to be deleted
             firewall_rule_id (str): ID of firewall policy rule to delete
 
         Returns:
@@ -157,12 +155,11 @@ class FirewallRule(object):
         """Update a firewall policy rule.
 
         Args:
-            firewall_policy_id (str): ID of firewall policy containing the\
-            rule to be modified.
+            firewall_policy_id (str): ID of firewall policy containing the rule
+                to be modified.
             firewall_rule_id (str): ID of firewall policy rule to modify.
-            firewall_rule_body (dict or str): String- or dictionary-type \
-            object containing the fields to be updated within the firewall \
-            rule.
+            firewall_rule_body (dict or str): String- or dictionary-type object
+                containing the fields to be updated within the firewall rule.
 
         Returns:
             None if successful.  Errors will throw exceptions.
@@ -200,10 +197,9 @@ class FirewallZone(HaloEndpoint):
     """Initializing the FirewallZone class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -230,10 +226,9 @@ class FirewallService(HaloEndpoint):
     """Initializing the FirewallService class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -260,10 +255,9 @@ class FirewallInterface(HaloEndpoint):
     """Initializing the FirewallInterface class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
