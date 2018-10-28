@@ -9,7 +9,7 @@ if [ "${PY_VER}" = "2.7.10" ]; then
   export TEST_STATUS=$?
   ./cc-test-reporter after-build --exit-code ${TEST_STATUS}
 else
-  /opt/python/bin/python -m${PYTEST_MODULE:-py.test} --cov=cloudpassage --cov-report term-missing --profile tests/
+  /opt/python/bin/python -m${PYTEST_MODULE:-py.test} -n 6 --cov=cloudpassage --cov-report term-missing --profile tests/
   export TEST_STATUS=$?
 fi
 

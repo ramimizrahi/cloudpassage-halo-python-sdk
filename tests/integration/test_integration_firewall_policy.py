@@ -1,6 +1,6 @@
 import cloudpassage
+import json
 import os
-from cloudpassage.utility import Utility as utility
 
 policy_file_name = "firewall.json"
 config_file_name = "portal.yaml.local"
@@ -109,11 +109,11 @@ class TestIntegrationFirewallPolicy:
 
     def test_firewall_policy_create_update_delete(self):
         firewall_policy = create_firewall_policy_object()
-        pol_meta = utility.determine_policy_metadata(
-            firewall_policy_body)
-        remove_policy_by_name(pol_meta["policy_name"])
+        remove_policy_by_name("cpapi_test_1")
         remove_policy_by_name("NewName")
-        new_policy_id = firewall_policy.create(firewall_policy_body)
+        this_policy = json.loads(firewall_policy_body)
+        this_policy["firewall_policy"]["name"] = "cpapi_test_1"
+        new_policy_id = firewall_policy.create(json.dumps(this_policy))
         policy_update = {"firewall_policy": {"name": "NewName",
                                              "id": new_policy_id}}
         firewall_policy.update(policy_update)
@@ -145,8 +145,11 @@ class TestIntegrationFirewallRule:
         modification_body = {"firewall_rule": {
                              "comment": "Your momma makes firewall rules"}}
         firewall_policy = create_firewall_policy_object()
+        remove_policy_by_name("cpapi_test_2")
         firewall_rule = create_firewall_rule_object()
-        target_policy_id = firewall_policy.create(firewall_policy_body)
+        this_policy = json.loads(firewall_policy_body)
+        this_policy["firewall_policy"]["name"] = "cpapi_test_2"
+        target_policy_id = firewall_policy.create(json.dumps(this_policy))
         rule_imported = firewall_rule.list_all(target_policy_id)[0]
         del rule_imported["url"]
         rule_imported["position"] = 1
