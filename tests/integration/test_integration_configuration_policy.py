@@ -66,7 +66,9 @@ class TestIntegrationConfigurationPolicy:
             policy_body = policy_file_object.read()
         pol_meta = utility.determine_policy_metadata(policy_body)
         self.remove_policy_by_name(pol_meta["policy_name"])
-        policy_id = request.create(policy_body)
+        pol_dict = json.loads(policy_body)
+        pol_dict["policy"]["name"] = "testpol 1"
+        policy_id = request.create(json.dumps(pol_dict))
         request.delete(policy_id)
         with pytest.raises(cloudpassage.CloudPassageResourceExistence) as e:
             request.describe(policy_id)

@@ -7,10 +7,9 @@ class AgentUpgrade(object):
     """Initializing the AgentUpgrade class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -32,6 +31,7 @@ class AgentUpgrade(object):
 
     def status(self, upgrade_id):
         """View the progress of each agent upgrade request.
+
         You can make this call within 24 hours after an
         upgrade completes to view the completed status.
 
@@ -58,13 +58,13 @@ class AgentUpgrade(object):
             os_type (str): Linux or Windows
             agent_version (str): The version of the installed Halo agent
             agent_version_gte (str): An agent version that is greater than,
-            or equal to, the agent version specified
-            agent_version_gt: An agent version that is greater than
-            the agent version specified
-            agent_version_lte: An agent version that is less than,
-            or equal to, the agent version specified
-            agent_version_lt: An agent version that is less than
-            the agent version specified
+                or equal to, the agent version specified
+            agent_version_gt (str): An agent version that is greater than
+                the agent version specified
+            agent_version_lte (str): An agent version that is less than,
+                or equal to, the agent version specified
+            agent_version_lt (str): An agent version that is less than
+                the agent version specified
 
         Returns:
             string: agent upgrade request ID.
@@ -78,9 +78,9 @@ class AgentUpgrade(object):
 
     def delete(self, upgrade_id):
         """Deletes a scheduled upgrade job that you specify by ID.
+
         If the call is successful, the scheduled upgrade request is
-        canceled and no action is taken on any of the
-        agents within that job.
+        canceled and no action is taken on any of the agents within that job.
 
         Args:
             upgrade_id (str):The ID of the agent upgrade request job.

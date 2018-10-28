@@ -11,8 +11,7 @@ class ServerGroup(HaloEndpoint):
 
 
     Filters for ServerGroup queries can be found in the API documentation.
-    See
-    `here: <https://api-doc.cloudpassage.com/help#object-representation-1>`_
+    See here: https://api-doc.cloudpassage.com/help#object-representation-1
     for more information.
 
     Args:
@@ -99,18 +98,17 @@ class ServerGroup(HaloEndpoint):
         Keyword Args:
             name (str): Override name for group
             linux_firewall_policy_id (str): Override Linux firewall policy ID.
-            windows_firewall_policy_id (str): Override Windows firewall \
-            policy ID.
+            windows_firewall_policy_id (str): Override Windows firewall policy
+                ID.
             policy_ids (list): Override Linux configuration policies
             windows_policy_ids (list): Override Windows firewall policies
             linux_fim_policy_ids (list): Override Linux firewall policies
             windows_fim_policy_ids (list): Override Windows FIM policies
             lids_policy_ids (list): Override LIDS policy IDs
             tag (str): Override server group tag
-            special_events_policy (str): Override server events policy.  Note\
-            the difference in naming from the \
-            :meth:`cloudpassage.ServerGroup.create()` \
-            method
+            special_events_policy (str): Override server events policy.  Note
+                the difference in naming from the
+                :meth:`cloudpassage.ServerGroup.create()` method
             alert_profiles (list): List of alert profiles
 
         Returns:
@@ -134,8 +132,8 @@ class ServerGroup(HaloEndpoint):
             group_id (str): ID of group to delete
 
         Keyword Args:
-            force (bool): If set to True, the member servers from this group \
-            will be moved to the parent group.
+            force (bool): If set to True, the member servers from this group
+                will be moved to the parent group.
 
         Returns:
             None if successful, exceptions otherwise.
@@ -153,18 +151,18 @@ class ServerGroup(HaloEndpoint):
         return None
 
     def migrate_servers(self, grp_id, server_ids, srv_state=None):
-        """This method all servers in listOfServers into the
-        group identified by group_id.
+        """Migrate servers in server_ids into the group identified by group_id.
 
         Args:
             grp_id (str): ID of group to merge
             server_ids (list): A list of server_id
-            srv_state (str): A comma-separated string containing.
-            Defult state includes active,missing,deactivated,retired
+            srv_state (str): A comma-separated string containing filters to
+                be applied to the list of servers to be migrated. Valid filters
+                are `active`, `missing`, `deactivated`, and `retired`
 
         Returns:
-            server ids (list): A list of all server_id in the identified
-            server group.
+            server ids (list): A list of all server_id in the identified server
+            group.
 
         """
         if not srv_state:
@@ -191,14 +189,13 @@ class ServerGroup(HaloEndpoint):
         return srv_ids
 
     def list_connections(self, group_id, **kwargs):
-        """This method retrieves all recently detected connections in the server\
-           group specified by Group ID
+        """Return all recently detected connections in the server group.
 
         Args:
             server_id (str): Group ID
 
         Returns:
-            list: List of all recently detected connections in the srever group
+            list: List of all recently detected connections in the server group
 
         """
         endpoint = "/v1/groups/%s/connections" % (group_id)

@@ -16,8 +16,7 @@ from distutils.version import LooseVersion
 class Utility(object):
     @classmethod
     def determine_policy_metadata(cls, policy):
-        """Accepts string or dict.  Returns dict of policy
-        type, name, and target platform.
+        """Return dict of policy type, name, and target platform.
 
         If string, attempts to convert to dict to parse.
         Possible return values for policy_type:
@@ -38,6 +37,11 @@ class Utility(object):
          "policy_name": "Test policy",
          "target_platform": "Windows"}
 
+        Args:
+            policy (str or dict): Policy in string or dict form.
+
+        Returns:
+            dict
         """
 
         working_pol = None
@@ -101,6 +105,12 @@ class Utility(object):
         list type object slide through, only val2 will be evaluated, and
         val1 is ignored by the Halo API.
 
+        Args:
+            params (dict): Parameters to be sanitized.
+
+        Returns:
+            dict
+
         """
         params_working = params.copy()
         for key, value in params_working.items():
@@ -114,7 +124,7 @@ class Utility(object):
 
     @classmethod
     def policy_to_dict(cls, policy):
-        """Ensures that policy is a dictionary object"""
+        """Ensure that policy is a dictionary object"""
         if isinstance(policy, dict):
             return policy
         else:

@@ -25,7 +25,7 @@ class TimeSeries(object):
 
     Attributes:
         stop(bool): Set to ``False`` by default.  When set to ``True``, the
-        ``__iter__()`` will raise StopIteration, effecting a clean exit.
+        ``__iter__()`` will return, effecting a clean exit.
     """
     def __init__(self, session, start_time, start_url, item_key, params={}):
         self.url = start_url
@@ -244,6 +244,7 @@ class TimeSeries(object):
 
     @classmethod
     def verify_start_url(cls, start_url):
+        """Raise CloudPassageValidation if `start_url` is invalid."""
         if start_url not in cls.allowed_urls:
             exc_msg = "This URL is unsupported for TimeSeries: %s" % start_url
             raise CloudPassageValidation(exc_msg)

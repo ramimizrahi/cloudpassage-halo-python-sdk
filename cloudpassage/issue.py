@@ -9,10 +9,9 @@ class Issue(object):
     """Initializing the Issue class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -28,25 +27,29 @@ class Issue(object):
 
         Default filter returns only issues in the 'active' state.
 
+        Keyword arguments can be used to filter results. Some keyword arguments
+        are listed below. An exhaustive list of filters for querying Halo
+        issues can be found at https://api-doc.cloudpassage.com/help#issues .
+
         Keyword Args:
-            agent_id (list or str): A list or comma-separated string \
-            containing agent ids
-            status (list or str): A list or comma-separated string \
-            containing any of these: active, resolved
-            since (str): Returns issues created since date in iso8601 format \
-            such as: 2017-01-01
-            until (str): Returns issues created until date in iso8601 format \
-            such as 2017-01-01
-            issue_type: (list or str): A list or comma-separated string \
-            containing any of these: sva, csm, fim, lids, sam, fw, or agent
-            group_id: (list or str): A list or comma-separated string \
-            containing group ids
-            critical: (list or str): A list or comma-separated string \
-            containing any of these: true, false
-            policy_id (list or str): A list or comma-separated string \
-            containing policy ids
-            os_type (list or str): A list or comma-separated string \
-            containing any of these: Linux, Windows
+            agent_id (list or str): A list or comma-separated string containing
+                agent ids
+            status (list or str): A list or comma-separated string containing
+                any of these: active, resolved
+            since (str): Returns issues created since date in iso8601 format
+                such as: 2017-01-01
+            until (str): Returns issues created until date in iso8601 format
+                such as 2017-01-01
+            issue_type: (list or str): A list or comma-separated string
+                containing any of these: sva, csm, fim, lids, sam, fw, or agent
+            group_id: (list or str): A list or comma-separated string
+                containing group ids
+            critical: (list or str): A list or comma-separated string
+                containing any of these: true, false
+            policy_id (list or str): A list or comma-separated string
+                containing policy ids
+            os_type (list or str): A list or comma-separated string
+                containing any of these: Linux, Windows
 
          Returns:
             list: List of dictionary objects describing issues
@@ -59,8 +62,7 @@ class Issue(object):
         endpoint = "/v1/issues"
         request = HttpHelper(session)
         params = utility.sanitize_url_params(kwargs)
-        issues = request.get_paginated(endpoint, key,
-                                       max_pages, params=params)
+        issues = request.get_paginated(endpoint, key, max_pages, params=params)
         return issues
 
     def describe(self, issue_id):

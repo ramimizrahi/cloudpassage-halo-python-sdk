@@ -6,13 +6,12 @@ from .http_helper import HttpHelper
 
 
 class Event(object):
-    """Initializing the Event class:
+    """Event class:
 
     Args:
-        session (:class:`cloudpassage.HaloSession`): \
-        This will define how you interact \
-        with the Halo API, including proxy settings and API keys \
-        used for authentication.
+        session (:class:`cloudpassage.HaloSession`): This will define how you
+            interact with the Halo API, including proxy settings and API keys
+            used for authentication.
 
     """
 
@@ -40,6 +39,10 @@ class Event(object):
         Default filter returns ALL events.  This is a very verbose and
         time-consuming operation.
 
+        Filtering is done with keyword arguments, some of which are listed
+        below. An exhaustive list of filters can be found at
+        https://api-doc.cloudpassage.com/help#events
+
         Args:
             pages (int): Max number of pages (of ten items each) to retrieve
 
@@ -52,8 +55,8 @@ class Event(object):
             critical (bool): Returns only critical or noncritical events.
             type (list or str): A list or comma-separated string containing the
                 event types to query for.  A complete list of event types is
-                available
-                `here: <https://api-doc.cloudpassage.com/help#event-types>`_
+                available here:
+                https://api-doc.cloudpassage.com/help#event-types
             since (str): ISO 8601 formatted string representing the starting
                 date and time for query
             until (str): ISO 8601 formatted string representing the ending

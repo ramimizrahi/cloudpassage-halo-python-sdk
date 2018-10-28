@@ -8,8 +8,8 @@ class AlertProfile(HaloEndpoint):
     """Initializing the AlertProfile class:
 
     Filtering options for :func:`AlertProfile.list_all()` can be passed in as
-    keyword arguments. Valid filters can be found
-    `here: https://api-doc.cloudpassage.com/help#list-alert-profiles`_ .
+    keyword arguments. Valid filters can be found at
+    https://api-doc.cloudpassage.com/help#list-alert-profiles.
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you

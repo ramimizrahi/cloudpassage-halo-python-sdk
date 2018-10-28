@@ -7,10 +7,10 @@ from .exceptions import CloudPassageValidation
 
 
 def validate_object_id(object_id):
-    """Validates object ID (server_id, policy_id, etc...)
+    """Validate object ID (server_id, policy_id, etc...)
 
-    This function validates Object IDs with the intent of guarding against \
-    URL traversal.
+    This function validates Object IDs with the intent of guarding against URL
+        traversal.
 
     Args:
         object_id (str or list): Object ID to be validated
