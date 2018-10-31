@@ -11,6 +11,7 @@ from .exceptions import CloudPassageResourceExistence
 from .exceptions import CloudPassageGeneral
 from .exceptions import CloudPassageRateLimit
 from distutils.version import LooseVersion
+from .sanity import is_it_a_string
 
 
 class Utility(object):
@@ -48,13 +49,12 @@ class Utility(object):
         return_body = {"policy_type": None,
                        "policy_name": None,
                        "target_platform": None}
-        # if type(policy) is str:
-        if isinstance(policy, str):
+        if is_it_a_string(policy):
             working_pol = json.loads(policy)
         elif isinstance(policy, dict):
             working_pol = policy.copy()
         else:
-            print("Policy type must be str or dict!")
+            print("Policy type must be str or dict, not %s!" % type(policy))
         try:
             derived_type = list(working_pol.items())[0][0]
             if derived_type == "fim_policy":

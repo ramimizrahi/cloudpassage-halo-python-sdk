@@ -56,7 +56,7 @@ class TestIntgrationLidsPolicy:
     def test_lids_policy_create_delete(self):
         deleted = False
         request = self.build_lids_policy_object()
-        with open(policy_file, 'r') as policy_file_object:
+        with open(policy_file, 'rb') as policy_file_object:
             policy_body = policy_file_object.read()
         pol_meta = utility.determine_policy_metadata(policy_body)
         self.remove_policy_by_name(pol_meta["policy_name"])
@@ -72,7 +72,7 @@ class TestIntgrationLidsPolicy:
         deleted = False
         request = self.build_lids_policy_object()
         newname = "Functional Test Name Change"
-        with open(policy_file, 'r') as policy_file_object:
+        with open(policy_file, 'rb') as policy_file_object:
             policy_body = policy_file_object.read()
         policy_id = request.create(policy_body)
         policy_update = json.loads(policy_body)

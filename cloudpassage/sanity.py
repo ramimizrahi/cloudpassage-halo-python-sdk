@@ -44,7 +44,7 @@ def is_it_a_string(sample):
     if sys.version_info < (3, 0):
         return True if isinstance(sample, basestring) else False  # NOQA: F821
     else:
-        return True if isinstance(sample, str) else False
+        return True if isinstance(sample, (str, bytes)) else False
 
 
 def validate_api_hostname(api_hostname):
