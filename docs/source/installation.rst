@@ -6,7 +6,7 @@ Installation
 Requirements
 ------------
 
-Supported Python versions: 2.7.10+, 3.7.0+
+Supported Python versions: 2.7.10+, 3.6.5+
 
 The only dependencies are the requests and pyaml modules, which are available
 through pip.

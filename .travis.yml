@@ -25,6 +25,10 @@ jobs:
               -e HALO_API_HOSTNAME=${HALO_API_HOSTNAME} -e HALO_API_PORT=${HALO_API_PORT}
               -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e PY_VER=${PY_VER} -e PYTEST_MODULE="py.test" cloudpassage_halo_python_sdk:2.7.15
               /source/run_tests.sh
+    - script: docker build -t cloudpassage_halo_python_sdk:3.6.5 --build-arg PY_VER=3.6.5 . && docker run -it --rm -e HALO_API_KEY=${HALO_API_KEY} -e HALO_API_SECRET_KEY=${HALO_API_SECRET_KEY}
+              -e HALO_API_HOSTNAME=${HALO_API_HOSTNAME} -e HALO_API_PORT=${HALO_API_PORT}
+              -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e PY_VER=${PY_VER} -e PYTEST_MODULE="pytest" cloudpassage_halo_python_sdk:3.6.5
+              /source/run_tests.sh
     - script: docker build -t cloudpassage_halo_python_sdk:3.7.0 --build-arg PY_VER=3.7.0 . && docker run -it --rm -e HALO_API_KEY=${HALO_API_KEY} -e HALO_API_SECRET_KEY=${HALO_API_SECRET_KEY}
               -e HALO_API_HOSTNAME=${HALO_API_HOSTNAME} -e HALO_API_PORT=${HALO_API_PORT}
               -e TRAVIS_BRANCH=${TRAVIS_BRANCH} -e PY_VER=${PY_VER} -e PYTEST_MODULE="pytest" cloudpassage_halo_python_sdk:3.7.0

@@ -37,12 +37,12 @@ from cloudpassage.time_series import TimeSeries  # noqa: F401
 from cloudpassage.utility import Utility as init_util
 
 
-minimum = {"2": "2.7.10", "3": "3.7.0"}
+minimum = {"2": "2.7.10", "3": "3.6.5"}
 installed = init_util.get_installed_python_version()
 if init_util.verify_python_version(installed, minimum) is False:
     err_msg = "Warning: Minimum supported Python version %s" % minimum
     print(err_msg)
 
 __author__ = "CloudPassage"
-__version__ = "1.2.1"
+__version__ = "1.2.2"
 __license__ = "BSD"
