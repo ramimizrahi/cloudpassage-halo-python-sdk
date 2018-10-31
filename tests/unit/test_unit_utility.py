@@ -102,7 +102,7 @@ class TestUnitUtility:
                        test_fim_lin,
                        test_lids_lin,
                        test_firewall_lin]:
-            with open(policy["file"], 'r') as f:
+            with open(policy["file"], 'rb') as f:
                 policy_string = f.read()
                 policy_json = json.loads(policy_string)
             meta_from_str = utility.determine_policy_metadata(policy_string)
