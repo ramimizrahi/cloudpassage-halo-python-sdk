@@ -117,9 +117,13 @@ class Utility(object):
             if isinstance(value, list):
                 value_corrected = ",".join(value)
                 params[key] = value_corrected
-            if isinstance(value, datetime.datetime):
+            elif isinstance(value, datetime.datetime):
                 value_corrected = cls.datetime_to_8601(value)
                 params[key] = value_corrected
+            elif value is True:
+                params[key] = "true"
+            elif value is False:
+                params[key] = "false"
         return params
 
     @classmethod
