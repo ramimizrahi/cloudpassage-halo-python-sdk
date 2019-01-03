@@ -43,8 +43,8 @@ class HttpHelper(object):
                 any parameters to be passed. Example: /v1/events
 
         Keyword Args:
-            params (list of dict): This is a list of dictionary objects,
-                represented like this: [{"k1": "two,too"}]
+            params (dict): This is a dictionary object,
+                represented like this: {"k1": "two,too"}
                 which goes into the URL looking like this: ?k1=two,too.
                 If you use a list as the value in a dictionary here, you'll get
                 two k/v pairs represented in the URL and the CloudPassage API
@@ -75,8 +75,8 @@ class HttpHelper(object):
                 consider using this SDK as a component in a multi-threaded
                 tool.
         Keyword Args:
-            params (list of dict): This is a list of dictionary objects,
-                represented like this: [{"k1": "two,too"}]
+            params (dict): This is a dictionary object,
+                represented like this: {"k1": "two,too"}
                 which goes into the URL looking like this: ?k1=two,too .
                 If you use a list as the value in a dictionary here, you'll get
                 two k/v pairs represented in the URL and the CloudPassage API
@@ -91,7 +91,7 @@ class HttpHelper(object):
             raise CloudPassageValidation(pages_invalid_msg)
         more_pages = False
         response_accumulator = []
-        if "params" in kwargs and kwargs["params"] is not {}:
+        if "params" in kwargs and kwargs["params"] != {}:
             initial_page = self.get(endpoint, params=kwargs["params"])
         else:
             initial_page = self.get(endpoint)
@@ -112,22 +112,27 @@ class HttpHelper(object):
         return response_accumulator
 
     @classmethod
+    def get_next_page_path(cls, page):
+        next_page = None
+        if "pagination" in page:
+            if "next" in page["pagination"]:
+                nextpage = page["pagination"]["next"]
+                endpoint = "{}?{}".format(urlsplit(nextpage).path,
+                                          urlsplit(nextpage).query)
+                next_page = endpoint
+        return next_page
+
+    @classmethod
     def process_page(cls, page, key):
         """Page goes in, list data comes out."""
         response_accumulator = []
-        next_page = None
         if key not in page:
             fail_msg = ("Requested key %s not found in page"
                         % key)
             raise CloudPassageValidation(fail_msg)
         for k in page[key]:
             response_accumulator.append(k)
-        if "pagination" in page:
-            if "next" in page["pagination"]:
-                nextpage = page["pagination"]["next"]
-                endpoint = "{}?{}".format(urlsplit(nextpage)[2],
-                                          urlsplit(nextpage)[3])
-                next_page = endpoint
+        next_page = cls.get_next_page_path(page)
         return response_accumulator, next_page
 
     def post(self, endpoint, reqbody):
