@@ -81,6 +81,18 @@ class TestUnitUtility:
         assert actual_result["states"] == desired_states
         assert type(actual_result["the_best_time"]) is str
 
+    def test_sanitize_url_params_2(self):
+        params = {"status": ["active", "resolved"],
+                  "state": ["active", "inactive", "missing", "retired"],
+                  "critical": True,
+                  "last_seen_at_gte": "2018-12-15T17:17:53.893530"}
+        desired_params = {"status": "active,resolved",
+                          "state": "active,inactive,missing,retired",
+                          "critical": "true",
+                          "last_seen_at_gte": "2018-12-15T17:17:53.893530"}
+        actual_result = utility.sanitize_url_params(params)
+        assert actual_result == desired_params
+
     def test_determine_policy_metadata(self):
         test_csm_lin = {"file": str(policy_path +
                         "/cis-benchmark-for-centos-7-v1.policy.json"),
