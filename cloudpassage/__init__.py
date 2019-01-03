@@ -44,5 +44,5 @@ if init_util.verify_python_version(installed, minimum) is False:
     print(err_msg)
 
 __author__ = "CloudPassage"
-__version__ = "1.2.2"
+__version__ = "1.2.3"
 __license__ = "BSD"
