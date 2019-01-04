@@ -65,7 +65,7 @@ We'll print a list of all servers in our account:
 
     list_of_servers = server.list_all()
     for s in list_of_servers:
-        print "ID: %s   Name: %s" % (s["id"], s["hostname"])
+        print("ID: {}   Name: {}".format(s["id"], s["hostname"]))
 
 
 
