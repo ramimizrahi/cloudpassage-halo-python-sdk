@@ -47,7 +47,9 @@ class Server(object):
                 mising_kb="KB2485376"
 
         Returns:
-            list: List of dictionary objects describing servers
+            list: List of dictionary objects describing servers. Response
+                fields are described in detail here:
+                https://api-doc.cloudpassage.com/help#servers
 
         """
 
