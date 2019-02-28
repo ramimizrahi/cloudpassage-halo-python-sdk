@@ -175,3 +175,14 @@ class TestIntegrationServer:
         target_srv_id = servers[0]["id"]
         processes = server.list_processes(target_srv_id)
         assert isinstance(processes, list)
+
+    def test_list_packages(self):
+        server = self.build_server_object()
+        servers = server.list_all()
+        target_srv_id = servers[0]["id"]
+        packages = server.list_packages(target_srv_id)
+        assert isinstance(packages, list)
+        if packages:
+            for package in packages:
+                assert "package_name" in package
+                assert "package_version" in package
