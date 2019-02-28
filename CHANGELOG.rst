@@ -2,8 +2,26 @@ Changelog
 =========
 
 
-v1.2
-----
+v1.3.0
+------
+
+New
+~~~
+- Added list_packages() to Server() object. [Ash Wilson]
+
+  Closes #165
+
+
+v1.2.2 (2018-10-31)
+-------------------
+
+New
+~~~
+- Python 3.6.5 support. [Ash Wilson]
+
+
+v1.2 (2018-10-28)
+-----------------
 
 New
 ~~~

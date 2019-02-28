@@ -110,7 +110,9 @@ class Server(object):
             server_id (str): Server ID
 
         Returns:
-            dict: Dictionary object describing server
+            dict: Dictionary object describing server. Response fields are
+                described in detail here:
+                https://api-doc.cloudpassage.com/help#servers
 
         """
 
