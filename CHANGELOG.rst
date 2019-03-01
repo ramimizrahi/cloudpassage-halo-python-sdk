@@ -2,6 +2,16 @@ Changelog
 =========
 
 
+v1.3.0
+------
+
+New
+~~~
+- Added list_packages() to Server() object. [Ash Wilson]
+
+  Closes #165
+
+
 v1.2.2 (2018-10-31)
 -------------------
 

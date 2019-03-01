@@ -69,7 +69,16 @@ class Scan(object):
 
         Returns:
             dict: Dictionary describing command created as a result of this
-                call. Failure throws an exception.
+                call. As this scan is run asynchronously, this method returns
+                information on the server command, not the scan itself. The
+                server command will, in turn, cause the scan to be performed on
+                the server. The ID that can be retrieved from the return value
+                of this method can be used with the
+                :py:func:`cloudpassage.Server.command_details` method to
+                retrieve the status of the scan.
+
+        Raises:
+            CloudPassageValidation: Unsupported value for ``scan_type``.
         """
 
         sanity.validate_object_id(server_id)

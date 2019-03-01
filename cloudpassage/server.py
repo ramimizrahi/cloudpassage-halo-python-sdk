@@ -4,6 +4,7 @@ import re
 import cloudpassage.sanity as sanity
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .exceptions import CloudPassageResourceExistence
 
 
 class Server(object):
@@ -46,7 +47,9 @@ class Server(object):
                 mising_kb="KB2485376"
 
         Returns:
-            list: List of dictionary objects describing servers
+            list: List of dictionary objects describing servers. Response
+                fields are described in detail here:
+                https://api-doc.cloudpassage.com/help#servers
 
         """
 
@@ -107,7 +110,9 @@ class Server(object):
             server_id (str): Server ID
 
         Returns:
-            dict: Dictionary object describing server
+            dict: Dictionary object describing server. Response fields are
+                described in detail here:
+                https://api-doc.cloudpassage.com/help#servers
 
         """
 
@@ -285,6 +290,30 @@ class Server(object):
         response = request.get(endpoint)
         processes = response["processes"]
         return processes
+
+    def list_packages(self, server_id):
+        """Return a list of packages installed on the server.
+
+        Args:
+            server_id (str): Server ID
+
+        Returns:
+            list: List of dictionaries with keys for ``package_name`` and
+                ``package_version``. This list will be empty if no SVA scans
+                have been completed on the server.
+        """
+
+        endpoint = "/v1/servers/%s/svm" % (server_id)
+        request = HttpHelper(self.session)
+        packages = []
+        try:
+            response = request.get(endpoint)
+            packages = [{"package_name": x["package_name"],
+                         "package_version": x["package_version"]}
+                        for x in response["scan"]["findings"]]
+        except CloudPassageResourceExistence:  # If there's no scan
+            pass
+        return packages
 
     def validate_server_state(self, states):
         """Ensure that server state in query is valid"""

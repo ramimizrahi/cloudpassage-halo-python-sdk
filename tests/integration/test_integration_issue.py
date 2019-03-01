@@ -50,7 +50,7 @@ class TestIntegrationIssue:
 
     def test_get_issue_details_404(self):
         request = self.build_issue_object()
-        bad_issue_id = "123456789"
+        bad_issue_id = "91ea293e36dc11e9805c3d99d1900b44"
         with pytest.raises(cloudpassage.CloudPassageResourceExistence) as e:
             request.describe(bad_issue_id)
         assert bad_issue_id in str(e)
