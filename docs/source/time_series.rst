@@ -4,4 +4,4 @@ TimeSeries
 .. toctree::
 
 .. autoclass:: cloudpassage.TimeSeries
-   :members:
+   :members: __iter__
