@@ -11,10 +11,31 @@ except ImportError:
 
 
 class TimeSeries(object):
-
-    allowed_urls = ["/v1/events", "/v1/scans", "/v1/issues"]
-
     """Wrap time-series object retrieval in a generator.
+
+    This method enables the consumption of time-ordered API objects as a
+    generator. This method is multi-threaded and ensures that objects are
+    yielded in chronological order according to the ``created_at`` field.
+    This method also automatically adjusts the number of threads in use
+    based on the volume of objects published via the selected API endpoint.
+
+    In order to cleanly stop the generator, set the object's ``stop``
+    attribute to ``True``.
+
+    Example::
+
+        # Print event IDs as they occur
+        import datetime
+        import os
+        import cloudpassage
+        start_time = datetime.datetime.now().isoformat()
+        key = os.getenv("HALO_API_KEY")
+        secret = os.getenv("HALO_API_SECRET_KEY")
+        session = cloudpassage.HaloSession(key, secret)
+        event_stream = cloudpassage.TimeSeries(session, start_time,
+                                               "/v1/events", "events")
+        for x in event_stream:
+            print(x["id"])
 
     Args:
         session(object): HaloSession object.
@@ -24,9 +45,13 @@ class TimeSeries(object):
         params(dict): Parameters for URL, which will be URL-encoded.
 
     Attributes:
-        stop(bool): Set to ``False`` by default.  When set to ``True``, the
-        ``__iter__()`` will return, effecting a clean exit.
+        stop(bool):
+            Set to ``False`` by default. When set to ``True``, the generator
+            will return, effecting a clean exit.
     """
+
+    allowed_urls = ["/v1/events", "/v1/scans", "/v1/issues"]
+
     def __init__(self, session, start_time, start_url, item_key, params={}):
         self.url = start_url
         self.params = params
