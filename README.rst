@@ -77,15 +77,6 @@ Where to download
 Documentation can be found at
 http://cloudpassage-halo-python-sdk.readthedocs.io/en/latest/?badge=latest
 
-Building documentation
-----------------------
-
-1. Clone the repository locally
-1. Navigate to ``cloudpassage-halo-python-sdk/docs``
-1. run ``sphinx-build -b pdf source build/pdf``
-1. Docs will be located at ``cloudpassage-halo-python-sdk/docs/build/pdf/CloudPassage_Python_SDK_$VERSION.pdf``
-
-
 Testing
 =======
 
