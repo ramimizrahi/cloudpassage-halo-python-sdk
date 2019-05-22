@@ -36,6 +36,7 @@ Contents:
    special_events_policy
    alert_profiles
    cve_exception
+   cve_details
    exceptions
    changelog
 
