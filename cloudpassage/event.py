@@ -3,6 +3,7 @@
 
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .time_series import TimeSeries
 
 
 class Event(object):
@@ -75,3 +76,17 @@ class Event(object):
         response = request.get_paginated(endpoint, key, max_pages,
                                          params=params)
         return response
+
+    def stream(self, start_time, **kwargs):
+        """Yield events beginning at ``start_time``.
+
+        This generator supports the same keyword arguments as
+        :func:`~cloudpasssage.Event.list_all`
+        """
+        params = utility.sanitize_url_params(kwargs)
+        start_url = "/v1/events"
+        item_key = "events"
+        streamer = TimeSeries(self.session, start_time, start_url,
+                              item_key, params=params)
+        for event in streamer:
+            yield event

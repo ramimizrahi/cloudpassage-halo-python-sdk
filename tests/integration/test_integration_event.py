@@ -52,3 +52,12 @@ class TestIntegrationEvent:
         event_list = event.list_all(1, critical="true")
         for e in event_list:
             assert e["critical"] is True
+
+    def test_streamer_ten_events(self):
+        since = datetime.datetime.utcnow() - datetime.timedelta(days=30)
+        event = self.create_event_obj()
+        streamer = event.stream(since.isoformat())
+        total_events = 0
+        while total_events < 10:
+            total_events += 1
+            assert isinstance(next(streamer), dict)
