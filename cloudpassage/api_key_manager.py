@@ -92,7 +92,8 @@ class ApiKeyManager(object):
         session_yaml = None
         try:
             with open(self.config_file) as y_config_file:
-                session_yaml = yaml.load(y_config_file)['defaults']
+                session_yaml = yaml.load(y_config_file,
+                                         Loader=yaml.SafeLoader)['defaults']
         except IOError:
             error_message = "Unable to load config from file: %s" % config_file
             print(error_message)
