@@ -2,9 +2,10 @@
 
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
-class LocalUserAccount(object):
+class LocalUserAccount(HaloEndpoint):
     """Initializing the LocalUserAccount class:
 
     Args:
@@ -13,10 +14,13 @@ class LocalUserAccount(object):
             used for authentication.
 
     """
+    object_name = "local_account"
+    objects_name = "local_accounts"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def list_all(self, **kwargs):
         """This method retrieves all local user accounts
@@ -60,7 +64,7 @@ class LocalUserAccount(object):
             list: List of dictionary objects describing local user accounts
 
         """
-        endpoint = "/v1/local_accounts"
+        endpoint = self.endpoint()
         key = "accounts"
         max_pages = 50
         request = HttpHelper(self.session)
@@ -68,3 +72,19 @@ class LocalUserAccount(object):
         response = request.get_paginated(endpoint, key,
                                          max_pages, params=params)
         return response
+
+    def create(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
+
+    def delete(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
+
+    def update(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
+
+    def describe(self):
+        """Not implemented for this object."""
+        raise NotImplementedError

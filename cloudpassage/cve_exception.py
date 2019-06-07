@@ -1,5 +1,4 @@
 """CveException Class"""
-
 import cloudpassage.sanity as sanity
 from .halo_endpoint import HaloEndpoint
 from .http_helper import HttpHelper
@@ -12,15 +11,18 @@ class CveExceptions(HaloEndpoint):
         session (:class:`cloudpassage.HaloSession`): This will define how you
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
+
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
     object_name = "cve_exception"
     objects_name = "cve_exceptions"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
+    def endpoint(self):
         """Return the endpoint for API requests."""
-        return "/v1/%s" % cls.objects_name
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def object_key(cls):
@@ -59,7 +61,7 @@ class CveExceptions(HaloEndpoint):
             "scope": scope
         }
 
-        endpoint = "/v1/cve_exceptions"
+        endpoint = self.endpoint()
 
         if scope != "all":
             sanity.validate_cve_exception_scope_id(scope_id)
@@ -89,7 +91,7 @@ class CveExceptions(HaloEndpoint):
             True if successful, throws exception otherwise.
         """
 
-        endpoint = "/v1/cve_exceptions/%s" % exception_id
+        endpoint = "{}/{}".format(self.endpoint(), exception_id)
         body = {"cve_exception": kwargs}
         request = HttpHelper(self.session)
         response = request.put(endpoint, body)
@@ -111,11 +113,11 @@ class CveException(HaloEndpoint):
 
     object_name = "cve_exception"
     objects_name = "cve_exceptions"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
+    def endpoint(self):
         """Return the endpoint for API requests."""
-        return "/v1/%s" % cls.objects_name
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def object_key(cls):

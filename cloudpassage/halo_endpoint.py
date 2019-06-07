@@ -8,9 +8,23 @@ from .http_helper import HttpHelper
 class HaloEndpoint(object):
     """Base class inherited by other specific HaloEndpoint classes."""
 
-    def __init__(self, session):
+    default_endpoint_version = 1
+
+    def __init__(self, session, **kwargs):
         self.session = session
         self.max_pages = 100
+        self.set_endpoint_version(kwargs)
+
+    def set_endpoint_version(self, kwargs):
+        """Validate and set the endpoint version."""
+        if "endpoint_version" in kwargs:
+            version = kwargs["endpoint_version"]
+            if isinstance(version, int):
+                self.endpoint_version = version
+            else:
+                raise TypeError("Bad endpoint version {}".format(version))
+        else:
+            self.endpoint_version = self.default_endpoint_version
 
     @classmethod
     def endpoint(cls):

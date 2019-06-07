@@ -12,15 +12,17 @@ class LidsPolicy(HaloEndpoint):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
     object_name = "lids_policy"
     objects_name = "lids_policies"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Return endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):

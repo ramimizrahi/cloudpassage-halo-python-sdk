@@ -15,14 +15,17 @@ class AlertProfile(HaloEndpoint):
         session (:class:`cloudpassage.HaloSession`): This will define how you
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
+
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
     object_name = "alert_profile"
     objects_name = "alert_profiles"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
+    def endpoint(self):
         """Return endpoint for API requests."""
-        return "/v1/%s" % AlertProfile.objects_name
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def object_key(cls):

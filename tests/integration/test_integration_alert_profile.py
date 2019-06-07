@@ -1,7 +1,10 @@
-import cloudpassage
 import json
 import os
 import uuid
+
+import pytest
+
+import cloudpassage
 
 config_file_name = "portal.yaml.local"
 tests_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../"))
@@ -38,6 +41,16 @@ class TestIntegrationAlertProfiles:
         profile = self.create_alert_profile_obj()
         profile_list = profile.list_all()
         assert "id" in profile_list[0]
+
+    def test_bad_endpoint_version_raises(self):
+        """Make sure we get a proper 404 from nonexistent endpoint"""
+        session = cloudpassage.HaloSession(key_id, secret_key,
+                                           api_host=api_hostname,
+                                           api_port=api_port,
+                                           integration_string="SDK-Smoke")
+        abstraction = cloudpassage.AlertProfile(session, endpoint_version=3)
+        with pytest.raises(cloudpassage.CloudPassageResourceExistence):
+            abstraction.list_all()
 
     def test_get_details(self):
         """This test gets the details of an alert profile policy in your
