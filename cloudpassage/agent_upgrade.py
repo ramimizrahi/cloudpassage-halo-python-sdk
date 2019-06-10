@@ -1,9 +1,10 @@
 """AgentUpgrade Class"""
 
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
-class AgentUpgrade(object):
+class AgentUpgrade(HaloEndpoint):
     """Initializing the AgentUpgrade class:
 
     Args:
@@ -12,10 +13,13 @@ class AgentUpgrade(object):
             used for authentication.
 
     """
+    object_name = "agent_upgrade"
+    objects_name = "agent_upgrades"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def list_all(self):
         """Returns a list of scheduled and started upgrade requests.
@@ -24,7 +28,7 @@ class AgentUpgrade(object):
             list: List of dictionary object describing upgrade requests.
         """
 
-        endpoint = "/v1/agent_upgrades"
+        endpoint = self.endpoint()
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         return response["upgrades"]

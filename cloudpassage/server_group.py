@@ -19,15 +19,17 @@ class ServerGroup(HaloEndpoint):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
     object_name = "group"
     objects_name = "groups"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % ServerGroup.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):
@@ -49,8 +51,8 @@ class ServerGroup(HaloEndpoint):
             list: List of dictionary objects describing member servers
 
         """
-
-        endpoint = "/v1/groups/%s/servers" % group_id
+        sanity.validate_object_id(group_id)
+        endpoint = "/v1/groups/{}/servers".format(group_id)
         request = HttpHelper(self.session)
         return request.get(endpoint)["servers"]
 
@@ -81,8 +83,7 @@ class ServerGroup(HaloEndpoint):
             str: ID of newly-created group.
 
         """
-
-        endpoint = "/v1/groups"
+        endpoint = self.endpoint()
         group_data = {"name": group_name, "policy_ids": [], "tag": None}
         body = {"group": utility.merge_dicts(group_data, kwargs)}
         request = HttpHelper(self.session)
@@ -115,9 +116,8 @@ class ServerGroup(HaloEndpoint):
             True if successful, throws exception otherwise.
 
         """
-
         sanity.validate_object_id(group_id)
-        endpoint = "/v1/groups/%s" % group_id
+        endpoint = "{}/{}".format(self.endpoint(), group_id)
         response = None
         group_data = {}
         body = {"group": utility.merge_dicts(group_data, kwargs)}
@@ -141,7 +141,7 @@ class ServerGroup(HaloEndpoint):
         """
 
         sanity.validate_object_id(group_id)
-        endpoint = "/v1/groups/%s" % group_id
+        endpoint = "{}/{}".format(self.endpoint(), group_id)
         request = HttpHelper(self.session)
         if ("force" in kwargs) and (kwargs["force"] is True):
             params = {"move_to_parent": "true"}
@@ -177,12 +177,13 @@ class ServerGroup(HaloEndpoint):
         sanity.validate_object_id(grp_id)
         for server_id in server_ids:
             sanity.validate_object_id(server_id)
-            endpoint = "/v1/servers/%s" % server_id
+            endpoint = "/v1/servers/{}".format(server_id)
             request = HttpHelper(self.session)
             request.put(endpoint, body)
 
-        sgrp_endpoint = "/v1/groups/%s/servers?state=%s" % (grp_id, srv_state)
-        response = request.get(sgrp_endpoint)
+        sgrp_endpoint = "/v1/groups/{}/servers".format(grp_id)
+        params = {"state": srv_state}
+        response = request.get(sgrp_endpoint, params=params)
         srv_list = response["servers"]
         for srv in srv_list:
             srv_ids.append(srv["id"])
@@ -198,7 +199,7 @@ class ServerGroup(HaloEndpoint):
             list: List of all recently detected connections in the server group
 
         """
-        endpoint = "/v1/groups/%s/connections" % (group_id)
+        endpoint = "/v1/groups/{}/connections".format(group_id)
         params = utility.sanitize_url_params(kwargs)
         request = HttpHelper(self.session)
         response = request.get(endpoint, params=params)

@@ -2,9 +2,10 @@
 
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
-class LocalUserGroup(object):
+class LocalUserGroup(HaloEndpoint):
     """Initializing the LocalUserGroup class:
 
     Args:
@@ -12,11 +13,17 @@ class LocalUserGroup(object):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    object_name = "local_group"
+    objects_name = "local_groups"
+    default_endpoint_version = 1
+
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def list_all(self, **kwargs):
         """Return a list of all local user groups.
@@ -52,12 +59,11 @@ class LocalUserGroup(object):
             list: List of dictionary objects describing local user groups
 
         """
-        endpoint = "/v1/local_groups"
-        key = "local_groups"
+        endpoint = self.endpoint()
         max_pages = 50
         request = HttpHelper(self.session)
         params = utility.sanitize_url_params(kwargs)
-        response = request.get_paginated(endpoint, key,
+        response = request.get_paginated(endpoint, self.objects_name,
                                          max_pages, params=params)
         return response
 
@@ -72,9 +78,9 @@ class LocalUserGroup(object):
             list: List of dictionary object describing local user group detail
 
         """
-        endpoint = "/v1/local_groups?server_id=%s&gid=%s" % (server_id,
-                                                             gid)
+        endpoint = self.endpoint()
+        params = {"server_id": server_id, "gid": gid}
         request = HttpHelper(self.session)
-        response = request.get(endpoint)
-        group_detail = response["local_groups"]
+        response = request.get(endpoint, params=params)
+        group_detail = response[self.objects_name]
         return group_detail

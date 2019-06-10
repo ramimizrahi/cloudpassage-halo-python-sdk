@@ -15,15 +15,18 @@ class FirewallPolicy(HaloEndpoint):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
+
     """
 
     object_name = "firewall_policy"
     objects_name = "firewall_policies"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Return endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):
@@ -36,7 +39,7 @@ class FirewallPolicy(HaloEndpoint):
         return cls.object_name
 
 
-class FirewallRule(object):
+class FirewallRule(HaloEndpoint):
     """Initializing the FirewallRule class:
 
     Args:
@@ -44,11 +47,18 @@ class FirewallRule(object):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
+    object_name = "firewall_rule"
+    objects_name = "firewall_rules"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    def endpoint(self, policy_id):
+        """Return endpoint for API requests."""
+        return "/v{}/firewall_policies/{}/{}".format(self.endpoint_version,
+                                                     policy_id,
+                                                     self.objects_name)
 
     def list_all(self, firewall_policy_id):
         """List all rules associated with a firewall policy.
@@ -63,11 +73,10 @@ class FirewallRule(object):
         """
 
         request = HttpHelper(self.session)
-        endpoint = ("/v1/firewall_policies/%s/firewall_rules/" %
-                    firewall_policy_id)
-        key = "firewall_rules"
+        endpoint = self.endpoint(firewall_policy_id)
         max_pages = 30
-        response = request.get_paginated(endpoint, key, max_pages)
+        response = request.get_paginated(endpoint, self.objects_name,
+                                         max_pages)
         return response
 
     def describe(self, firewall_policy_id, firewall_rule_id):
@@ -85,10 +94,10 @@ class FirewallRule(object):
         """
 
         request = HttpHelper(self.session)
-        endpoint = ("/v1/firewall_policies/%s/firewall_rules/%s" %
-                    (firewall_policy_id, firewall_rule_id))
+        endpoint = "{}/{}".format(self.endpoint(firewall_policy_id),
+                                  firewall_rule_id)
         response = request.get(endpoint)
-        result = response["firewall_rule"]
+        result = response[self.object_name]
         return result
 
     def create(self, firewall_policy_id, rule_body):
@@ -125,10 +134,9 @@ class FirewallRule(object):
 
         sanity.validate_object_id(firewall_policy_id)
         request = HttpHelper(self.session)
-        endpoint = ("/v1/firewall_policies/%s/firewall_rules" %
-                    firewall_policy_id)
+        endpoint = self.endpoint(firewall_policy_id)
         response = request.post(endpoint, rule_body)
-        policy_id = response["firewall_rule"]["id"]
+        policy_id = response[self.object_name]["id"]
         return policy_id
 
     def delete(self, firewall_policy_id, firewall_rule_id):
@@ -146,8 +154,8 @@ class FirewallRule(object):
 
         sanity.validate_object_id([firewall_policy_id, firewall_rule_id])
         request = HttpHelper(self.session)
-        endpoint = ("/v1/firewall_policies/%s/firewall_rules/%s" %
-                    (firewall_policy_id, firewall_rule_id))
+        endpoint = "{}/{}".format(self.endpoint(firewall_policy_id),
+                                  firewall_rule_id)
         request.delete(endpoint)
         return None
 
@@ -187,8 +195,8 @@ class FirewallRule(object):
 
         sanity.validate_object_id([firewall_policy_id, firewall_rule_id])
         request = HttpHelper(self.session)
-        endpoint = ("/v1/firewall_policies/%s/firewall_rules/%s" %
-                    (firewall_policy_id, firewall_rule_id))
+        endpoint = "{}/{}".format(self.endpoint(firewall_policy_id),
+                                  firewall_rule_id)
         request.put(endpoint, firewall_rule_body)
         return None
 
@@ -201,15 +209,18 @@ class FirewallZone(HaloEndpoint):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
+
     """
 
     object_name = "firewall_zone"
     objects_name = "firewall_zones"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Return endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):
@@ -230,15 +241,17 @@ class FirewallService(HaloEndpoint):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
     object_name = "firewall_service"
     objects_name = "firewall_services"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Return endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):
@@ -263,11 +276,11 @@ class FirewallInterface(HaloEndpoint):
 
     object_name = "firewall_interface"
     objects_name = "firewall_interfaces"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Return endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):

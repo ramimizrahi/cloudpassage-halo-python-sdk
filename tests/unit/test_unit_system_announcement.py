@@ -14,7 +14,3 @@ api_hostname = session_info.api_hostname
 class TestUnitSystemAnnouncement:
     def test_instantiation(self):
         assert cloudpassage.SystemAnnouncement(None)
-
-    def test_build_endpoint(self):
-        endpoint = cloudpassage.SystemAnnouncement.build_endpoint()
-        assert endpoint == "/v1/system_announcements"
