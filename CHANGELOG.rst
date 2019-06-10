@@ -2,8 +2,27 @@ Changelog
 =========
 
 
-v1.3.0
+v1.4.0
 ------
+
+New
+~~~
+- API version selectors for abstractions. [Ash Wilson]
+
+  Closes #181
+- Create stream() generator method in Event class. [Ash Wilson]
+
+  Closes #179
+
+Changes
+~~~~~~~
+- Using safer yaml.SafeLoader in ApiKeyManager. [Ash Wilson]
+- Update version pin for pytest. [Ash Wilson]
+- Add docs for CveDetails. [Ash Wilson]
+
+
+v1.3.0 (2019-03-01)
+-------------------
 
 New
 ~~~
