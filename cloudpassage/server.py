@@ -5,9 +5,10 @@ import cloudpassage.sanity as sanity
 from .utility import Utility as utility
 from .http_helper import HttpHelper
 from .exceptions import CloudPassageResourceExistence
+from .halo_endpoint import HaloEndpoint
 
 
-class Server(object):
+class Server(HaloEndpoint):
     """Initializing the Server class:
 
     Args:
@@ -15,52 +16,40 @@ class Server(object):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
+
+
+    Supported keyword args for filtering Server.list_all():
+        state (list or str): A list or comma-separated string containing
+            any of these: active, missing, deactivated. By default, only active
+            servers will be returned.
+        platform (list or str): A list or comma-separated string containing
+            any of these: `windows`, `debian`, `ubuntu`, `centos`,
+            `oracle`, `rhel`.
+        cve (str): CVE ID.  Example: CVE-2015-1234
+        kb (str): Search for presence of KB.  Example: kb="KB2485376"
+        missing_kb (str): Search for absence of KB. Example:
+            mising_kb="KB2485376"
     """
 
-    def __init__(self, session):
-        self.session = session
-        self.valid_server_states = ["active",
-                                    "deactivated",
-                                    "missing"]
-        self.cve_validator = re.compile(r"^CVE-\d+-\d{4,}$")
-        self.kb_validator = re.compile(r"^kb\d+$")
-        self.platform_validator = re.compile(r"^[a-z]+$")
-        return None
+    valid_server_states = ["active",
+                           "deactivated",
+                           "missing"]
+    cve_validator = re.compile(r"^CVE-\d+-\d{4,}$")
+    kb_validator = re.compile(r"^kb\d+$")
+    platform_validator = re.compile(r"^[a-z]+$")
+    object_name = "server"
+    objects_name = "servers"
+    default_endpoint_version = 1
 
-    def list_all(self, **kwargs):
-        """Returns a list of all servers.
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
-        This query is limited to 50 pages of 100 items,
-        totaling 500 servers.
-
-        Default filter returns only servers in the 'active' state.
-
-        Keyword Args:
-            state (list or str): A list or comma-separated string containing
-                any of these: active, missing, deactivated
-            platform (list or str): A list or comma-separated string containing
-                any of these: `windows`, `debian`, `ubuntu`, `centos`,
-                `oracle`, `rhel`.
-            cve (str): CVE ID.  Example: CVE-2015-1234
-            kb (str): Search for presence of KB.  Example: kb="KB2485376"
-            missing_kb (str): Search for absence of KB. Example:
-                mising_kb="KB2485376"
-
-        Returns:
-            list: List of dictionary objects describing servers. Response
-                fields are described in detail here:
-                https://api-doc.cloudpassage.com/help#servers
-
-        """
-
-        endpoint = "/v1/servers?per_page=100"
-        key = "servers"
-        max_pages = 300
-        request = HttpHelper(self.session)
-        params = utility.sanitize_url_params(kwargs)
-        response = request.get_paginated(endpoint, key,
-                                         max_pages, params=params)
-        return response
+    def pagination_key(self):
+        """Return the pagination key for parsing paged results."""
+        return self.objects_name
 
     def assign_group(self, server_id, group_id):
         """Moves server to another group.
@@ -75,7 +64,7 @@ class Server(object):
         """
 
         sanity.validate_object_id(server_id)
-        endpoint = "/v1/servers/%s" % server_id
+        endpoint = "{}/{}".format(self.endpoint(), server_id)
         request_body = {"server": {"group_id": group_id}}
         request = HttpHelper(self.session)
         request.put(endpoint, request_body)
@@ -97,7 +86,7 @@ class Server(object):
         """
 
         sanity.validate_object_id(server_id)
-        endpoint = "/v1/servers/%s" % server_id
+        endpoint = "{}/{}".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         request.delete(endpoint)
         # If no exception from request, we're successful
@@ -116,7 +105,7 @@ class Server(object):
 
         """
 
-        endpoint = "/v1/servers/%s" % server_id
+        endpoint = "{}/{}".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         return request.get(endpoint)["server"]
 
@@ -132,7 +121,7 @@ class Server(object):
         """
 
         sanity.validate_object_id(server_id)
-        endpoint = "/v1/servers/%s" % server_id
+        endpoint = "{}/{}".format(self.endpoint(), server_id)
         body = {"server":
                 {"retire": True}}
         request = HttpHelper(self.session)
@@ -151,8 +140,7 @@ class Server(object):
         """
 
         sanity.validate_object_id(server_id)
-        endpoint = "/v1/servers/%s/issues" % server_id
-
+        endpoint = "{}/{}/issues".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         return response
@@ -168,10 +156,9 @@ class Server(object):
         """
 
         sanity.validate_object_id(server_id)
-        endpoint = "/v1/servers/%s/firewall_logs" % server_id
+        endpoint = "{}/{}/firewall_logs".format(self.endpoint(), server_id)
         key = "agent_firewall_logs"
         max_pages = pages
-
         request = HttpHelper(self.session)
         response = request.get_paginated(endpoint, key, max_pages)
         return response
@@ -218,7 +205,8 @@ class Server(object):
 
         """
 
-        endpoint = "/v1/servers/%s/commands/%s" % (server_id, command_id)
+        endpoint = "{}/{}/commands/{}".format(self.endpoint(), server_id,
+                                              command_id)
         request = HttpHelper(self.session)
         return request.get(endpoint)["command"]
 
@@ -232,7 +220,7 @@ class Server(object):
             list: List of dictionary objects describing local user account
 
         """
-        endpoint = "/v1/servers/%s/accounts" % (server_id)
+        endpoint = "{}/{}/accounts".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         local_accounts = response["accounts"]
@@ -249,7 +237,8 @@ class Server(object):
             dict: Dictionary object describing local user account
 
         """
-        endpoint = "/v1/servers/%s/accounts/%s" % (server_id, username)
+        endpoint = "{}/{}/accounts/{}".format(self.endpoint(), server_id,
+                                              username)
         request = HttpHelper(self.session)
         return request.get(endpoint)["account"]
 
@@ -263,7 +252,7 @@ class Server(object):
             list: List of all recently detected connections on the server
 
         """
-        endpoint = "/v1/servers/%s/connections" % (server_id)
+        endpoint = "{}/{}/connections".format(self.endpoint(), server_id)
         params = utility.sanitize_url_params(kwargs)
         request = HttpHelper(self.session)
         response = request.get(endpoint, params=params)
@@ -285,7 +274,7 @@ class Server(object):
                   Only the most recent scan results are available
         """
 
-        endpoint = "/v1/servers/%s/processes" % (server_id)
+        endpoint = "{}/{}/processes".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         processes = response["processes"]
@@ -303,7 +292,7 @@ class Server(object):
                 have been completed on the server.
         """
 
-        endpoint = "/v1/servers/%s/svm" % (server_id)
+        endpoint = "{}/{}/svm".format(self.endpoint(), server_id)
         request = HttpHelper(self.session)
         packages = []
         try:

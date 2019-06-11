@@ -3,9 +3,11 @@
 
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
+from .time_series import TimeSeries
 
 
-class Event(object):
+class Event(HaloEndpoint):
     """Event class:
 
     Args:
@@ -17,20 +19,13 @@ class Event(object):
 
     # pylint: disable=too-few-public-methods
     # This cannot be combined with any other module, and still make sense
+    object_name = "event"
+    objects_name = "events"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        self.supported_search_fields = [
-            "group_id",
-            "server_id",
-            "server_platform",
-            "critical",
-            "type",
-            "since",
-            "until",
-            "pages"
-        ]
-        return None
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def list_all(self, pages, **kwargs):
         """Return a list of all events.
@@ -67,11 +62,35 @@ class Event(object):
 
         """
 
-        endpoint = "/v1/events"
-        key = "events"
+        endpoint = self.endpoint()
         max_pages = pages
         request = HttpHelper(self.session)
         params = utility.sanitize_url_params(kwargs)
-        response = request.get_paginated(endpoint, key, max_pages,
-                                         params=params)
+        response = request.get_paginated(endpoint, self.objects_name,
+                                         max_pages, params=params)
         return response
+
+    def stream(self, start_time, **kwargs):
+        """Yield events beginning at ``start_time``.
+
+        This generator supports the same keyword arguments as
+        :func:`~cloudpasssage.Event.list_all`
+        """
+        params = utility.sanitize_url_params(kwargs)
+        start_url = self.endpoint()
+        streamer = TimeSeries(self.session, start_time, start_url,
+                              self.objects_name, params=params)
+        for event in streamer:
+            yield event
+
+    def create(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
+
+    def delete(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
+
+    def update(self):
+        """Not implemented for this object."""
+        raise NotImplementedError

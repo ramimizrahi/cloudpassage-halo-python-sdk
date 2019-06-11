@@ -4,9 +4,10 @@ import cloudpassage.sanity as sanity
 from .utility import Utility as utility
 from .exceptions import CloudPassageValidation
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
-class Scan(object):
+class Scan(HaloEndpoint):
     """Initializing the Scan class:
 
     Args:
@@ -16,40 +17,45 @@ class Scan(object):
 
     """
 
-    def __init__(self, session):
-        self.session = session
-        self.supported_scans = {
-            "sca": "sca",
-            "csm": "sca",
-            "svm": "svm",
-            "sva": "svm",
-            "sam": "sam",
-            "fim": "fim",
-            "sv": "sv"
-        }
-        self.supported_historical_scans = {
-            "sca": "sca",
-            "csm": "sca",
-            "svm": "svm",
-            "sva": "svm",
-            "fim": "fim"
-        }
-        self.supported_scan_status = [
-            "queued",
-            "pending",
-            "running",
-            "completed_clean",
-            "completed_with_errors",
-            "failed"
-        ]
-        self.supported_search_fields = [
-            "server_id",
-            "module",
-            "status",
-            "since",
-            "until"
-        ]
-        return None
+    supported_scans = {
+        "sca": "sca",
+        "csm": "sca",
+        "svm": "svm",
+        "sva": "svm",
+        "sam": "sam",
+        "fim": "fim",
+        "sv": "sv"
+    }
+    supported_historical_scans = {
+        "sca": "sca",
+        "csm": "sca",
+        "svm": "svm",
+        "sva": "svm",
+        "fim": "fim"
+    }
+    supported_scan_status = [
+        "queued",
+        "pending",
+        "running",
+        "completed_clean",
+        "completed_with_errors",
+        "failed"
+    ]
+    supported_search_fields = [
+        "server_id",
+        "module",
+        "status",
+        "since",
+        "until"
+    ]
+
+    object_name = "scan"
+    objects_name = "scans"
+    default_endpoint_version = 1
+
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def initiate_scan(self, server_id, scan_type):
         """Initiate a scan on a specific server.
@@ -153,7 +159,7 @@ class Scan(object):
                 kwargs["status"])
         if "max_pages" in kwargs:
             max_pages = kwargs["max_pages"]
-        endpoint = "/v1/scans"
+        endpoint = self.endpoint()
         key = "scans"
         request = HttpHelper(self.session)
         params = utility.assemble_search_criteria(self.supported_search_fields,
@@ -173,8 +179,10 @@ class Scan(object):
             dict: Dictionary object descrbing findings
 
         """
-
-        endpoint = "/v1/scans/%s/findings/%s" % (scan_id, findings_id)
+        sanity.validate_object_id(scan_id)
+        sanity.validate_object_id(findings_id)
+        endpoint = "{}/{}/findings/{}".format(self.endpoint(), scan_id,
+                                              findings_id)
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         return response
@@ -190,9 +198,9 @@ class Scan(object):
 
         """
 
-        endpoint = "/v1/scans/%s" % scan_id
+        endpoint = "{}/{}".format(self.endpoint(), scan_id)
         request = HttpHelper(self.session)
-        return request.get(endpoint)["scan"]
+        return request.get(endpoint)[self.object_name]
 
     def scan_status_supported(self, scan_status):
         """Determine if scan status is supported for query"""

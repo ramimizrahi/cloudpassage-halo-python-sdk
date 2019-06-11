@@ -3,9 +3,10 @@
 import cloudpassage.sanity as sanity
 from .utility import Utility as utility
 from .http_helper import HttpHelper
+from .halo_endpoint import HaloEndpoint
 
 
-class Issue(object):
+class Issue(HaloEndpoint):
     """Initializing the Issue class:
 
     Args:
@@ -13,11 +14,16 @@ class Issue(object):
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
 
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
+    object_name = "issue"
+    objects_name = "issues"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def list_all(self, **kwargs):
         """Returns a list of all issues.
@@ -58,11 +64,10 @@ class Issue(object):
 
         session = self.session
         max_pages = 20
-        key = "issues"
-        endpoint = "/v1/issues"
         request = HttpHelper(session)
         params = utility.sanitize_url_params(kwargs)
-        issues = request.get_paginated(endpoint, key, max_pages, params=params)
+        issues = request.get_paginated(self.endpoint(), self.objects_name,
+                                       max_pages, params=params)
         return issues
 
     def describe(self, issue_id):
@@ -74,8 +79,8 @@ class Issue(object):
         Returns:
             dict: Dictionary object describing issue
         """
-
-        endpoint = "/v1/issues/%s" % issue_id
+        sanity.validate_object_id(issue_id)
+        endpoint = "{}/{}".format(self.endpoint(), issue_id)
         request = HttpHelper(self.session)
         response = request.get(endpoint)
         return response
@@ -91,7 +96,7 @@ class Issue(object):
         """
 
         sanity.validate_object_id(issue_id)
-        endpoint = "/v1/issues/%s" % issue_id
+        endpoint = "{}/{}".format(self.endpoint(), issue_id)
         response = None
         body = {"status": "resolved"}
         request = HttpHelper(self.session)

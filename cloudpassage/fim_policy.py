@@ -16,15 +16,18 @@ class FimPolicy(HaloEndpoint):
         session (:class:`cloudpassage.HaloSession`): This will define how you
             interact with the Halo API, including proxy settings and API keys
             used for authentication.
+
+    Keyword args:
+        endpoint_version (int): Endpoint version override.
     """
 
     object_name = "fim_policy"
     objects_name = "fim_policies"
+    default_endpoint_version = 1
 
-    @classmethod
-    def endpoint(cls):
-        """Defines endpoint for API requests"""
-        return "/v1/%s" % cls.objects_name
+    def endpoint(self):
+        """Return endpoint for API requests."""
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     @classmethod
     def pagination_key(cls):
@@ -37,7 +40,7 @@ class FimPolicy(HaloEndpoint):
         return cls.object_name
 
 
-class FimBaseline(object):
+class FimBaseline(HaloEndpoint):
     """Initializing the FimBaseline class:
 
     Args:
@@ -46,10 +49,14 @@ class FimBaseline(object):
             used for authentication.
 
     """
+    object_name = "baseline"
+    objects_name = "baselines"
+    default_endpoint_version = 1
 
-    def __init__(self, session):
-        self.session = session
-        return None
+    def endpoint(self, policy_id):
+        """Return endpoint for API requests."""
+        return "/v{}/fim_policies/{}/{}".format(self.endpoint_version,
+                                                policy_id, self.objects_name)
 
     def list_all(self, fim_policy_id):
         """Returns a list of all baselines for the indicated FIM policy
@@ -63,10 +70,10 @@ class FimBaseline(object):
         """
 
         request = HttpHelper(self.session)
-        endpoint = "/v1/fim_policies/%s/baselines" % fim_policy_id
-        key = "baselines"
+        endpoint = self.endpoint(fim_policy_id)
         max_pages = 30
-        response = request.get_paginated(endpoint, key, max_pages)
+        response = request.get_paginated(endpoint, self.objects_name,
+                                         max_pages)
         return response
 
     def describe(self, fim_policy_id, baseline_id):
@@ -82,10 +89,10 @@ class FimBaseline(object):
         """
 
         request = HttpHelper(self.session)
-        endpoint = "/v1/fim_policies/%s/baselines/%s/details" % (fim_policy_id,
-                                                                 baseline_id)
+        endpoint = "{}/{}/details".format(self.endpoint(fim_policy_id),
+                                          baseline_id)
         response = request.get(endpoint)
-        result = response["baseline"]
+        result = response[self.object_name]
         return result
 
     def create(self, fim_policy_id, server_id, **kwargs):
@@ -106,7 +113,7 @@ class FimBaseline(object):
 
         sanity.validate_object_id([fim_policy_id, server_id])
         request = HttpHelper(self.session)
-        endpoint = "/v1/fim_policies/%s/baselines" % fim_policy_id
+        endpoint = self.endpoint(fim_policy_id)
         request_body = {"baseline": {"server_id": server_id,
                                      "expires": None,
                                      "comment": None}}
@@ -132,8 +139,8 @@ class FimBaseline(object):
 
         sanity.validate_object_id([fim_policy_id, fim_baseline_id])
         request = HttpHelper(self.session)
-        endpoint = "/v1/fim_policies/%s/baselines/%s" % (fim_policy_id,
-                                                         fim_baseline_id)
+        endpoint = "{}/{}".format(self.endpoint(fim_policy_id),
+                                  fim_baseline_id)
         request.delete(endpoint)
         return None
 
@@ -152,8 +159,8 @@ class FimBaseline(object):
 
         sanity.validate_object_id([fim_policy_id, fim_baseline_id, server_id])
         request = HttpHelper(self.session)
-        endpoint = "/v1/fim_policies/%s/baselines/%s" % (fim_policy_id,
-                                                         fim_baseline_id)
+        endpoint = "{}/{}".format(self.endpoint(fim_policy_id),
+                                  fim_baseline_id)
         request_body = {"baseline": {"server_id": server_id}}
         request.put(endpoint, request_body)
         return None
