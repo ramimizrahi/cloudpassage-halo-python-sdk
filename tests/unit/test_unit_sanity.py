@@ -8,9 +8,19 @@ class TestUnitSanity:
         sample_object_id = "951ffd865e4f11e59ba055477bd3e868"
         assert sanity.validate_object_id(sample_object_id)
 
+    def test_valid_object_id_hyphenated(self):
+        sample_object_id = "be35b286-a36c-11e9-bb19-71dc777df26f"
+        assert sanity.validate_object_id(sample_object_id)
+
     def test_valid_object_id_list(self):
         sample_object_id = ["951ffd865e4f11e59ba055477bd3e868",
                             "951ffd865e4f11e59ba055477bd3e999"]
+        assert sanity.validate_object_id(sample_object_id)
+
+    def test_valid_object_id_list_mixed_format(self):
+        sample_object_id = ["951ffd865e4f11e59ba055477bd3e868",
+                            "951ffd865e4f11e59ba055477bd3e999",
+                            "be35b286-a36c-11e9-bb19-71dc777df26f"]
         assert sanity.validate_object_id(sample_object_id)
 
     def test_invalid_object_id_list(self):
