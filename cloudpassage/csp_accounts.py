@@ -91,4 +91,3 @@ class CspAccount(HaloEndpoint):
         request = HttpHelper(self.session)
         response = request.post(endpoint, body)
         return response
-
