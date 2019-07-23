@@ -48,7 +48,8 @@ class CspSetting(HaloEndpoint):
         """Update CSP scanner settings
 
         Args:
-            object_body (dict): Dictionary of new settings (https://api-doc.cloudpassage.com/help#csp-update-scan-settings)
+            object_body (dict): Dictionary of new settings
+            (https://api-doc.cloudpassage.com/help#csp-update-scan-settings)
 
         Returns:
             None if successful, raises exception if not

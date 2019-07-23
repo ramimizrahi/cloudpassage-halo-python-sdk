@@ -36,13 +36,14 @@ class CspFinding(HaloEndpoint):
     def describe(self, rule_id):
         """Get all detailed CSP finding results for each rule
 
-                Args:
-                    rule_id (str): The UUID number of the rule that was applied
+        Args:
+            rule_id (str): The UUID number of the rule that was applied
 
-                Returns:
-                    list: List of dictionaries of all CSP finding results for the specific rule_id
+        Returns:
+            list: List of dictionaries of all CSP finding
+            results for the specific rule_id
 
-                """
+        """
 
         sanity.validate_object_id(rule_id)
         return self.list_all(rule_id=rule_id)

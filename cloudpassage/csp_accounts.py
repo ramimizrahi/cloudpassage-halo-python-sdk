@@ -76,7 +76,8 @@ class CspAccount(HaloEndpoint):
         return True
 
     def scan(self, halo_csp_account_id):
-        """This method initiates a scan of a CSP account manually outside of its existing schedule.
+        """This method initiates a scan of a CSP account
+            manually outside of its existing schedule.
 
         Args:
             halo_csp_account_id (str): Internal Halo ID of CSP Account
@@ -86,7 +87,8 @@ class CspAccount(HaloEndpoint):
         """
 
         sanity.validate_object_id(halo_csp_account_id)
-        endpoint = "{}/{}/scan_now".format(self.endpoint(), halo_csp_account_id)
+        endpoint = "{}/{}/scan_now".format(self.endpoint(),
+                                           halo_csp_account_id)
         body = {}
         request = HttpHelper(self.session)
         response = request.post(endpoint, body)
