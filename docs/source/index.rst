@@ -22,6 +22,10 @@ Contents:
    halo_session
    http_helper
    time_series
+   csp_accounts
+   csp_findings
+   csp_resources
+   csp_scanner_settings
    server
    server_group
    configuration_policy

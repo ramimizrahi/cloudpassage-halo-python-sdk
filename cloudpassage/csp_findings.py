@@ -33,20 +33,32 @@ class CspFinding(HaloEndpoint):
         """Return the object key for parsing detailed results."""
         return self.object_name
 
-    def describe(self, rule_id):
-        """Get all detailed CSP finding results for each rule
+    def list_all(self, **kwargs):
+        """
+        Lists all CSP Findings
 
-        Args:
-            rule_id (str): The UUID number of the rule that was applied
+        Keyword Args:
+        csp_rule_id (str or list): The user-readable ID of the rule.
+            Example: CIS:1.1
+        rule_id (str or list): The UUID number of the rule that was applied;
+            for example, 280d33b6ef3411e88ad765862e629d59
+        csp_resource_type (str or list): The type of cloud resource;
+            for example, Policy, Role, User, and so on
+        csp_service_type (str or list): The type of cloud service;
+            for example, IAM, S3, EC2, and so on
+        policy_name (str or list): The name of the policy that was applied;
+            for example, CIS-Benchmark
+        rule_name (str or list): The name of the rule that was applied;
+            for example Ensure MFA is enabled for the "root" account
 
         Returns:
-            list: List of dictionaries of all CSP finding
-            results for the specific rule_id
-
+            list: List of CSP Findings (represented as dictionary-type objects)
         """
+        return super().list_all(**kwargs)
 
-        sanity.validate_object_id(rule_id)
-        return self.list_all(rule_id=rule_id)
+    def describe(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
 
     def create(self):
         """Not implemented for this object."""
