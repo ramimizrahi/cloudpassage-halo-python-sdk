@@ -1,7 +1,6 @@
 """CspFinding class"""
 
 from .halo_endpoint import HaloEndpoint
-import cloudpassage.sanity as sanity
 
 
 class CspFinding(HaloEndpoint):
@@ -54,7 +53,7 @@ class CspFinding(HaloEndpoint):
         Returns:
             list: List of CSP Findings (represented as dictionary-type objects)
         """
-        return super().list_all(**kwargs)
+        return super(CspFinding, self).list_all(**kwargs)
 
     def describe(self):
         """Not implemented for this object."""
