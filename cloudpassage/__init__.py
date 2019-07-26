@@ -35,6 +35,10 @@ from cloudpassage.special_events_policy import SpecialEventsPolicy  # NOQA
 from cloudpassage.system_announcement import SystemAnnouncement  # noqa: F401
 from cloudpassage.time_series import TimeSeries  # noqa: F401
 from cloudpassage.utility import Utility as init_util
+from cloudpassage.csp_accounts import CspAccount  # noqa: F401
+from cloudpassage.csp_findings import CspFinding  # noqa: F401
+from cloudpassage.csp_resources import CspResource  # noqa: F401
+from cloudpassage.csp_scanner_settings import CspSetting  # noqa: F401
 
 
 minimum = {"2": "2.7.10", "3": "3.6.5"}
