@@ -2,8 +2,25 @@ Changelog
 =========
 
 
-v1.4.0
+v1.5.0
 ------
+
+Changes
+~~~~~~~
+- Styling for tests. [Paul Chang]
+- More styles. [Paul Chang]
+- Styling. [Paul Chang]
+- Add docs for CSP. [Paul Chang]
+
+Fix
+~~~
+- Fixed validation failures on v3 issues ID format. [Ash Wilson]
+
+  Closes #194
+
+
+v1.4.0 (2019-06-11)
+-------------------
 
 New
 ~~~
