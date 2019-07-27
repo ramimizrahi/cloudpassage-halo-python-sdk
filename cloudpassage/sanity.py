@@ -20,7 +20,7 @@ def validate_object_id(object_id):
 
     """
 
-    rex = re.compile('^[A-Za-z0-9]+$')
+    rex = re.compile('^[A-Za-z0-9-]+$')
     if is_it_a_string(object_id):
         if not rex.match(object_id):
             msg = "Object ID failed validation: {}".format(object_id)

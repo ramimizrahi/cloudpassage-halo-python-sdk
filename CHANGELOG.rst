@@ -2,8 +2,22 @@ Changelog
 =========
 
 
-v1.4.0
+v1.5.0
 ------
+
+Changes
+~~~~~~~
+- Add support for Cloud Secure endpoints. [Paul Chang]
+
+Fix
+~~~
+- Fixed validation failures on v3 issues ID format. [Ash Wilson]
+
+  Closes #194
+
+
+v1.4.0 (2019-06-11)
+-------------------
 
 New
 ~~~
