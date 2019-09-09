@@ -33,25 +33,24 @@ class CspFinding(HaloEndpoint):
         return self.object_name
 
     def list_all(self, **kwargs):
-        """
-        Lists all CSP Findings
+        """Lists all CSP Findings.
 
         Keyword Args:
-        csp_rule_id (str or list): The user-readable ID of the rule.
-            Example: CIS:1.1
-        rule_id (str or list): The UUID number of the rule that was applied;
-            for example, 280d33b6ef3411e88ad765862e629d59
-        csp_resource_type (str or list): The type of cloud resource;
-            for example, Policy, Role, User, and so on
-        csp_service_type (str or list): The type of cloud service;
-            for example, IAM, S3, EC2, and so on
-        policy_name (str or list): The name of the policy that was applied;
-            for example, CIS-Benchmark
-        rule_name (str or list): The name of the rule that was applied;
-            for example Ensure MFA is enabled for the "root" account
+            csp_rule_id (str or list): The user-readable ID of the rule.
+                Example: CIS:1.1
+            rule_id (str or list): The UUID number of the rule that was applied;
+                for example, 280d33b6ef3411e88ad765862e629d59
+            csp_resource_type (str or list): The type of cloud resource;
+                for example, Policy, Role, User, and so on
+            csp_service_type (str or list): The type of cloud service;
+                for example, IAM, S3, EC2, and so on
+            policy_name (str or list): The name of the policy that was applied;
+                for example, CIS-Benchmark
+            rule_name (str or list): The name of the rule that was applied;
+                for example Ensure MFA is enabled for the "root" account
 
         Returns:
-            list: List of CSP Findings (represented as dictionary-type objects)
+            list: List of CSP Findings represented as dictionary-type objects
         """
         return super(CspFinding, self).list_all(**kwargs)
 
