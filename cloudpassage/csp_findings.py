@@ -38,7 +38,8 @@ class CspFinding(HaloEndpoint):
         Keyword Args:
             csp_rule_id (str or list): The user-readable ID of the rule.
                 Example: CIS:1.1
-            rule_id (str or list): The UUID number of the rule that was applied;
+            rule_id (str or list):
+                The UUID number of the rule that was applied;
                 for example, 280d33b6ef3411e88ad765862e629d59
             csp_resource_type (str or list): The type of cloud resource;
                 for example, Policy, Role, User, and so on
