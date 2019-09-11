@@ -2,15 +2,12 @@ Changelog
 =========
 
 
-v1.5.0
-------
+v1.5.0 (2019-07-27)
+-------------------
 
 Changes
 ~~~~~~~
-- Styling for tests. [Paul Chang]
-- More styles. [Paul Chang]
-- Styling. [Paul Chang]
-- Add docs for CSP. [Paul Chang]
+- Add support for Cloud Secure endpoints. [Paul Chang]
 
 Fix
 ~~~

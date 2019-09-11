@@ -39,6 +39,14 @@ from cloudpassage.csp_accounts import CspAccount  # noqa: F401
 from cloudpassage.csp_findings import CspFinding  # noqa: F401
 from cloudpassage.csp_resources import CspResource  # noqa: F401
 from cloudpassage.csp_scanner_settings import CspSetting  # noqa: F401
+from cloudpassage.container import Container  # noqa: F401
+from cloudpassage.container_event import ContainerEvent  # noqa: F401
+from cloudpassage.container_image import ContainerImage  # noqa: F401
+from cloudpassage.container_package import ContainerPackage  # noqa: F401
+from cloudpassage.container_process import ContainerProcess  # noqa: F401
+from cloudpassage.image_issue import ImageIssue  # noqa: F401
+from cloudpassage.image_registry import ImageRegistry  # noqa: F401
+from cloudpassage.image_repo import ImageRepo  # noqa: F401
 
 
 minimum = {"2": "2.7.10", "3": "3.6.5"}
@@ -48,5 +56,5 @@ if init_util.verify_python_version(installed, minimum) is False:
     print(err_msg)
 
 __author__ = "CloudPassage"
-__version__ = "1.5.0"
+__version__ = "1.6.0"
 __license__ = "BSD"

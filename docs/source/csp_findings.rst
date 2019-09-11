@@ -4,4 +4,4 @@ CspFinding
 .. toctree::
 
 .. autoclass:: cloudpassage.CspFinding
-   :members: list_all, describe
+   :members: list_all

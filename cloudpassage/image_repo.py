@@ -1,10 +1,10 @@
-"""CspResource class"""
+"""ImageRepo class"""
 
 from .halo_endpoint import HaloEndpoint
 
 
-class CspResource(HaloEndpoint):
-    """Initializing the CspResource class:
+class ImageRepo(HaloEndpoint):
+    """Initializing the ImageRepo class:
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you
@@ -13,11 +13,10 @@ class CspResource(HaloEndpoint):
 
     Keyword args:
         endpoint_version (int): Endpoint version override.
-
     """
 
-    object_name = "csp_resource"
-    objects_name = "csp_resources"
+    object_name = "repository"
+    objects_name = "repositories"
     default_endpoint_version = 1
 
     def endpoint(self):

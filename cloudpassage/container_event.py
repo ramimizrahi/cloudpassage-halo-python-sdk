@@ -1,10 +1,10 @@
-"""CspResource class"""
+"""ContainerEvent class"""
 
 from .halo_endpoint import HaloEndpoint
 
 
-class CspResource(HaloEndpoint):
-    """Initializing the CspResource class:
+class ContainerEvent(HaloEndpoint):
+    """Initializing the ContainerEvent class:
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you
@@ -13,11 +13,10 @@ class CspResource(HaloEndpoint):
 
     Keyword args:
         endpoint_version (int): Endpoint version override.
-
     """
 
-    object_name = "csp_resource"
-    objects_name = "csp_resources"
+    object_name = "container_event"
+    objects_name = "container_events"
     default_endpoint_version = 1
 
     def endpoint(self):
@@ -31,6 +30,10 @@ class CspResource(HaloEndpoint):
     def object_key(self):
         """Return the object key for parsing detailed results."""
         return self.object_name
+
+    def describe(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
 
     def create(self):
         """Not implemented for this object."""
