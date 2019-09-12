@@ -2,11 +2,23 @@ Changelog
 =========
 
 
+v1.6.0
+------
+
+Changes
+~~~~~~~
+- Add support for Container Secure endpoints. [Paul Chang]
+
+
 v1.5.0 (2019-07-27)
 -------------------
 
 Changes
 ~~~~~~~
+- Styling for tests. [Paul Chang]
+- More styles. [Paul Chang]
+- Styling. [Paul Chang]
+- Add docs for CSP. [Paul Chang]
 - Add support for Cloud Secure endpoints. [Paul Chang]
 
 Fix
