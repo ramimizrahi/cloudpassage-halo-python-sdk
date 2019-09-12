@@ -1,10 +1,10 @@
-"""CspResource class"""
+"""ContainerProcess class"""
 
 from .halo_endpoint import HaloEndpoint
 
 
-class CspResource(HaloEndpoint):
-    """Initializing the CspResource class:
+class ContainerProcess(HaloEndpoint):
+    """Initializing the ContainerProcess class:
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you
@@ -13,11 +13,11 @@ class CspResource(HaloEndpoint):
 
     Keyword args:
         endpoint_version (int): Endpoint version override.
-
     """
 
-    object_name = "csp_resource"
-    objects_name = "csp_resources"
+    object_name = "process"
+    objects_name = "container_processes"
+    list_objects_name = "processes"
     default_endpoint_version = 1
 
     def endpoint(self):
@@ -26,11 +26,15 @@ class CspResource(HaloEndpoint):
 
     def pagination_key(self):
         """Return the pagination key for parsing paged results."""
-        return self.objects_name
+        return self.list_objects_name
 
     def object_key(self):
         """Return the object key for parsing detailed results."""
         return self.object_name
+
+    def describe(self):
+        """Not implemented for this object."""
+        raise NotImplementedError
 
     def create(self):
         """Not implemented for this object."""

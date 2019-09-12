@@ -1,10 +1,10 @@
-"""CspResource class"""
+"""ImageRegistry class"""
 
 from .halo_endpoint import HaloEndpoint
 
 
-class CspResource(HaloEndpoint):
-    """Initializing the CspResource class:
+class ImageRegistry(HaloEndpoint):
+    """Initializing the ImageRegistry class:
 
     Args:
         session (:class:`cloudpassage.HaloSession`): This will define how you
@@ -13,11 +13,10 @@ class CspResource(HaloEndpoint):
 
     Keyword args:
         endpoint_version (int): Endpoint version override.
-
     """
 
-    object_name = "csp_resource"
-    objects_name = "csp_resources"
+    object_name = "registry"
+    objects_name = "registries"
     default_endpoint_version = 1
 
     def endpoint(self):
@@ -31,15 +30,3 @@ class CspResource(HaloEndpoint):
     def object_key(self):
         """Return the object key for parsing detailed results."""
         return self.object_name
-
-    def create(self):
-        """Not implemented for this object."""
-        raise NotImplementedError
-
-    def delete(self):
-        """Not implemented for this object."""
-        raise NotImplementedError
-
-    def update(self):
-        """Not implemented for this object."""
-        raise NotImplementedError
