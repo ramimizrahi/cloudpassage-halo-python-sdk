@@ -26,6 +26,14 @@ Contents:
    csp_findings
    csp_resources
    csp_scanner_settings
+   container
+   container_event
+   container_image
+   image_issue
+   image_registry
+   image_repo
+   container_process
+   container_package
    server
    server_group
    configuration_policy
