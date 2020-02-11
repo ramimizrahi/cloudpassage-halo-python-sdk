@@ -7,6 +7,7 @@ v1.6.0
 
 Changes
 ~~~~~~~
+- Add max_pages option to Issue class. [Paul Chang]
 - Add support for Container Secure endpoints. [Paul Chang]
 
 
