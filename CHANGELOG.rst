@@ -2,12 +2,12 @@ Changelog
 =========
 
 
-v1.6.0
+v1.6.1
 ------
 
 Changes
 ~~~~~~~
-- Add max_pages option to Issue class. [Paul Chang]
+- Add max_pages optional param to Issue list_all method. [Paul Chang]
 - Add support for Container Secure endpoints. [Paul Chang]
 
 
