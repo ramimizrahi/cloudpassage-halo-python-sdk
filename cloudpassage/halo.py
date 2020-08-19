@@ -35,6 +35,7 @@ class HaloSession(object):
         api_port (str): Override the API HTTPS port. Defaults to 443.
         proxy_host (str): Hostname or IP address of proxy
         proxy_port (str): Port for proxy.  Ignored if proxy_host is not set
+        requests_ca_bundle (str): Path to SSL Certificate file.
         user_agent (str): Override for UserAgent string.  We set this so that
             we can see what tools are being used in the field and set our
             development focus accordingly.  To override the default, feel free
@@ -65,12 +66,16 @@ class HaloSession(object):
         self.auth_scope = None
         self.proxy_host = None
         self.proxy_port = None
+        self.requests_ca_bundle = None
         self.lock = threading.RLock()
         # Override defaults for proxy
         if "proxy_host" in kwargs:
             self.proxy_host = kwargs["proxy_host"]
             if "proxy_port" in kwargs:
                 self.proxy_port = kwargs["proxy_port"]
+        # Set certificates file path
+        if "requests_ca_bundle" in kwargs:
+            self.requests_ca_bundle = kwargs["requests_ca_bundle"]
         # Override defaults for api host and port
         if "api_host" in kwargs:
             self.api_host = kwargs["api_host"]
@@ -100,6 +105,10 @@ class HaloSession(object):
                                              max_retries=self.retries)
         self.session_mount = "https://%s:%s" % (self.api_host, self.api_port)
         self.client.mount(self.session_mount, self.halo_http_adapter)
+        if self.proxy_host:
+            self.client.proxies.update(self.build_proxy_struct(self.proxy_host, self.proxy_port))
+        if self.requests_ca_bundle:
+            self.client.verify = self.requests_ca_bundle
         return None
 
     @classmethod
