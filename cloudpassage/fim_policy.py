@@ -21,12 +21,9 @@ class FimPolicy(HaloEndpoint):
         endpoint_version (int): Endpoint version override.
     """
 
-    # object_name = "fim_policy" # deprecated
-    # objects_name = "fim_policies" # deprecated
-    # default_endpoint_version = 1 # deprecated
-    object_name = "policy"
-    objects_name = "policies"
-    default_endpoint_version = 2
+    object_name = "fim_policy"
+    objects_name = "fim_policies"
+    default_endpoint_version = 1
 
     def endpoint(self):
         """Return endpoint for API requests."""
@@ -54,12 +51,11 @@ class FimBaseline(HaloEndpoint):
     """
     object_name = "baseline"
     objects_name = "baselines"
-    # default_endpoint_version = 1 # deprecated
-    default_endpoint_version = 2
+    default_endpoint_version = 1
 
     def endpoint(self, policy_id):
         """Return endpoint for API requests."""
-        return "/v{}/policies/{}/{}".format(self.endpoint_version,
+        return "/v{}/fim_policies/{}/{}".format(self.endpoint_version,
                                                 policy_id, self.objects_name)
 
     def list_all(self, fim_policy_id):

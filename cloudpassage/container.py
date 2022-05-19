@@ -17,8 +17,7 @@ class Container(HaloEndpoint):
 
     object_name = "container"
     objects_name = "containers"
-    # default_endpoint_version = 1 # deprecated
-    default_endpoint_version = 2
+    default_endpoint_version = 1
 
     def endpoint(self):
         """Return endpoint for API requests."""

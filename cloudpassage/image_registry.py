@@ -17,8 +17,7 @@ class ImageRegistry(HaloEndpoint):
 
     object_name = "registry"
     objects_name = "registries"
-    # default_endpoint_version = 1 # deprecated
-    default_endpoint_version = 2
+    default_endpoint_version = 1
 
     def endpoint(self):
         """Return endpoint for API requests."""

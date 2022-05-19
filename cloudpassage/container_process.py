@@ -15,21 +15,18 @@ class ContainerProcess(HaloEndpoint):
         endpoint_version (int): Endpoint version override.
     """
 
-    # object_name = "process" # deprecated
-    # objects_name = "container_processes" # deprecated
-    # list_objects_name = "processes" # deprecated
-    # default_endpoint_version = 1 # deprecated
     object_name = "process"
-    objects_name = "processes"
-    default_endpoint_version = 2
+    objects_name = "container_processes"
+    list_objects_name = "processes"
+    default_endpoint_version = 1
 
-    def endpoint(self, container_id):
+    def endpoint(self):
         """Return endpoint for API requests."""
-        return "/v{}/containers/{}/{}".format(self.endpoint_version, container_id, self.objects_name)
+        return "/v{}/{}".format(self.endpoint_version, self.objects_name)
 
     def pagination_key(self):
         """Return the pagination key for parsing paged results."""
-        return self.objects_name
+        return self.list_objects_name
 
     def object_key(self):
         """Return the object key for parsing detailed results."""

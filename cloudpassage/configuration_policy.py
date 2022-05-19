@@ -22,8 +22,7 @@ class ConfigurationPolicy(HaloEndpoint):
 
     object_name = "policy"
     objects_name = "policies"
-    # default_endpoint_version = 1 # deprecated
-    default_endpoint_version = 2
+    default_endpoint_version = 1
 
     def endpoint(self):
         """Return the endpoint for API requests."""

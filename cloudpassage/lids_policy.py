@@ -16,12 +16,9 @@ class LidsPolicy(HaloEndpoint):
         endpoint_version (int): Endpoint version override.
     """
 
-    # object_name = "lids_policy" # deprecated
-    # objects_name = "lids_policies" # deprecated
-    # default_endpoint_version = 1 # deprecated
-    object_name = "policy"
-    objects_name = "policies"
-    default_endpoint_version = 2
+    object_name = "lids_policy"
+    objects_name = "lids_policies"
+    default_endpoint_version = 1
 
     def endpoint(self):
         """Return endpoint for API requests."""
