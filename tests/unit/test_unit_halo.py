@@ -56,7 +56,7 @@ class TestUnitHaloSession:
         int_string = "integration/1.0"
         session = cloudpassage.HaloSession("", "",
                                            integration_string=int_string)
-        match_rx = "^%s\s[^/]+/\d+" % int_string
+        match_rx = "^%s\\s[^/]+/\\d+" % int_string
         assert re.match(match_rx, session.user_agent)
 
     def test_build_proxy_struct_ip_only(self):

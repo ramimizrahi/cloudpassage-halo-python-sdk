@@ -4,13 +4,15 @@ import datetime
 import os
 import re
 import sys
+
+from packaging.version import parse as parse_version
+
 from .exceptions import CloudPassageValidation
 from .exceptions import CloudPassageAuthentication
 from .exceptions import CloudPassageAuthorization
 from .exceptions import CloudPassageResourceExistence
 from .exceptions import CloudPassageGeneral
 from .exceptions import CloudPassageRateLimit
-from distutils.version import LooseVersion
 from .sanity import is_it_a_string
 
 
@@ -218,13 +220,12 @@ class Utility(object):
         Returns:
             bool: True if it meets or exceeds the target minimum version.
         """
-        maj_ver = act_version[0]
+        maj_ver = str(parse_version(act_version).major)
         try:
-            if (LooseVersion(act_version) <
-                    LooseVersion(target_version[maj_ver])):
-                return False
-            else:
-                return True
+            current = parse_version(act_version)
+            target = parse_version(target_version[maj_ver])
+            up_to_date = current >= target
+            return up_to_date
         except KeyError:
             return False
 
